@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imagine</title>
+
+  <!-- Meta / Open Graph -->
+  <meta name="description" content="Imaginuv web">
+  <meta property="og:title" content="Imagine">
+  <meta property="og:description" content="Imaginuv web">
+  <meta property="og:image" content="https://github.com/Imagineoff/Tet/blob/main/IMG_0574.jpeg?raw=true">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <button id="enter-btn">Loading...</button>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main" style="display:none;">
+    <div class="profile">
+      <img src="https://imgur.com/a/ExlaOWC.png" alt="Profile" class="profile-pic">
+      <h1>Imagine</h1>
+      <div id="discord-status">Fetching Discord status...</div>
+    </div>
+
+    <div class="links">
+      <a href="https://www.instagram.com/_not_imagine" target="_blank">
+        <img src="https://github.com/Imagineoff/Tet/blob/main/67C9EF9C-4D0D-4F6B-8460-A802E3B1CBFA.png?raw=true" alt="Instagram">
+        Instagram
+      </a>
+      <a href="https://twitch.tv/Imagine_ofc" target="_blank">
+        <img src="https://github.com/Imagineoff/Tet/blob/main/0FD3C26F-7F0D-4E75-87B3-20F0220099E3.png?raw=true" alt="Twitch">
+        Twitch
+      </a>
+      <a href="https://youtube.com/@imagine_ofc" target="_blank">
+        <img src="https://github.com/Imagineoff/Tet/blob/main/C61C2C0D-3113-447D-98D6-6BA7BDE7331E.png?raw=true" alt="YouTube">
+        YouTube
+      </a>
+      <a href="mailto:assist.imagine@gmail.com">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail">
+        Email
+      </a>
+    </div>
+
+    <!-- Sections -->
+    <div class="section">
+      <h2>⇩ Developing</h2>
+      <p>We create modern projects, focusing on web apps, Discord bots, and creative experiments.</p>
+    </div>
+
+    <div class="section">
+      <h2>⇩ Gaming</h2>
+      <p>I absolutely love <b>Dead by Daylight</b>. It's my go-to game for thrills and teamwork.</p>
+    </div>
+  </div>
+
+  <!-- Music -->
+  <audio id="bg-music" src="https://files.catbox.moe/j6mtxg.mp3" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
+/* --- Reset & Base --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* --- Preloader --- */
+#preloader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  z-index: 9999;
+}
+
+#preloader button {
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  color: #fff;
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(0,255,255,0.7), 0 0 40px rgba(255,0,255,0.7);
+}
+
+#preloader button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0,255,255,0.9), 0 0 50px rgba(255,0,255,0.9);
+}
+
+/* --- Main Content --- */
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+/* --- Profile --- */
+.profile {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #0ff;
+  box-shadow: 0 0 20px #0ff;
+  margin-bottom: 15px;
+}
+
+.profile h1 {
+  font-size: 2.5rem;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #0ff;
+  margin-bottom: 10px;
+}
+
+#discord-status {
+  font-size: 1rem;
+  color: #0ff;
+  margin-bottom: 30px;
+}
+
+/* --- Links --- */
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.links a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 25px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.links a img {
+  width: 30px;
+  height: 30px;
+}
+
+.links a:hover {
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  color: #000;
+  box-shadow: 0 0 20px rgba(0,255,255,0.7), 0 0 40px rgba(255,0,255,0.7);
+}
+
+/* --- Sections --- */
+.section {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+.section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #fff;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .profile-pic { width: 120px; height: 120px; }
+  .profile h1 { font-size: 2rem; }
+  .section h2 { font-size: 1.5rem; }
+  .links a { padding: 12px 20px; }
+}
+// --- Elements ---
+const preloader = document.getElementById('preloader');
+const enterBtn = document.getElementById('enter-btn');
+const mainContent = document.getElementById('main');
+const bgMusic = document.getElementById('bg-music');
+const discordStatus = document.getElementById('discord-status');
+
+// --- Preloader → Enter ---
+enterBtn.addEventListener('click', () => {
+  // spustí hudbu
+  bgMusic.play().catch(err => console.log('Music blocked until user interaction'));
+  
+  // přepne obsah
+  preloader.style.display = 'none';
+  mainContent.style.display = 'flex';
+});
+
+// --- Discord status přes Lanyard API ---
+// Zadej svůj Discord user ID
+const discordUserId = 'YOUR_DISCORD_ID';
+
+async function fetchDiscordStatus() {
+  try {
+    const response = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
+    const data = await response.json();
+    const status = data.data.discord_status; // online, idle, dnd, offline
+
+    let statusText = '';
+    let color = '';
+
+    switch(status) {
+      case 'online': statusText = 'Online'; color = 'green'; break;
+      case 'idle': statusText = 'Idle'; color = 'orange'; break;
+      case 'dnd': statusText = 'Do Not Disturb'; color = 'red'; break;
+      case 'offline': statusText = 'Offline'; color = 'gray'; break;
+      default: statusText = 'Unknown'; color = 'gray';
+    }
+
+    discordStatus.innerHTML = `<span style="color:${color}; font-weight:bold;">●</span> ${statusText}`;
+  } catch(err) {
+    console.log('Failed to fetch Discord status', err);
+    discordStatus.textContent = 'Discord status unavailable';
+  }
+}
+
+// Update every 15 seconds
+fetchDiscordStatus();
+setInterval(fetchDiscordStatus, 15000);
