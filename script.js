@@ -95,28 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Backend návštěvníci (Vercel) ---
-  const totalCountEl = document.getElementById('total-count');
-  const onlineCountEl = document.getElementById('online-count');
-  const BACKEND_URL = "https://imagine-ofc.vercel.app/visitor-counter-backend/api/visitors.js";
+  const totalCountEl = document.getElementById("total-count");
+const onlineCountEl = document.getElementById("online-count");
 
-  async function updateVisitor() {
-    if(!totalCountEl || !onlineCountEl) return;
+async function updateVisitor() {
+  try {
+    const res = await fetch(
+      "https://imagine-ofc.vercel.app/visitor-counter-backend/api/visitors.js"
+    );
+    const data = await res.json();
 
-    try {
-      // Hlásíme novou návštěvu
-      await fetch(`${BACKEND_URL}?type=visit`);
-
-      // Získáme aktuální počet návštěvníků
-      const resp = await fetch(BACKEND_URL);
-      const data = await resp.json();
-
-      totalCountEl.textContent = data.total;
-      onlineCountEl.textContent = data.online;
-    } catch(e){
-      console.log("Chyba při načítání návštěvníků:", e);
-    }
+    if (totalCountEl) totalCountEl.textContent = data.total;
+    if (onlineCountEl) onlineCountEl.textContent = data.online;
+  } catch (err) {
+    console.error("Chyba při načítání visitor counteru:", err);
   }
+}
 
-  updateVisitor();
-  setInterval(updateVisitor, 5000);
-});
+updateVisitor();
+setInterval(updateVisitor, 5000); // každých 5s update
