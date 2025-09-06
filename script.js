@@ -1,13 +1,13 @@
-const preloader = document.getElementById('preloader');
-const enterBtn = document.getElementById('enter-btn');
-const mainContent = document.getElementById('main');
-const bgMusic = document.getElementById('bg-music');
-const discordStatus = document.getElementById('discord-status');
-const body = document.body;
+const preloader=document.getElementById('preloader');
+const enterBtn=document.getElementById('enter-btn');
+const mainContent=document.getElementById('main');
+const bgMusic=document.getElementById('bg-music');
+const discordStatus=document.getElementById('discord-status');
+const body=document.body;
 
 // Light/Dark Toggle
-const toggleBtn = document.createElement('button');
-toggleBtn.textContent = 'Toggle Light/Dark';
+const toggleBtn=document.createElement('button');
+toggleBtn.textContent='Toggle Light/Dark';
 toggleBtn.style.position='fixed';
 toggleBtn.style.top='20px';
 toggleBtn.style.right='20px';
@@ -19,7 +19,6 @@ toggleBtn.style.color='#000';
 toggleBtn.style.cursor='pointer';
 toggleBtn.style.zIndex='9999';
 document.body.appendChild(toggleBtn);
-
 toggleBtn.addEventListener('click',()=>body.classList.toggle('light-mode'));
 
 // Preloader → Enter
