@@ -1,201 +1,100 @@
-/* --- Reset & Base --- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+// --- Elements ---
+const preloader = document.getElementById('preloader');
+const enterBtn = document.getElementById('enter-btn');
+const mainContent = document.getElementById('main');
+const bgMusic = document.getElementById('bg-music');
+const discordStatus = document.getElementById('discord-status');
+const body = document.body;
+
+// --- Light/Dark toggle button ---
+const toggleBtn = document.createElement('button');
+toggleBtn.textContent = 'Toggle Light/Dark';
+toggleBtn.style.position = 'fixed';
+toggleBtn.style.top = '20px';
+toggleBtn.style.right = '20px';
+toggleBtn.style.padding = '10px 20px';
+toggleBtn.style.border = 'none';
+toggleBtn.style.borderRadius = '8px';
+toggleBtn.style.background = '#fdd4ff';
+toggleBtn.style.color = '#000';
+toggleBtn.style.cursor = 'pointer';
+toggleBtn.style.zIndex = '9999';
+document.body.appendChild(toggleBtn);
+
+toggleBtn.addEventListener('click', () => {
+  body.classList.toggle('light-mode');
+});
+
+// --- Preloader → Enter ---
+enterBtn.addEventListener('click', () => {
+  bgMusic.play().catch(err => console.log('Music blocked until user interaction'));
+  preloader.style.display = 'none';
+  mainContent.style.display = 'flex';
+});
+
+// --- Discord status přes Lanyard API ---
+const discordUserId = '904431016175894528';
+
+async function fetchDiscordStatus() {
+  try {
+    const response = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
+    const data = await response.json();
+
+    if (!data || !data.data) {
+      discordStatus.textContent = 'Discord status unavailable';
+      return;
+    }
+
+    const status = data.data.discord_status || 'offline';
+    const activities = data.data.activities || [];
+
+    let color = '';
+    switch (status) {
+      case 'online': color = 'green'; break;
+      case 'idle': color = 'orange'; break;
+      case 'dnd': color = 'red'; break;
+      case 'offline': color = 'gray'; break;
+      default: color = 'gray';
+    }
+
+    let activityText = '';
+    if (activities.length > 0) {
+      activityText = activities.map(a => {
+        switch(a.type) {
+          case 0: return `Playing: ${a.name}`;
+          case 1: return `Streaming: ${a.name}`;
+          case 2: return `Listening to: ${a.name}`;
+          case 4: return a.state ? `${a.state}` : a.name;
+          default: return a.name;
+        }
+      }).join(' | ');
+    }
+
+    discordStatus.innerHTML = `<span style="color:${color}; font-weight:bold;">●</span> ${status.charAt(0).toUpperCase() + status.slice(1)}${activityText ? ' - ' + activityText : ''}`;
+
+  } catch(err) {
+    console.log('Failed to fetch Discord status', err);
+    discordStatus.textContent = 'Discord status unavailable';
+  }
 }
 
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: background 0.5s ease, color 0.5s ease;
-}
+fetchDiscordStatus();
+setInterval(fetchDiscordStatus, 15000);
 
-/* --- CSS Variables for Light/Dark Mode --- */
-:root {
-  --bg-color: #000;
-  --text-color: #fff;
-  --accent-color: #fdd4ff;
-  --accent-gradient: linear-gradient(270deg, #fdd4ff, #ffffff, #000000);
-  --panel-bg: rgba(255,255,255,0.05);
-}
+// --- Accordion functionality ---
+const acc = document.getElementsByClassName('accordion');
 
-body.light-mode {
-  --bg-color: #fff;
-  --text-color: #000;
-  --accent-color: #fdd4ff;
-  --accent-gradient: linear-gradient(270deg, #fdd4ff, #ffffff, #000000);
-  --panel-bg: rgba(0,0,0,0.05);
-}
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener('click', function() {
+    this.classList.toggle('active');
+    const panel = this.nextElementSibling;
 
-/* --- Top Bar --- */
-.top-bar {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--accent-gradient);
-  background-size: 400% 400%;
-  animation: neonGradient 20s ease infinite;
-  box-shadow: 0 0 30px var(--accent-color), 0 0 60px #fff;
-}
-
-.top-bar h1 {
-  color: var(--text-color);
-  font-size: 2.5rem;
-  text-shadow: 0 0 10px var(--accent-color), 0 0 20px #fff;
-}
-
-/* --- Gradient Animation --- */
-@keyframes neonGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* --- Preloader --- */
-#preloader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--bg-color);
-  z-index: 9999;
-}
-
-#preloader button {
-  padding: 20px 50px;
-  font-size: 1.5rem;
-  color: var(--text-color);
-  background: var(--accent-gradient);
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 20px var(--accent-color), 0 0 40px #fff;
-}
-
-#preloader button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px var(--accent-color), 0 0 50px #fff;
-}
-
-/* --- Profile --- */
-.profile {
-  text-align: center;
-  margin: 40px 0;
-}
-
-.profile-pic {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 4px solid var(--accent-color);
-  box-shadow: 0 0 20px var(--accent-color);
-  margin-bottom: 15px;
-}
-
-.profile h1 {
-  font-size: 2.5rem;
-  color: var(--accent-color);
-  text-shadow: 0 0 10px var(--accent-color), 0 0 20px #fff;
-}
-
-#discord-status {
-  font-size: 1rem;
-  color: var(--accent-color);
-  margin-bottom: 30px;
-}
-
-/* --- Links --- */
-.links {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 50px;
-}
-
-.links a {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px 25px;
-  background: var(--panel-bg);
-  border-radius: 10px;
-  color: var(--text-color);
-  text-decoration: none;
-  transition: 0.3s;
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-.links a img {
-  width: 30px;
-  height: 30px;
-}
-
-.links a:hover {
-  background: var(--accent-gradient);
-  color: var(--bg-color);
-  box-shadow: 0 0 20px var(--accent-color), 0 0 40px #fff;
-}
-
-/* --- Accordion Titles --- */
-.accordion {
-  cursor: pointer;
-  font-size: 2rem;
-  color: var(--accent-color);
-  background: transparent;
-  border: none;
-  text-align: left;
-  margin: 20px 0;
-  position: relative;
-}
-
-.accordion::after {
-  content: '▼';
-  font-size: 1.2rem;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: transform 0.3s;
-}
-
-.accordion.active::after {
-  transform: translateY(-50%) rotate(-180deg);
-}
-
-/* --- Panel Box --- */
-.panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.6s ease, padding 0.3s ease, border 0.3s ease, opacity 0.5s ease;
-  border: 2px solid var(--accent-color);
-  border-radius: 12px;
-  margin-bottom: 20px;
-  padding: 0 20px;
-  opacity: 0;
-}
-
-.panel.open {
-  padding: 20px;
-  max-height: 500px;
-  opacity: 1;
-}
-
-.panel p {
-  color: var(--text-color);
-  text-shadow: 0 0 5px var(--accent-color), 0 0 10px #fff;
-}
-
-/* --- Responsive --- */
-@media (max-width: 768px) {
-  .profile-pic { width: 120px; height: 120px; }
-  .profile h1 { font-size: 2rem; }
-  .accordion { font-size: 1.5rem; }
-  .links a { padding: 12px 20px; }
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+      panel.classList.remove('open');
+    } else {
+      panel.classList.add('open');
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
 }
