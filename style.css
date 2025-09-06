@@ -85,29 +85,31 @@ body {
   position: relative;
   width: 100%;
   max-width: 900px;
-  height: 400px; /* nastav výšku kontejneru podle potřeby */
+  height: 400px; /* výšku můžeš upravit podle potřeby GIFu */
   margin: 40px auto;
   border-radius: 12px;
   overflow: hidden;
-  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center; /* GIF nebude opakovaný */
-  background-size: contain; /* zachová původní poměr stran */
-  background-position: center 75%; /* posun GIFu dolů na cca 3/4 */
+
+  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat top center; /* GIF nahoře */
+  background-size: auto; /* zachová původní velikost GIFu */
 }
 
 .profile {
-  position: relative;
+  position: absolute;
+  top: 50%; /* posune profilovku na polovinu výšky kontejneru */
+  left: 50%;
+  transform: translate(-50%, -50%); /* vycentruje přesně */
   text-align: center;
-  padding: 40px 20px;
   z-index: 1;
-  color: #fff; /* aby text byl vidět na GIFu */
+  color: #fff; /* aby text vynikl */
 }
 
 .profile-pic {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: none; /* odstraněn rám */
-  box-shadow: none; /* odstraněn stín */
+  border: none;
+  box-shadow: none;
   margin-bottom: 15px;
 }
 
