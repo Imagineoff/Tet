@@ -59,19 +59,18 @@ body {
   position: relative;
   width: 100%;
   max-width: 900px;
-  height: 500px; /* uprav podle výšky GIFu */
-  margin: 0 auto; /* horní část GIFu úplně nahoře */
+  height: 550px; /* lehce sníženo z původních 600px */
+  margin: 0 auto 40px auto; /* spodní mezera */
   border-radius: 12px;
   overflow: hidden;
 
-  background: url('https://i.imgur.com/39HlCEp.gif') no-repeat top center; /* nový GIF nahoře */
-  background-size: auto; /* zachová původní poměr stran GIFu */
+  background: url('https://i.imgur.com/39HlCEp.gif') no-repeat top center;
+  background-size: auto;
 }
 
-/* Profilovka posunutá dolů ~70% */
 .profile {
   position: absolute;
-  top: 70%; 
+  top: 70%; /* profilovka stále na ~70% GIFu */
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -103,7 +102,7 @@ body {
 /* --- Responsivní úprava pro mobil --- */
 @media (max-width: 600px) {
   .profile-section {
-    background-size: cover; /* GIF vyplní kontejner a zůstane střed */
+    background-size: cover; /* GIF vyplní kontejner a střed zůstane */
     background-position: top center;
   }
 }
