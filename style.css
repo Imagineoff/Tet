@@ -143,13 +143,16 @@ body {
 
 #visitor-bar {
   width: 100%;
-  background: rgba(255, 0, 150, 0.1); /* nebo tvůj neon styl */
-  color: #fff;
+  background: rgba(253, 212, 255, 0.1); /* jemné průhledné pozadí v neon tónu */
+  color: #fdd4ff; /* jemná neon barva textu */
   font-weight: bold;
-  padding: 10px;
+  padding: 8px 0; /* menší padding, decentní vzhled */
   text-align: center;
-  border-top: 1px solid #fdd4ff;
+  border-top: 1px solid rgba(253, 212, 255, 0.3); /* jemný neon okraj */
   margin-top: 40px; /* prostor nad lištou */
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  box-shadow: 0 -1px 8px rgba(253, 212, 255, 0.1); /* jemný stín */
 }
 /* --- Accordion --- */
 .accordion {
