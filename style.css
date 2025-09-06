@@ -9,16 +9,15 @@
 body {
   background: var(--bg-color);
   color: var(--text-color);
-  overflow-x: hidden;
   transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* --- CSS Variables for Light/Dark Mode --- */
 :root {
-  --bg-color: #000;          /* Dark default */
+  --bg-color: #000;
   --text-color: #fff;
   --accent-color: #fdd4ff;
-  --accent-gradient: linear-gradient(135deg, #fdd4ff, #ffffff, #000000);
+  --accent-gradient: linear-gradient(270deg, #fdd4ff, #ffffff, #000000);
   --panel-bg: rgba(255,255,255,0.05);
 }
 
@@ -26,7 +25,7 @@ body.light-mode {
   --bg-color: #fff;
   --text-color: #000;
   --accent-color: #fdd4ff;
-  --accent-gradient: linear-gradient(135deg, #fdd4ff, #ffffff, #000000);
+  --accent-gradient: linear-gradient(270deg, #fdd4ff, #ffffff, #000000);
   --panel-bg: rgba(0,0,0,0.05);
 }
 
@@ -34,22 +33,23 @@ body.light-mode {
 .top-bar {
   width: 100%;
   height: 120px;
-  background: var(--accent-gradient);
-  background-size: 300% 300%;
-  animation: gradientMove 10s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: var(--accent-gradient);
+  background-size: 400% 400%;
+  animation: neonGradient 20s ease infinite;
+  box-shadow: 0 0 30px var(--accent-color), 0 0 60px #fff;
 }
 
 .top-bar h1 {
   color: var(--text-color);
-  text-shadow: 0 0 15px var(--accent-color), 0 0 30px #fff;
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px var(--accent-color), 0 0 20px #fff;
 }
 
 /* --- Gradient Animation --- */
-@keyframes gradientMove {
+@keyframes neonGradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -84,21 +84,10 @@ body.light-mode {
   box-shadow: 0 0 30px var(--accent-color), 0 0 50px #fff;
 }
 
-/* --- Main Content --- */
-#main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px 20px;
-  animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-
 /* --- Profile --- */
 .profile {
   text-align: center;
-  margin-bottom: 40px;
+  margin: 40px 0;
 }
 
 .profile-pic {
@@ -114,7 +103,6 @@ body.light-mode {
   font-size: 2.5rem;
   color: var(--accent-color);
   text-shadow: 0 0 10px var(--accent-color), 0 0 20px #fff;
-  margin-bottom: 10px;
 }
 
 #discord-status {
@@ -155,69 +143,59 @@ body.light-mode {
   box-shadow: 0 0 20px var(--accent-color), 0 0 40px #fff;
 }
 
-/* --- Accordion --- */
+/* --- Accordion Titles --- */
 .accordion {
   cursor: pointer;
-  padding: 15px 20px;
-  width: 100%;
-  max-width: 700px;
+  font-size: 2rem;
+  color: var(--accent-color);
+  background: transparent;
+  border: none;
   text-align: left;
-  border: 2px solid var(--accent-color);
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  color: var(--text-color);
-  background: var(--panel-bg);
-  transition: 0.3s;
+  margin: 20px 0;
   position: relative;
-  overflow: hidden;
 }
 
 .accordion::after {
   content: '▼';
-  font-size: 1rem;
+  font-size: 1.2rem;
   position: absolute;
-  right: 20px;
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
   transition: transform 0.3s;
 }
 
-.accordion.active::after { transform: translateY(-50%) rotate(-180deg); }
+.accordion.active::after {
+  transform: translateY(-50%) rotate(-180deg);
+}
 
+/* --- Panel Box --- */
 .panel {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease, padding 0.3s ease;
+  transition: max-height 0.6s ease, padding 0.3s ease, border 0.3s ease, opacity 0.5s ease;
   border: 2px solid var(--accent-color);
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 20px;
   padding: 0 20px;
+  opacity: 0;
 }
 
 .panel.open {
   padding: 20px;
+  max-height: 500px;
+  opacity: 1;
 }
 
-/* --- Sections --- */
-.section h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: var(--accent-color);
-  text-shadow: 0 0 10px var(--accent-color), 0 0 20px #fff;
-}
-
-.section p {
-  font-size: 1.2rem;
-  line-height: 1.6;
+.panel p {
   color: var(--text-color);
+  text-shadow: 0 0 5px var(--accent-color), 0 0 10px #fff;
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .profile-pic { width: 120px; height: 120px; }
   .profile h1 { font-size: 2rem; }
-  .section h2 { font-size: 1.5rem; }
+  .accordion { font-size: 1.5rem; }
   .links a { padding: 12px 20px; }
-  .accordion { font-size: 1.2rem; }
 }
