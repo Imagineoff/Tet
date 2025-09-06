@@ -7,42 +7,50 @@ const discordStatus = document.getElementById('discord-status');
 
 // --- Preloader → Enter ---
 enterBtn.addEventListener('click', () => {
-  // spustí hudbu
   bgMusic.play().catch(err => console.log('Music blocked until user interaction'));
-  
-  // přepne obsah
   preloader.style.display = 'none';
   mainContent.style.display = 'flex';
 });
 
 // --- Discord status přes Lanyard API ---
-// Zadej svůj Discord user ID
-const discordUserId = 'YOUR_DISCORD_ID';
+const discordUserId = 'YOUR_DISCORD_ID'; // <- nahraď svým ID
 
 async function fetchDiscordStatus() {
   try {
     const response = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
     const data = await response.json();
-    const status = data.data.discord_status; // online, idle, dnd, offline
+    const status = data.data.discord_status; 
 
-    let statusText = '';
     let color = '';
-
     switch(status) {
-      case 'online': statusText = 'Online'; color = 'green'; break;
-      case 'idle': statusText = 'Idle'; color = 'orange'; break;
-      case 'dnd': statusText = 'Do Not Disturb'; color = 'red'; break;
-      case 'offline': statusText = 'Offline'; color = 'gray'; break;
-      default: statusText = 'Unknown'; color = 'gray';
+      case 'online': color = 'green'; break;
+      case 'idle': color = 'orange'; break;
+      case 'dnd': color = 'red'; break;
+      case 'offline': color = 'gray'; break;
+      default: color = 'gray';
     }
 
-    discordStatus.innerHTML = `<span style="color:${color}; font-weight:bold;">●</span> ${statusText}`;
+    discordStatus.innerHTML = `<span class="discord-dot" style="background:${color}"></span> ${status.charAt(0).toUpperCase() + status.slice(1)}`;
   } catch(err) {
     console.log('Failed to fetch Discord status', err);
     discordStatus.textContent = 'Discord status unavailable';
   }
 }
 
-// Update every 15 seconds
 fetchDiscordStatus();
 setInterval(fetchDiscordStatus, 15000);
+
+// --- Accordion functionality ---
+const acc = document.getElementsByClassName('accordion');
+
+for (let i = 0; i < acc.length; i++) {
+  acc[i].addEventListener('click', function() {
+    const panel = this.nextElementSibling;
+    panel.classList.toggle('open');
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  });
+}
