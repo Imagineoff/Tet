@@ -65,10 +65,9 @@ body {
   border-radius: 12px;
   overflow: hidden;
 
-  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat top center;
-  background-size: contain; /* zachová původní rozměr GIFu */
+  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center top; /* střed vodorovně, nahoře svisle */
+  background-size: auto; /* zachová původní rozměr GIFu */
 }
-
 /* --- Profile Content --- */
 .profile {
   position: absolute;
