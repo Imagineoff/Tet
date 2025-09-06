@@ -94,3 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// CountAPI (jednoduchý příklad)
+const namespace = "imagine-web";
+const key = "visitors";
+
+async function updateVisitor() {
+  // Celkový počet
+  const total = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+    .then(res => res.json());
+  document.getElementById('total-count').textContent = total.value;
+
+  // Aktuální online – simulace (bez backendu těžké přesně)
+  // Můžeš jen ukázat „návštěvníků právě teď“ podle session storage
+  let online = Math.floor(Math.random() * 10) + 1; // demo hodnota
+  document.getElementById('online-count').textContent = online;
+}
+
+updateVisitor();
+setInterval(updateVisitor, 5000); // aktualizace každých 5 sekund
