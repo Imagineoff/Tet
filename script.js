@@ -46,7 +46,7 @@ async function fetchDiscordStatus() {
         switch(a.type){
           case 0: return `Playing: ${a.name}`;
           case 1: return `Streaming: ${a.name}`;
-          case 2: return `Listening: ${a.name}`;
+          case 2: return `Listening to: ${a.name}`;
           case 4: return a.state ? a.state : a.name;
           default: return a.name;
         }
@@ -65,7 +65,9 @@ setInterval(fetchDiscordStatus, 15000);
 
 // --- Accordion ---
 accordions.forEach(acc => {
-  acc.addEventListener('click', () => {
+
+  const togglePanel = (e) => {
+    e.preventDefault();
     acc.classList.toggle('active');
     const panel = acc.nextElementSibling;
     if(panel.style.maxHeight){
@@ -75,7 +77,11 @@ accordions.forEach(acc => {
       panel.style.maxHeight = panel.scrollHeight + "px";
       panel.classList.add('open');
     }
-  });
+  };
+
+  // Click + touchstart pro mobil
+  acc.addEventListener('click', togglePanel);
+  acc.addEventListener('touchstart', togglePanel);
 });
 
 // --- Neon cursor (PC only) ---
