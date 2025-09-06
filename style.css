@@ -141,6 +141,18 @@ body {
   box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
 }
 
+#visitor-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 0, 150, 0.1);
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  z-index: 1000;
+}
 /* --- Accordion --- */
 .accordion {
   cursor: pointer;
