@@ -142,16 +142,14 @@ body {
 }
 
 #visitor-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
-  background: rgba(255, 0, 150, 0.1);
+  background: rgba(255, 0, 150, 0.1); /* nebo tvůj neon styl */
   color: #fff;
   font-weight: bold;
   padding: 10px;
   text-align: center;
-  z-index: 1000;
+  border-top: 1px solid #fdd4ff;
+  margin-top: 40px; /* prostor nad lištou */
 }
 /* --- Accordion --- */
 .accordion {
