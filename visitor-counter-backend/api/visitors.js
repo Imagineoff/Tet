@@ -1,21 +1,25 @@
-let onlineUsers = 0;
 let totalVisitors = 0;
+let onlineUsers = new Map(); // ip -> timestamp
 
 export default function handler(req, res) {
-  if(req.method === 'GET') {
-    const type = req.query.type || "count";
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
 
-    if(type === "visit") {
-      onlineUsers++;
-      totalVisitors++;
+  const now = Date.now();
+  totalVisitors++;
 
-      setTimeout(() => { onlineUsers = Math.max(onlineUsers - 1, 0); }, 5*60*1000);
+  // Ulož/aktualizuj čas pro IP
+  onlineUsers.set(ip, now);
 
-      return res.status(200).json({ online: onlineUsers, total: totalVisitors });
+  // Vyčisti staré IP (neaktivní >2 minuty)
+  for (let [key, value] of onlineUsers) {
+    if (now - value > 2 * 60 * 1000) {
+      onlineUsers.delete(key);
     }
-
-    return res.status(200).json({ online: onlineUsers, total: totalVisitors });
   }
 
-  res.status(405).json({ message: 'Method not allowed' });
+  res.status(200).json({
+    total: totalVisitors,
+    online: onlineUsers.size,
+  });
 }
