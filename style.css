@@ -65,13 +65,14 @@ body {
   border-radius: 12px;
   overflow: hidden;
 
-  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center top; /* střed vodorovně, nahoře svisle */
-  background-size: auto; /* zachová původní rozměr GIFu */
+  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center top;
+  background-size: auto; /* zachová původní velikost GIFu */
 }
+
 /* --- Profile Content --- */
 .profile {
   position: absolute;
-  top: 50%; /* posune profilovku na polovinu kontejneru */
+  top: 50%; /* profilovka u středu kontejneru */
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -83,8 +84,8 @@ body {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 4px solid #fdd4ff; /* rámeček zpět */
-  box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff; /* stín zpět */
+  border: 4px solid #fdd4ff;
+  box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
   margin-bottom: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -98,6 +99,14 @@ body {
   font-size: 2.5rem;
   color: #fdd4ff;
   text-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
+}
+
+/* --- Responsivní úprava pro mobil --- */
+@media (max-width: 600px) {
+  .profile-section {
+    background-size: cover; /* GIF vyplní kontejner a střed zůstane */
+    background-position: center center;
+  }
 }
 
 /* --- Links --- */
