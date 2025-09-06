@@ -150,21 +150,12 @@ body {
   transform: rotate(-180deg);
 }
 
-.panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.6s ease, padding 0.3s ease, opacity 0.5s ease;
-  border: 2px solid #fdd4ff;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  padding: 0 20px;
-  opacity: 0;
-}
-
-.panel.open {
-  padding: 20px;
-  max-height: 500px;
-  opacity: 1;
+if(panel.style.maxHeight){
+  panel.style.maxHeight = null;
+  panel.classList.remove('open');
+} else {
+  panel.style.maxHeight = panel.scrollHeight + "px";
+  panel.classList.add('open');
 }
 
 .panel p {
