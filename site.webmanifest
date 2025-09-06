@@ -1,0 +1,21 @@
+{
+  "name": "Imagine",
+  "short_name": "Imagine",
+  "description": "Imagine's web",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdd4ff",
+  "theme_color": "#fdd4ff",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/sm3OB4b.jpeg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/sm3OB4b.jpeg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
