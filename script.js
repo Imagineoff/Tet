@@ -32,11 +32,17 @@ async function fetchDiscordStatus() {
       default: color = 'gray';
     }
 
-    // aktivita (např. hraní)
+    // zobrazení všech aktivit
     let activityText = '';
-    if(activities && activities.length > 0) {
-      const game = activities.find(a => a.type === 0); // type 0 = hraní hry
-      if(game) activityText = `Playing: ${game.name}`;
+    if (activities && activities.length > 0) {
+      activityText = activities.map(a => {
+        // fallback na název, typ hry, Spotify, nebo custom status
+        if(a.type === 0) return `Playing: ${a.name}`;
+        if(a.type === 1) return `Streaming: ${a.name}`;
+        if(a.type === 2) return `Listening to: ${a.name}`;
+        if(a.type === 4 && a.state) return `Status: ${a.state}`;
+        return a.name;
+      }).join(' | ');
     }
 
     discordStatus.innerHTML = `<span class="discord-dot" style="background:${color}"></span> ${status.charAt(0).toUpperCase() + status.slice(1)}${activityText ? ' - ' + activityText : ''}`;
