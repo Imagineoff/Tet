@@ -85,12 +85,13 @@ body {
   position: relative;
   width: 100%;
   max-width: 900px;
+  height: 400px; /* nastav výšku kontejneru podle potřeby */
   margin: 40px auto;
   border-radius: 12px;
   overflow: hidden;
-  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center; /* střed a žádné opakování */
-  background-size: auto 100%; /* zachová šířku GIFu, výšku přizpůsobí */
-  background-position: center 60%; /* posun GIFu trochu dolů, můžeš měnit % */
+  background: url('https://i.imgur.com/rCJHJ23.gif') no-repeat center; /* GIF nebude opakovaný */
+  background-size: contain; /* zachová původní poměr stran */
+  background-position: center 75%; /* posun GIFu dolů na cca 3/4 */
 }
 
 .profile {
