@@ -19,12 +19,19 @@ async function fetchDiscordStatus() {
   try {
     const response = await fetch(`https://api.lanyard.rest/v1/users/${discordUserId}`);
     const data = await response.json();
-    const status = data.data.discord_status; 
-    const activities = data.data.activities;
+
+    // bezpečná kontrola
+    if (!data || !data.data) {
+      discordStatus.textContent = 'Discord status unavailable';
+      return;
+    }
+
+    const status = data.data.discord_status || 'offline';
+    const activities = data.data.activities || [];
 
     // barevný pulzující puntík
     let color = '';
-    switch(status) {
+    switch (status) {
       case 'online': color = 'green'; break;
       case 'idle': color = 'orange'; break;
       case 'dnd': color = 'red'; break;
@@ -32,16 +39,17 @@ async function fetchDiscordStatus() {
       default: color = 'gray';
     }
 
-    // zobrazení všech aktivit
+    // všechny aktivity
     let activityText = '';
-    if (activities && activities.length > 0) {
+    if (activities.length > 0) {
       activityText = activities.map(a => {
-        // fallback na název, typ hry, Spotify, nebo custom status
-        if(a.type === 0) return `Playing: ${a.name}`;
-        if(a.type === 1) return `Streaming: ${a.name}`;
-        if(a.type === 2) return `Listening to: ${a.name}`;
-        if(a.type === 4 && a.state) return `Status: ${a.state}`;
-        return a.name;
+        switch(a.type) {
+          case 0: return `Playing: ${a.name}`;       // Hra
+          case 1: return `Streaming: ${a.name}`;    // Stream
+          case 2: return `Listening to: ${a.name}`; // Spotify / hudba
+          case 4: return a.state ? `Status: ${a.state}` : a.name; // Custom status
+          default: return a.name;
+        }
       }).join(' | ');
     }
 
