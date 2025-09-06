@@ -93,22 +93,30 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.top = `${e.clientY - cursor.offsetHeight/2}px`;
     });
   }
+
+  // --- CountAPI návštěvníci ---
+  const totalCountEl = document.getElementById('total-count');
+  const onlineCountEl = document.getElementById('online-count');
+  const namespace = "imagine-web";
+  const key = "visitors";
+
+  async function updateVisitor() {
+    if(!totalCountEl || !onlineCountEl) return;
+
+    try {
+      // Celkový počet návštěvníků
+      const total = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        .then(res => res.json());
+      totalCountEl.textContent = total.value;
+
+      // Aktuální online – simulace
+      let online = Math.floor(Math.random() * 10) + 1; // demo hodnota
+      onlineCountEl.textContent = online;
+    } catch(e){
+      console.log("Chyba při načítání návštěvníků:", e);
+    }
+  }
+
+  updateVisitor();
+  setInterval(updateVisitor, 5000);
 });
-// CountAPI (jednoduchý příklad)
-const namespace = "imagine-web";
-const key = "visitors";
-
-async function updateVisitor() {
-  // Celkový počet
-  const total = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-    .then(res => res.json());
-  document.getElementById('total-count').textContent = total.value;
-
-  // Aktuální online – simulace (bez backendu těžké přesně)
-  // Můžeš jen ukázat „návštěvníků právě teď“ podle session storage
-  let online = Math.floor(Math.random() * 10) + 1; // demo hodnota
-  document.getElementById('online-count').textContent = online;
-}
-
-updateVisitor();
-setInterval(updateVisitor, 5000); // aktualizace každých 5 sekund
