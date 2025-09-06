@@ -3,23 +3,6 @@ const enterBtn=document.getElementById('enter-btn');
 const mainContent=document.getElementById('main');
 const bgMusic=document.getElementById('bg-music');
 const discordStatus=document.getElementById('discord-status');
-const body=document.body;
-
-// Light/Dark Toggle
-const toggleBtn=document.createElement('button');
-toggleBtn.textContent='Toggle Light/Dark';
-toggleBtn.style.position='fixed';
-toggleBtn.style.top='20px';
-toggleBtn.style.right='20px';
-toggleBtn.style.padding='10px 20px';
-toggleBtn.style.border='none';
-toggleBtn.style.borderRadius='8px';
-toggleBtn.style.background='#fdd4ff';
-toggleBtn.style.color='#000';
-toggleBtn.style.cursor='pointer';
-toggleBtn.style.zIndex='9999';
-document.body.appendChild(toggleBtn);
-toggleBtn.addEventListener('click',()=>body.classList.toggle('light-mode'));
 
 // Preloader → Enter
 enterBtn.addEventListener('click',()=>{
@@ -70,17 +53,4 @@ fetchDiscordStatus();
 setInterval(fetchDiscordStatus,15000);
 
 // Accordion functionality
-const acc=document.getElementsByClassName('accordion');
-for(let i=0;i<acc.length;i++){
-  acc[i].addEventListener('click',function(){
-    this.classList.toggle('active');
-    const panel=this.nextElementSibling;
-    if(panel.style.maxHeight){
-      panel.style.maxHeight=null;
-      panel.classList.remove('open');
-    } else{
-      panel.classList.add('open');
-      panel.style.maxHeight=panel.scrollHeight+'px';
-    }
-  });
-}
+const acc=document.get
