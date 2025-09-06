@@ -31,29 +31,30 @@ async function fetchDiscordStatus() {
     const status = data.data.discord_status || 'offline';
     const activities = data.data.activities || [];
 
-    let color = '';
-    switch(status){
-      case 'online': color='green'; break;
-      case 'idle': color='orange'; break;
-      case 'dnd': color='red'; break;
-      case 'offline': color='gray'; break;
-      default: color='gray';
-    }
+let color = '';
+switch(status){
+  case 'online': color='green'; break;
+  case 'idle': color='orange'; break;
+  case 'dnd': color='red'; break;
+  case 'offline': color='gray'; break;
+  default: color='gray';
+}
 
-    let activityText = '';
-    if(activities.length > 0){
-      activityText = activities.map(a => {
-        switch(a.type){
-          case 0: return `Playing: ${a.name}`;
-          case 1: return `Streaming: ${a.name}`;
-          case 2: return `Listening to: ${a.name}`;
-          case 4: return a.state ? a.state : a.name;
-          default: return a.name;
-        }
-      }).join(' | ');
-    }
+let displayText = '';
+// pokud má aktivity, ukaž první aktivitu
+if(activities.length > 0){
+  const a = activities[0]; // první aktivita
+  switch(a.type){
+    case 0: displayText = `Playing: ${a.name}`; break;
+    case 1: displayText = `Streaming: ${a.name}`; break;
+    case 2: displayText = `Listening to: ${a.name}`; break;
+    case 4: displayText = a.state ? a.state : a.name; break;
+    default: displayText = a.name;
+  }
+}
 
-    discordStatus.innerHTML = `<span style="color:${color}; font-weight:bold;">●</span> ${status.charAt(0).toUpperCase()+status.slice(1)}${activityText ? ' - '+activityText : ''}`;
+// nakonec zobrazení
+discordStatus.innerHTML = `<span style="color:${color}; font-weight:bold;">●</span> ${displayText ? displayText : status.charAt(0).toUpperCase()+status.slice(1)}`;
   } catch(e) {
     console.log('Failed to fetch Discord status', e);
     discordStatus.textContent = 'Discord status unavailable';
