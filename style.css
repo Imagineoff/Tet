@@ -72,7 +72,7 @@ body {
 /* --- Profile Content --- */
 .profile {
   position: absolute;
-  top: 50%; /* profilovka u středu kontejneru */
+  top: 70%; /* profilovka skoro na spodní část GIFu */
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
