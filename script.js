@@ -96,21 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Backend návštěvníci (Vercel) ---
   const totalCountEl = document.getElementById("total-count");
-const onlineCountEl = document.getElementById("online-count");
+  const onlineCountEl = document.getElementById("online-count");
 
-async function updateVisitor() {
-  try {
-    const res = await fetch(
-      "https://imagine-ofc.vercel.app/visitor-counter-backend/api/visitors.js"
-    );
-    const data = await res.json();
+  async function updateVisitor() {
+    try {
+      const res = await fetch(
+        "https://imagine-ofc.vercel.app/visitor-counter-backend/api/visitors"
+      );
+      const data = await res.json();
 
-    if (totalCountEl) totalCountEl.textContent = data.total;
-    if (onlineCountEl) onlineCountEl.textContent = data.online;
-  } catch (err) {
-    console.error("Chyba při načítání visitor counteru:", err);
+      if (totalCountEl) totalCountEl.textContent = data.total;
+      if (onlineCountEl) onlineCountEl.textContent = data.online;
+    } catch (err) {
+      console.error("Chyba při načítání visitor counteru:", err);
+    }
   }
-}
 
-updateVisitor();
-setInterval(updateVisitor, 5000); // každých 5s update
+  updateVisitor();
+  setInterval(updateVisitor, 5000); // každých 5s update
+});
