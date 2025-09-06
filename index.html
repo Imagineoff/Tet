@@ -1,71 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Imagine</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imagine</title>
 
-<!-- Meta / Open Graph -->
-<meta name="description" content="Imaginuv web">
-<meta property="og:title" content="Imagine">
-<meta property="og:description" content="Imaginuv web">
-<meta property="og:image" content="https://i.imgur.com/sm3OB4b.jpeg">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://yourdomain.com">
+  <!-- Meta / Open Graph -->
+  <meta name="description" content="Imagine's web">
+  <meta property="og:title" content="Imagine">
+  <meta property="og:description" content="Imagine's web">
+  <meta property="og:image" content="https://i.imgur.com/sm3OB4b.jpeg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com">
 
-<!-- Status bar color -->
-<meta name="theme-color" content="#fdd4ff">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Preloader -->
-<div id="preloader">
-  <button id="enter-btn">Loading...</button>
-</div>
-
-<!-- Main Content -->
-<div id="main">
-
-  <div class="profile">
-    <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Profile" class="profile-pic">
-    <h1>Imagine</h1>
-    <div id="discord-status">Fetching Discord status...</div>
+  <!-- Preloader -->
+  <div id="preloader">
+    <button id="enter-btn">Loading...</button>
   </div>
 
-  <div class="links">
-    <a href="https://www.instagram.com/_not_imagine" target="_blank">
-      <img src="https://i.imgur.com/tPoyKwA.png" alt="Instagram"> Instagram
-    </a>
-    <a href="https://twitch.tv/Imagine_ofc" target="_blank">
-      <img src="https://i.imgur.com/H1Fhbfz.png" alt="Twitch"> Twitch
-    </a>
-    <a href="https://youtube.com/@imagine_ofc" target="_blank">
-      <img src="https://i.imgur.com/kijd3ur.png" alt="YouTube"> YouTube
-    </a>
-    <a href="mailto:assist.imagine@gmail.com">
-      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email
-    </a>
+  <!-- Main Content -->
+  <div id="main" style="display:none;">
+
+    <div class="profile">
+      <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Profile" class="profile-pic">
+      <h1>Imagine</h1>
+      <div id="discord-status">Fetching Discord status...</div>
+    </div>
+
+    <div class="links">
+      <a href="https://www.instagram.com/_not_imagine" target="_blank">
+        <img src="https://i.imgur.com/tPoyKwA.png" alt="Instagram"> Instagram
+      </a>
+      <a href="https://twitch.tv/Imagine_ofc" target="_blank">
+        <img src="https://i.imgur.com/H1Fhbfz.png" alt="Twitch"> Twitch
+      </a>
+      <a href="https://youtube.com/@imagine_ofc" target="_blank">
+        <img src="https://i.imgur.com/kijd3ur.png" alt="YouTube"> YouTube
+      </a>
+      <a href="mailto:assist.imagine@gmail.com">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email
+      </a>
+    </div>
+
+    <!-- Accordion Sections -->
+    <button class="accordion">Developing</button>
+    <div class="panel">
+      <p>We create modern projects, focusing on web apps, Discord bots, and creative experiments.</p>
+    </div>
+
+    <button class="accordion">Gaming</button>
+    <div class="panel">
+      <p>I absolutely love <b>Dead by Daylight</b>. It's my go-to game for thrills and teamwork.</p>
+    </div>
+
   </div>
 
-  <!-- Accordion Sections -->
-  <button class="accordion">Gaming</button>
-  <div class="panel">
-    <p>I absolutely love <b>Dead by Daylight</b>. It's my go-to game for thrills and teamwork.</p>
-  </div>
+  <!-- Music -->
+  <audio id="bg-music" src="https://files.catbox.moe/j6mtxg.mp3" loop></audio>
 
-  <button class="accordion">Developing</button>
-  <div class="panel">
-    <p>We create modern projects, focusing on web apps, Discord bots, and creative experiments.</p>
-  </div>
-
-</div>
-
-<!-- Music -->
-<audio id="bg-music" src="https://files.catbox.moe/j6mtxg.mp3" loop></audio>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
