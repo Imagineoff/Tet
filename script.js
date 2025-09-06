@@ -94,24 +94,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- CountAPI návštěvníci ---
+  // --- Backend návštěvníci (Vercel) ---
   const totalCountEl = document.getElementById('total-count');
   const onlineCountEl = document.getElementById('online-count');
-  const namespace = "imagine-web";
-  const key = "visitors";
+  const BACKEND_URL = "https://imagine-ofc.vercel.app/visitor-counter-backend/api/visitors.js";
 
   async function updateVisitor() {
     if(!totalCountEl || !onlineCountEl) return;
 
     try {
-      // Celkový počet návštěvníků
-      const total = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-        .then(res => res.json());
-      totalCountEl.textContent = total.value;
+      // Hlásíme novou návštěvu
+      await fetch(`${BACKEND_URL}?type=visit`);
 
-      // Aktuální online – simulace
-      let online = Math.floor(Math.random() * 10) + 1; // demo hodnota
-      onlineCountEl.textContent = online;
+      // Získáme aktuální počet návštěvníků
+      const resp = await fetch(BACKEND_URL);
+      const data = await resp.json();
+
+      totalCountEl.textContent = data.total;
+      onlineCountEl.textContent = data.online;
     } catch(e){
       console.log("Chyba při načítání návštěvníků:", e);
     }
