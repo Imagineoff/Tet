@@ -100,6 +100,6 @@ if(!/Mobi|Android/i.test(navigator.userAgent)){
   document.body.appendChild(cursor);
 
   document.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(${e.clientX-10}px, ${e.clientY-10}px)`;
-  });
-}
+  cursor.style.left = `${e.clientX - cursor.offsetWidth/2}px`;
+  cursor.style.top = `${e.clientY - cursor.offsetHeight/2}px`;
+});
