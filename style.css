@@ -14,13 +14,27 @@ body {
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.5s ease-in-out; /* Přidáno pro plynulý přechod barvy pozadí */
+}
+
+/* --- Canvas pro vizualizaci --- */
+#visualizer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Umístí canvas do pozadí */
+  pointer-events: none; /* Umožní kliknutí na prvky pod canvasem */
 }
 
 /* --- Preloader --- */
 #preloader {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,14 +67,19 @@ body {
   padding: 20px;
   max-width: 900px;
   width: 100%;
+  position: relative; /* Zajišťuje, že obsah bude nad canvasem */
+  z-index: 1; /* Zajišťuje, že obsah bude nad canvasem */
+  background: rgba(0, 0, 0, 0.5); /* Semi-průhledné pozadí pro čitelnost textu */
+  border-radius: 15px;
+  padding-bottom: 70px; /* Přidán padding, aby se nepřekrýval s visitor-bar */
 }
 
 .profile-section {
   position: relative;
   width: 100%;
   max-width: 900px;
-  height: 550px; /* lehce sníženo z původních 600px */
-  margin: 0 auto 40px auto; /* spodní mezera */
+  height: 550px;
+  margin: 0 auto 40px auto;
   border-radius: 12px;
   overflow: hidden;
 
@@ -70,11 +89,11 @@ body {
 
 .profile {
   position: absolute;
-  top: 70%; /* profilovka stále na ~70% GIFu */
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  z-index: 1;
+  z-index: 2; /* Zajišťuje, že profil bude nad GIFem */
   color: #fff;
 }
 
@@ -99,10 +118,14 @@ body {
   text-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
 }
 
+#discord-status {
+  text-shadow: 0 0 5px rgba(253, 212, 255, 0.5); /* Zlepšena čitelnost */
+}
+
 /* --- Responsivní úprava pro mobil --- */
 @media (max-width: 600px) {
   .profile-section {
-    background-size: cover; /* GIF vyplní kontejner a střed zůstane */
+    background-size: cover;
     background-position: top center;
   }
 }
@@ -143,17 +166,18 @@ body {
 
 #visitor-bar {
   width: 100%;
-  background: rgba(253, 212, 255, 0.1); /* jemné průhledné pozadí v neon tónu */
-  color: #fdd4ff; /* jemná neon barva textu */
+  background: rgba(0, 0, 0, 0.7); /* Změněno na průhlednou černou pro lepší čitelnost */
+  color: #fdd4ff;
   font-weight: bold;
-  padding: 8px 0; /* menší padding, decentní vzhled */
+  padding: 8px 0;
   text-align: center;
-  border-top: 1px solid rgba(253, 212, 255, 0.3); /* jemný neon okraj */
-  margin-top: 40px; /* prostor nad lištou */
+  border-top: 1px solid rgba(253, 212, 255, 0.3);
+  margin-top: 40px;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
-  box-shadow: 0 -1px 8px rgba(253, 212, 255, 0.1); /* jemný stín */
+  box-shadow: 0 -1px 8px rgba(253, 212, 255, 0.1);
 }
+
 /* --- Accordion --- */
 .accordion {
   cursor: pointer;
@@ -181,14 +205,6 @@ body {
   transform: rotate(-180deg);
 }
 
-if(panel.style.maxHeight){
-  panel.style.maxHeight = null;
-  panel.classList.remove('open');
-} else {
-  panel.style.maxHeight = panel.scrollHeight + "px";
-  panel.classList.add('open');
-}
-
 .panel p {
   color: #fdd4ff;
   text-shadow: 0 0 5px #fdd4ff, 0 0 10px #fdd4ff;
@@ -197,34 +213,62 @@ if(panel.style.maxHeight){
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-  .profile-pic { width: 120px; height: 120px; }
-  .profile h1 { font-size: 2rem; }
-  #discord-status { font-size: 0.9rem; }
-  .links a { padding: 12px 20px; gap: 10px; }
-  .links a img { width: 25px; height: 25px; }
-  .accordion { font-size: 1.5rem; }
-  .panel { max-width: 95%; padding: 0 15px; }
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+  .profile h1 {
+    font-size: 2rem;
+  }
+  #discord-status {
+    font-size: 0.9rem;
+  }
+  .links a {
+    padding: 12px 20px;
+    gap: 10px;
+  }
+  .links a img {
+    width: 25px;
+    height: 25px;
+  }
+  .accordion {
+    font-size: 1.5rem;
+  }
+  .panel {
+    max-width: 95%;
+    padding: 0 15px;
+  }
 }
 
 /* --- Neon Hover Animations --- */
-.links a:hover, .accordion:hover {
+.links a:hover,
+.accordion:hover {
   animation: neonPulse 1.5s infinite alternate;
 }
 
 @keyframes neonPulse {
-  0% { box-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff; }
-  50% { box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff; }
-  100% { box-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff; }
+  0% {
+    box-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
+  }
+  100% {
+    box-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
+  }
 }
 
 /* --- Smooth Appear for Panels --- */
 .panel {
-  opacity: 0;
-  transform: translateY(-10px);
+  max-height: 0; /* Změna z opacitiy na max-height pro plynulé otevírání */
+  overflow: hidden;
   transition: all 0.5s ease;
+  background: rgba(255, 221, 255, 0.05); /* Konzistentní s pozadím odkazů */
+  border-radius: 0 0 10px 10px;
+  padding: 0 20px;
 }
 
 .panel.open {
-  opacity: 1;
-  transform: translateY(0);
+  max-height: 500px; /* Dostačující výška pro zobrazení obsahu */
+  padding: 20px; /* Přidáno padding po otevření */
 }
