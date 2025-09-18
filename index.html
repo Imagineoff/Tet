@@ -4,48 +4,155 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Imagine</title>
-
-  <meta name="description" content="Imagine's web">
-  <meta property="og:title" content="Imagine">
-  <meta property="og:description" content="Imagine's web">
-  <meta property="og:image" content="https://i.imgur.com/sm3OB4b.jpeg">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourdomain.com">
   <meta name="theme-color" content="#fdd4ff">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-  <link rel="icon" type="image/png" sizes="16x16" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="icon" type="image/png" sizes="48x48" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://i.imgur.com/sm3OB4b.jpeg">
+    body {
+      background: #000;
+      color: #fdd4ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  <link rel="apple-touch-icon" sizes="57x57" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="60x60" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="72x72" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="76x76" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="114x114" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="120x120" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="144x144" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="152x152" href="https://i.imgur.com/sm3OB4b.jpeg">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/sm3OB4b.jpeg">
+    /* Preloader */
+    #preloader {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+      background: #000; z-index: 9999;
+    }
+    #preloader button {
+      padding: 20px 50px;
+      font-size: 1.5rem;
+      color: #fdd4ff;
+      background: #000;
+      border: 2px solid #fdd4ff;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
+      transition: 0.3s;
+    }
+    #preloader button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #fdd4ff, 0 0 50px #fdd4ff;
+    }
 
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#fdd4ff">
+    /* Main */
+    #main {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      max-width: 900px; width: 100%;
+      z-index: 1;
+    }
 
-  <meta name="msapplication-TileImage" content="https://i.imgur.com/sm3OB4b.jpeg">
-  <meta name="msapplication-TileColor" content="#fdd4ff">
+    .profile-section {
+      position: relative;
+      width: 100%; max-width: 900px;
+      height: 550px;
+      margin: 0 auto 40px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      background: url('https://i.imgur.com/39HlCEp.gif') no-repeat top center;
+      background-size: auto;
+    }
+    .profile {
+      position: absolute;
+      top: 70%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2; color: #fff;
+    }
+    .profile-pic {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      border: 4px solid #fdd4ff;
+      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
+      margin-bottom: 15px;
+      transition: box-shadow 0.2s linear;
+    }
+    .profile h1 {
+      font-size: 2.5rem;
+      color: #fdd4ff;
+      text-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
+      transition: text-shadow 0.2s linear;
+    }
+    #discord-status {
+      text-shadow: 0 0 5px rgba(253,212,255,0.5);
+    }
 
-  <link rel="stylesheet" href="style.css">
+    /* Links */
+    .links {
+      display: flex; flex-direction: column;
+      gap: 20px; margin-bottom: 50px;
+      width: 100%; max-width: 450px;
+    }
+    .links a {
+      display: flex; align-items: center;
+      gap: 15px; padding: 15px 25px;
+      background: rgba(255,221,255,0.05);
+      border-radius: 10px;
+      color: #fdd4ff; text-decoration: none;
+      box-shadow: 0 0 10px rgba(255,221,255,0.2);
+      transition: 0.3s;
+    }
+    .links a img { width: 30px; height: 30px; }
+    .links a:hover {
+      background: #fdd4ff; color: #000;
+      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
+    }
+
+    /* Accordion */
+    .accordion {
+      cursor: pointer;
+      font-size: 2rem;
+      color: #fdd4ff;
+      background: transparent;
+      border: none;
+      text-align: left;
+      margin: 20px 0;
+      max-width: 700px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding-right: 10px;
+    }
+    .accordion::after {
+      content: '▼'; font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    .accordion.active::after { transform: rotate(-180deg); }
+    .panel {
+      max-height: 0; overflow: hidden;
+      transition: all 0.5s ease;
+      background: rgba(255,221,255,0.05);
+      border-radius: 0 0 10px 10px;
+      padding: 0 20px;
+    }
+    .panel.open {
+      max-height: 500px; padding: 20px;
+    }
+    .panel p {
+      color: #fdd4ff;
+      text-shadow: 0 0 5px #fdd4ff, 0 0 10px #fdd4ff;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-
-  <canvas id="visualizer"></canvas>
-
   <div id="preloader">
     <button id="enter-btn">Enter</button>
   </div>
 
-  <div id="main" style="display:none;">
-
+  <div id="main">
     <div class="profile-section">
       <div class="profile">
         <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Profile" class="profile-pic">
@@ -56,37 +163,122 @@
 
     <div class="links">
       <a href="https://instagram.com/imagine_ofc_" target="_blank">
-        <img src="https://i.imgur.com/iGXqR1v.png" alt="Instagram"> Instagram
+        <img src="https://i.imgur.com/iGXqR1v.png"> Instagram
       </a>
       <a href="https://dsc.gg/otakuczsk" target="_blank">
-        <img src="https://i.imgur.com/i4QML8C.png" alt="Discord"> Discord Server
+        <img src="https://i.imgur.com/i4QML8C.png"> Discord Server
+      </a>
       <a href="https://twitch.tv/Imagine_ofc" target="_blank">
-        <img src="https://i.imgur.com/48juwLE.png" alt="Twitch"> Twitch
+        <img src="https://i.imgur.com/48juwLE.png"> Twitch
       </a>
       <a href="https://youtube.com/@imagine_ofc" target="_blank">
-        <img src="https://i.imgur.com/91EzD3r.png" alt="YouTube"> YouTube
+        <img src="https://i.imgur.com/91EzD3r.png"> YouTube
       </a>
       <a href="mailto:assist.imagine@gmail.com">
-        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"> Email
       </a>
     </div>
 
     <button class="accordion">Developing</button>
     <div class="panel">
-      <p>I develop websites and community tools, mainly Discord bots and interactive applications. I focus on modern web development, automation, and creating projects that are accessible and engaging for users.</p>
+      <p>I develop websites and community tools, mainly Discord bots and interactive applications.</p>
     </div>
 
     <button class="accordion">Gaming</button>
     <div class="panel">
-      <p>I love Dead by Daylight and I main Sable Ward. I’m a big fan of the DBD community, own some of their merch, and just overall can’t get enough of the game XD</p>
+      <p>I love Dead by Daylight and I main Sable Ward...</p>
     </div>
-
   </div>
-<div id="visitor-bar">
-  WEB STATUS: Online: <span id="online-count">0</span> | Total: <span id="total-count">0</span>
-</div>
+
   <audio id="bg-music" src="https://files.catbox.moe/ay1bsm.mp3" loop></audio>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const enterBtn = document.getElementById('enter-btn');
+      const preloader = document.getElementById('preloader');
+      const mainContent = document.getElementById('main');
+      const bgMusic = document.getElementById('bg-music');
+
+      let audioContext, analyser, dataArray, source;
+      let isPlaying = false;
+
+      // Discord status dummy
+      const getDiscordStatus = async () => {
+        document.getElementById('discord-status').innerText = "Online";
+      };
+
+      // Vizualizace detailů
+      const visualize = () => {
+        requestAnimationFrame(visualize);
+        if (!isPlaying) return;
+
+        analyser.getByteFrequencyData(dataArray);
+        let sum = dataArray.reduce((a, b) => a + b, 0);
+        let average = sum / dataArray.length;
+        let intensity = average / 5;
+        let hue = 320 + (average / 4);
+        let saturation = 80;
+        let lightness = 60;
+
+        const profilePic = document.querySelector('.profile-pic');
+        const heading = document.querySelector('.profile h1');
+        const links = document.querySelectorAll('.links a');
+
+        if (profilePic) {
+          profilePic.style.boxShadow = `
+            0 0 ${10 + intensity}px hsl(${hue}, ${saturation}%, ${lightness}%),
+            0 0 ${20 + intensity*2}px hsl(${hue}, ${saturation}%, ${lightness}%)
+          `;
+          profilePic.style.borderColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+        if (heading) {
+          heading.style.textShadow = `
+            0 0 ${5 + intensity}px hsl(${hue}, ${saturation}%, ${lightness}%),
+            0 0 ${15 + intensity*1.5}px hsl(${hue}, ${saturation}%, ${lightness}%)
+          `;
+          heading.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+        links.forEach(link => {
+          link.style.boxShadow = `
+            0 0 ${5 + intensity/2}px hsl(${hue}, ${saturation}%, ${lightness}%)
+          `;
+        });
+      };
+
+      // Kliknutí na Enter
+      enterBtn.addEventListener('click', async () => {
+        preloader.style.display = 'none';
+        mainContent.style.display = 'flex';
+
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = audioContext.createAnalyser();
+          analyser.fftSize = 256;
+          dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+          source = audioContext.createMediaElementSource(bgMusic);
+          source.connect(analyser);
+          analyser.connect(audioContext.destination);
+        }
+
+        await bgMusic.play();
+        isPlaying = true;
+        visualize();
+      });
+
+      // Accordion
+      const accordions = document.querySelectorAll('.accordion');
+      accordions.forEach(acc => {
+        acc.addEventListener('click', () => {
+          acc.classList.toggle('active');
+          const panel = acc.nextElementSibling;
+          panel.classList.toggle('open');
+        });
+      });
+
+      getDiscordStatus();
+      setInterval(getDiscordStatus, 30000);
+    });
+  </script>
 </body>
 </html>
