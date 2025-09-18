@@ -49,23 +49,6 @@
       z-index: 1;
     }
 
-    /* Sakura */
-    .sakura {
-      position: fixed;
-      top: -10px;
-      background: #fdd4ff;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: fall linear forwards;
-      z-index: 0;
-    }
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.9;
-      }
-    }
-
     /* Profile */
     .profile-section {
       position: relative;
@@ -206,7 +189,7 @@
       let audioContext, analyser, dataArray, source;
       let isPlaying = false;
 
-      // Vizualizace detailů
+      // Vizualizace detailů (sakura růžová)
       const visualize = () => {
         requestAnimationFrame(visualize);
         if (!isPlaying) return;
@@ -216,9 +199,9 @@
         let average = sum / dataArray.length;
         let intensity = average / 5;
 
-        let hue = 320 + (average / 4);
-        let saturation = 80;
-        let lightness = 60;
+        const hue = 330; // sakura růžová
+        const saturation = 80;
+        const lightness = 70;
 
         const profilePic = document.querySelector('.profile-pic');
         const heading = document.querySelector('.profile h1');
@@ -239,22 +222,6 @@
           heading.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
         }
       };
-
-      // Sakura efekt
-      function createSakura() {
-        const sakura = document.createElement("div");
-        sakura.classList.add("sakura");
-        document.body.appendChild(sakura);
-
-        const size = Math.random() * 8 + 5;
-        sakura.style.width = `${size}px`;
-        sakura.style.height = `${size}px`;
-        sakura.style.left = Math.random() * 100 + "vw";
-        sakura.style.animationDuration = Math.random() * 5 + 5 + "s";
-
-        setTimeout(() => { sakura.remove(); }, 10000);
-      }
-      setInterval(createSakura, 300);
 
       // Kliknutí na Enter
       enterBtn.addEventListener('click', async () => {
