@@ -1,137 +1,134 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imagine’s Web</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imagine’s Web</title>
 
-  <!-- OG / Sharing -->
-  <meta property="og:title" content="Imagine’s Web">
-  <meta property="og:description" content="Discord, projekty a moje věci.">
-  <meta property="og:image" content="https://i.imgur.com/sm3OB4b.jpeg">
-  <meta property="og:url" content="https://yourdomain.com">
-  <meta name="twitter:card" content="summary_large_image">
+<!-- OG / Sharing -->
+<meta property="og:title" content="Imagine’s Web">
+<meta property="og:description" content="Discord, projekty a moje věci.">
+<meta property="og:image" content="https://i.imgur.com/sm3OB4b.jpeg">
+<meta property="og:url" content="https://yourdomain.com">
+<meta name="twitter:card" content="summary_large_image">
 
-  <!-- iOS status bar -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- iOS status bar -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://i.imgur.com/sm3OB4b.jpeg" type="image/png">
-  <link rel="apple-touch-icon" href="https://i.imgur.com/sm3OB4b.jpeg">
+<!-- Favicon -->
+<link rel="icon" href="https://i.imgur.com/sm3OB4b.jpeg" type="image/png">
+<link rel="apple-touch-icon" href="https://i.imgur.com/sm3OB4b.jpeg">
 
-  <style>
-    body {
-      margin:0;
-      padding:0;
-      font-family: Arial, sans-serif;
-      background:#000;
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      overflow-x:hidden;
-    }
+<style>
+body {
+  margin:0;
+  padding:0;
+  font-family: Arial, sans-serif;
+  background:#000;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow-x:hidden;
+}
 
-    /* Preloader */
-    #preloader {
-      position:fixed; top:0; left:0; right:0; bottom:0;
-      display:flex; justify-content:center; align-items:center;
-      background:#000; z-index:9999;
-    }
-    #enter-btn {
-      padding:16px 32px;
-      font-size:20px;
-      color:#fff;
-      background:#ff7bbf;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      box-shadow:0 0 15px #ff7bbf;
-      transition:0.3s;
-    }
-    #enter-btn:hover {
-      transform:scale(1.05);
-      box-shadow:0 0 25px #ff7bbf;
-    }
+/* Preloader */
+#preloader {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  display:flex; justify-content:center; align-items:center;
+  background:#000; z-index:9999;
+}
+#enter-btn {
+  padding:16px 32px;
+  font-size:20px;
+  color:#fff;
+  background:#ff7bbf;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  box-shadow:0 0 15px #ff7bbf;
+  transition:0.3s;
+}
+#enter-btn:hover {
+  transform:scale(1.05);
+  box-shadow:0 0 25px #ff7bbf;
+}
 
-    /* Main Content */
-    #main-content {
-      display:none;
-      flex-direction:column;
-      align-items:center;
-      padding:20px;
-    }
+/* Main Content */
+#main-content {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+}
 
-    .profile-pic {
-      width:120px;
-      height:120px;
-      border-radius:50%;
-      border:3px solid #ff7bbf;
-      box-shadow:0 0 15px #ff7bbf;
-      margin:20px 0;
-      transition:0.3s;
-    }
+.profile-pic {
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:3px solid #ff7bbf;
+  box-shadow:0 0 15px #ff7bbf;
+  margin:20px 0;
+  transition:0.3s;
+}
 
-    h1 {color:#ffb7dc;}
-    h2 {color:#ffb7dc;}
+h1 {color:#ffb7dc;}
+h2 {color:#ffb7dc;}
 
-    /* Links */
-    .links {
-      margin:20px 0;
-    }
-    .links a {
-      margin:0 10px;
-      color:#ff7bbf;
-      text-decoration:none;
-      font-weight:bold;
-      transition:0.3s;
-    }
-    .links a:hover {
-      color:#fff;
-      text-shadow:0 0 15px #ff7bbf;
-    }
+/* Links */
+.links {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:20px 0;
+  gap:15px;
+}
+.links a {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  background:rgba(255,123,191,0.1);
+  border-radius:8px;
+  color:#ff7bbf;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.3s;
+  box-shadow:0 0 10px #ff7bbf;
+}
+.links a img {
+  width:24px;
+  height:24px;
+}
+.links a:hover {
+  background:#ff7bbf;
+  color:#000;
+  box-shadow:0 0 20px #ff7bbf;
+}
 
-    /* Discord status */
-    #discord-status {
-      margin:20px;
-      padding:10px 15px;
-      border-radius:8px;
-      border:1px solid #ff7bbf;
-      box-shadow:0 0 10px #ff7bbf;
-      font-weight:bold;
-    }
+/* Discord status */
+#discord-status {
+  margin:20px;
+  padding:10px 15px;
+  border-radius:8px;
+  border:1px solid #ff7bbf;
+  box-shadow:0 0 10px #ff7bbf;
+  font-weight:bold;
+  text-align:center;
+}
 
-    /* Pulse animace podle hudby */
-    .pulse {
-      animation:pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% {box-shadow:0 0 5px #ff7bbf;}
-      50% {box-shadow:0 0 25px #ff7bbf;}
-      100% {box-shadow:0 0 5px #ff7bbf;}
-    }
-  </style>
-</head>
-<body>
-  <div id="preloader">
-    <button id="enter-btn">Enter</button>
-  </div>
-
-  <div id="main-content">
-    <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Imagine" class="profile-pic">
-    <h1>Imagine</h1>
-    <h2>Projects & Discord</h2>
-
-    <div class="links">
-      <a href="https://instagram.com/imagine_ofc_" target="_blank">Instagram</a>
-      <a href="https://x.com/imagine_ofc" target="_blank">X</a>
-      <a href="https://discord.gg/otakuczsk" target="_blank">Discord</a>
-    </div>
-
-    <div id="discord-status">Načítám status...</div>
-  </div>
-    <!-- Hudba -->
+/* Pulse animace podle hudby */
+.pulse {
+  animation:pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {box-shadow:0 0 5px #ff7bbf;}
+  50% {box-shadow:0 0 25px #ff7bbf;}
+  100% {box-shadow:0 0 5px #ff7bbf;}
+}
+</style>
+  <!-- Hudba -->
   <audio id="bg-music" 
          src="https://files.catbox.moe/ay1bsm.mp3" 
          playsinline 
@@ -147,6 +144,7 @@
 
     let audioContext, analyser, source, dataArray, isPlaying = false;
 
+    // Spuštění po kliknutí na Enter
     enterBtn.addEventListener("click", async () => {
       preloader.style.display = "none";
       mainContent.style.display = "flex";
@@ -168,16 +166,17 @@
         }
 
         bgMusic.currentTime = 0;
-        bgMusic.load(); // iPhone fix
+        bgMusic.load(); // fix pro iPhone
         await bgMusic.play();
 
         isPlaying = true;
         visualize();
       } catch (err) {
-        console.error("Hudba se nepodařila spustit:", err);
+        console.error("Hudbu se nepodařilo spustit:", err);
       }
     });
 
+    // Animace profilovky podle hudby
     function visualize() {
       requestAnimationFrame(visualize);
       if (!isPlaying) return;
