@@ -1,263 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imagine</title>
-  <meta name="theme-color" content="#fdd4ff">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imagine</title>
+<meta name="theme-color" content="#fdd4ff">
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body {
-      background: #000;
-      color: #fdd4ff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background: #000; color: #fdd4ff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
 
-    /* Preloader */
-    #preloader {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      display: flex; justify-content: center; align-items: center;
-      background: #000; z-index: 9999;
-    }
-    #preloader button {
-      padding: 20px 50px; font-size: 1.5rem;
-      color: #fdd4ff; background: #000; border: 2px solid #fdd4ff;
-      border-radius: 15px; cursor: pointer;
-      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
-      transition: 0.3s;
-    }
-    #preloader button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 30px #fdd4ff, 0 0 50px #fdd4ff;
-    }
+#preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: #000; z-index: 9999; }
+#preloader button { padding: 20px 50px; font-size: 1.5rem; color: #fdd4ff; background: #000; border: 2px solid #fdd4ff; border-radius: 15px; cursor: pointer; box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff; transition: 0.3s; }
+#preloader button:hover { transform: scale(1.1); box-shadow: 0 0 30px #fdd4ff, 0 0 50px #fdd4ff; }
 
-    /* Main */
-    #main {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      max-width: 900px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
+#main { display: none; flex-direction: column; align-items: center; padding: 20px; max-width: 900px; width: 100%; position: relative; z-index: 1; }
 
-    /* Profile */
-    .profile-section {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      height: 350px;
-      margin: 0 auto 40px auto;
-      border-radius: 12px;
-      overflow: hidden;
-      background: url('https://i.imgur.com/39HlCEp.gif') no-repeat top center;
-      background-size: contain; /* menší gif */
-    }
-    .profile {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 2;
-      color: #fff;
-    }
-    .profile-pic {
-      width: 120px; height: 120px; border-radius: 50%;
-      border: 4px solid #fdd4ff;
-      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
-      margin-bottom: 15px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .profile h1 {
-      font-size: 2rem;
-      color: #fdd4ff;
-      text-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff;
-    }
+.profile-section { position: relative; width: 100%; max-width: 900px; height: 350px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; background: url('https://i.imgur.com/39HlCEp.gif') no-repeat top center; background-size: contain; }
+.profile { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 2; color: #fff; }
+.profile-pic { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fdd4ff; box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff; margin-bottom: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.profile h1 { font-size: 2rem; color: #fdd4ff; text-shadow: 0 0 10px #fdd4ff, 0 0 20px #fdd4ff; }
 
-    /* Links */
-    .links {
-      display: flex; flex-direction: column; gap: 20px;
-      margin-bottom: 50px; width: 100%; max-width: 450px;
-    }
-    .links a {
-      display: flex; align-items: center; gap: 15px;
-      padding: 15px 25px; background: rgba(255,221,255,0.05);
-      border-radius: 10px; color: #fdd4ff; text-decoration: none;
-      box-shadow: 0 0 10px rgba(255,221,255,0.2);
-      transition: 0.3s;
-    }
-    .links a img { width: 30px; height: 30px; }
-    .links a:hover {
-      background: #fdd4ff; color: #000;
-      box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff;
-    }
+.links { display: flex; flex-direction: column; gap: 20px; margin-bottom: 50px; width: 100%; max-width: 450px; }
+.links a { display: flex; align-items: center; gap: 15px; padding: 15px 25px; background: rgba(255,221,255,0.05); border-radius: 10px; color: #fdd4ff; text-decoration: none; box-shadow: 0 0 10px rgba(255,221,255,0.2); transition: 0.3s; }
+.links a img { width: 30px; height: 30px; }
+.links a:hover { background: #fdd4ff; color: #000; box-shadow: 0 0 20px #fdd4ff, 0 0 40px #fdd4ff; }
 
-    /* Accordion */
-    .accordion {
-      cursor: pointer;
-      font-size: 1.5rem;
-      color: #fdd4ff;
-      background: transparent;
-      border: none;
-      text-align: left;
-      margin: 20px 0;
-      position: relative;
-      max-width: 700px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-right: 10px;
-    }
-    .accordion::after {
-      content: '▼';
-      font-size: 1rem;
-      transition: transform 0.3s;
-    }
-    .accordion.active::after { transform: rotate(-180deg); }
-    .panel {
-      max-height: 0; overflow: hidden;
-      transition: all 0.5s ease;
-      background: rgba(255, 221, 255, 0.05);
-      border-radius: 0 0 10px 10px;
-      padding: 0 20px;
-    }
-    .panel.open { max-height: 500px; padding: 20px; }
-    .panel p { color: #fdd4ff; text-shadow: 0 0 5px #fdd4ff; line-height: 1.6; }
-  </style>
+.accordion { cursor: pointer; font-size: 1.5rem; color: #fdd4ff; background: transparent; border: none; text-align: left; margin: 20px 0; position: relative; max-width: 700px; display: flex; justify-content: space-between; align-items: center; padding-right: 10px; }
+.accordion::after { content: '▼'; font-size: 1rem; transition: transform 0.3s; }
+.accordion.active::after { transform: rotate(-180deg); }
+.panel { max-height: 0; overflow: hidden; transition: all 0.5s ease; background: rgba(255,221,255,0.05); border-radius: 0 0 10px 10px; padding: 0 20px; }
+.panel.open { max-height: 500px; padding: 20px; }
+.panel p { color: #fdd4ff; text-shadow: 0 0 5px #fdd4ff; line-height: 1.6; }
+</style>
 </head>
 <body>
 
-  <div id="preloader">
-    <button id="enter-btn">Enter</button>
-  </div>
+<div id="preloader">
+  <button id="enter-btn">Enter</button>
+</div>
 
-  <div id="main">
-    <div class="profile-section">
-      <div class="profile">
-        <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Profile" class="profile-pic">
-        <h1>𝐼𝓂𝒶𝑔𝒾𝓃𝑒</h1>
-      </div>
-    </div>
-
-    <div class="links">
-      <a href="https://instagram.com/imagine_ofc_" target="_blank">
-        <img src="https://i.imgur.com/iGXqR1v.png" alt="Instagram"> Instagram
-      </a>
-      <a href="https://dsc.gg/otakuczsk" target="_blank">
-        <img src="https://i.imgur.com/i4QML8C.png" alt="Discord"> Discord
-      </a>
-      <a href="https://twitch.tv/Imagine_ofc" target="_blank">
-        <img src="https://i.imgur.com/48juwLE.png" alt="Twitch"> Twitch
-      </a>
-      <a href="https://youtube.com/@imagine_ofc" target="_blank">
-        <img src="https://i.imgur.com/91EzD3r.png" alt="YouTube"> YouTube
-      </a>
-      <a href="mailto:assist.imagine@gmail.com">
-        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email
-      </a>
-    </div>
-
-    <button class="accordion">Developing</button>
-    <div class="panel">
-      <p>I develop websites and community tools, mainly Discord bots and interactive applications.</p>
-    </div>
-
-    <button class="accordion">Gaming</button>
-    <div class="panel">
-      <p>I love Dead by Daylight and I main Sable Ward.</p>
+<div id="main">
+  <div class="profile-section">
+    <div class="profile">
+      <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Profile" class="profile-pic">
+      <h1>𝐼𝓂𝒶𝑔𝒾𝓃𝑒</h1>
     </div>
   </div>
 
-  <audio id="bg-music" src="https://files.catbox.moe/ay1bsm.mp3" loop></audio>
+  <div class="links">
+    <a href="https://instagram.com/imagine_ofc_" target="_blank"><img src="https://i.imgur.com/iGXqR1v.png" alt="Instagram"> Instagram</a>
+    <a href="https://dsc.gg/otakuczsk" target="_blank"><img src="https://i.imgur.com/i4QML8C.png" alt="Discord"> Discord</a>
+    <a href="https://twitch.tv/Imagine_ofc" target="_blank"><img src="https://i.imgur.com/48juwLE.png" alt="Twitch"> Twitch</a>
+    <a href="https://youtube.com/@imagine_ofc" target="_blank"><img src="https://i.imgur.com/91EzD3r.png" alt="YouTube"> YouTube</a>
+    <a href="mailto:assist.imagine@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email</a>
+  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const enterBtn = document.getElementById('enter-btn');
-      const preloader = document.getElementById('preloader');
-      const mainContent = document.getElementById('main');
-      const bgMusic = document.getElementById('bg-music');
+  <button class="accordion">Developing</button>
+  <div class="panel"><p>I develop websites and community tools, mainly Discord bots and interactive applications.</p></div>
 
-      let audioContext, analyser, dataArray, source;
-      let isPlaying = false;
+  <button class="accordion">Gaming</button>
+  <div class="panel"><p>I love Dead by Daylight and I main Sable Ward.</p></div>
+</div>
 
-      // Vizualizace detailů (sakura růžová)
-      const visualize = () => {
-        requestAnimationFrame(visualize);
-        if (!isPlaying) return;
+<audio id="bg-music" src="https://files.catbox.moe/ay1bsm.mp3" preload="auto" loop></audio>
 
-        analyser.getByteFrequencyData(dataArray);
-        let sum = dataArray.reduce((a, b) => a + b, 0);
-        let average = sum / dataArray.length;
-        let intensity = average / 5;
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const enterBtn = document.getElementById('enter-btn');
+  const preloader = document.getElementById('preloader');
+  const mainContent = document.getElementById('main');
+  const bgMusic = document.getElementById('bg-music');
 
-        const hue = 330; // sakura růžová
-        const saturation = 80;
-        const lightness = 70;
+  let audioContext, analyser, dataArray, source;
+  let isPlaying = false;
 
-        const profilePic = document.querySelector('.profile-pic');
-        const heading = document.querySelector('.profile h1');
+  const visualize = () => {
+    requestAnimationFrame(visualize);
+    if(!isPlaying) return;
 
-        if (profilePic) {
-          profilePic.style.boxShadow = `
-            0 0 ${10 + intensity}px hsl(${hue}, ${saturation}%, ${lightness}%),
-            0 0 ${20 + intensity * 2}px hsl(${hue}, ${saturation}%, ${lightness}%)
-          `;
-          profilePic.style.borderColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        }
+    analyser.getByteFrequencyData(dataArray);
+    let sum = dataArray.reduce((a,b)=>a+b,0);
+    let average = sum/dataArray.length;
+    let intensity = average/5;
 
-        if (heading) {
-          heading.style.textShadow = `
-            0 0 ${5 + intensity}px hsl(${hue}, ${saturation}%, ${lightness}%),
-            0 0 ${15 + intensity * 1.5}px hsl(${hue}, ${saturation}%, ${lightness}%)
-          `;
-          heading.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        }
-      };
+    const hue = 330; // sakura růžová
+    const saturation = 80;
+    const lightness = 70;
 
-      // Kliknutí na Enter
-      enterBtn.addEventListener('click', async () => {
-        preloader.style.display = 'none';
-        mainContent.style.display = 'flex';
+    const profilePic = document.querySelector('.profile-pic');
+    const heading = document.querySelector('.profile h1');
 
-        if (!audioContext) {
-          audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          analyser = audioContext.createAnalyser();
-          analyser.fftSize = 256;
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
+    if(profilePic){
+      profilePic.style.boxShadow = `0 0 ${10+intensity}px hsl(${hue},${saturation}%,${lightness}%),0 0 ${20+intensity*2}px hsl(${hue},${saturation}%,${lightness}%)`;
+      profilePic.style.borderColor = `hsl(${hue},${saturation}%,${lightness}%)`;
+    }
+    if(heading){
+      heading.style.textShadow = `0 0 ${5+intensity}px hsl(${hue},${saturation}%,${lightness}%),0 0 ${15+intensity*1.5}px hsl(${hue},${saturation}%,${lightness}%)`;
+      heading.style.color = `hsl(${hue},${saturation}%,${lightness}%)`;
+    }
+  };
 
-          source = audioContext.createMediaElementSource(bgMusic);
-          source.connect(analyser);
-          analyser.connect(audioContext.destination);
-        }
+  enterBtn.addEventListener('click', async () => {
+    preloader.style.display = 'none';
+    mainContent.style.display = 'flex';
 
-        if (audioContext.state === "suspended") {
-          await audioContext.resume();
-        }
+    try {
+      // 1) Spustíme hudbu přímo
+      bgMusic.muted = false;
+      bgMusic.currentTime = 0;
+      await bgMusic.play();
 
-        await bgMusic.play().catch(err => console.log("Autoplay blokován:", err));
-        isPlaying = true;
-        visualize();
-      });
+      // 2) Teprve pak analyzér
+      if(!audioContext){
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-      // Accordion
-      const accordions = document.querySelectorAll('.accordion');
-      accordions.forEach(acc => {
-        acc.addEventListener('click', function() {
-          this.classList.toggle('active');
-          const panel = this.nextElementSibling;
-          panel.classList.toggle('open');
-        });
-      });
+        source = audioContext.createMediaElementSource(bgMusic);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+      }
+
+      if(audioContext.state === "suspended") await audioContext.resume();
+      isPlaying = true;
+      visualize();
+    } catch(err){ console.log("Hudbu se nepodařilo spustit:", err); }
+  });
+
+  // Accordion
+  document.querySelectorAll('.accordion').forEach(acc => {
+    acc.addEventListener('click', function(){
+      this.classList.toggle('active');
+      const panel = this.nextElementSibling;
+      panel.classList.toggle('open');
     });
-  </script>
+  });
+});
+</script>
 </body>
 </html>
