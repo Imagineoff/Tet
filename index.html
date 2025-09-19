@@ -30,7 +30,7 @@ body {
   display:flex;
   flex-direction:column;
   align-items:center;
-  overflow-x:hidden;
+  min-height:100vh;
 }
 
 /* Preloader */
@@ -128,11 +128,42 @@ h2 {color:#ffb7dc;}
   100% {box-shadow:0 0 5px #ff7bbf;}
 }
 </style>
-  <!-- Hudba -->
-  <audio id="bg-music" 
-         src="https://files.catbox.moe/ay1bsm.mp3" 
-         playsinline 
-         webkit-playsinline></audio>
+</head>
+<body>
+  <div id="preloader">
+    <button id="enter-btn">Enter</button>
+  </div>
+
+  <div id="main-content">
+    <img src="https://i.imgur.com/gDdnj6n.jpeg" alt="Imagine" class="profile-pic">
+    <h1>Imagine</h1>
+    <h2>Projects & Discord</h2>
+
+    <div class="links">
+      <a href="https://instagram.com/imagine_ofc_" target="_blank">
+        <img src="https://i.imgur.com/iGXqR1v.png" alt="Instagram"> Instagram
+      </a>
+      <a href="https://x.com/imagine_ofc" target="_blank">
+        <img src="https://i.imgur.com/48juwLE.png" alt="X"> X
+      </a>
+      <a href="https://discord.gg/otakuczsk" target="_blank">
+        <img src="https://i.imgur.com/i4QML8C.png" alt="Discord"> Discord
+      </a>
+      <a href="https://twitch.tv/Imagine_ofc" target="_blank">
+        <img src="https://i.imgur.com/48juwLE.png" alt="Twitch"> Twitch
+      </a>
+      <a href="https://youtube.com/@imagine_ofc" target="_blank">
+        <img src="https://i.imgur.com/91EzD3r.png" alt="YouTube"> YouTube
+      </a>
+      <a href="mailto:assist.imagine@gmail.com">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"> Email
+      </a>
+    </div>
+
+    <div id="discord-status">Načítám status...</div>
+  </div>
+
+  <audio id="bg-music" src="https://files.catbox.moe/ay1bsm.mp3" playsinline webkit-playsinline></audio>
 
   <script>
     const enterBtn = document.getElementById("enter-btn");
@@ -144,7 +175,6 @@ h2 {color:#ffb7dc;}
 
     let audioContext, analyser, source, dataArray, isPlaying = false;
 
-    // Spuštění po kliknutí na Enter
     enterBtn.addEventListener("click", async () => {
       preloader.style.display = "none";
       mainContent.style.display = "flex";
@@ -157,8 +187,8 @@ h2 {color:#ffb7dc;}
           dataArray = new Uint8Array(analyser.frequencyBinCount);
 
           source = audioContext.createMediaElementSource(bgMusic);
-          source.connect(analyser);
           analyser.connect(audioContext.destination);
+          source.connect(analyser);
         }
 
         if (audioContext.state === "suspended") {
@@ -166,7 +196,7 @@ h2 {color:#ffb7dc;}
         }
 
         bgMusic.currentTime = 0;
-        bgMusic.load(); // fix pro iPhone
+        bgMusic.load();
         await bgMusic.play();
 
         isPlaying = true;
@@ -176,14 +206,13 @@ h2 {color:#ffb7dc;}
       }
     });
 
-    // Animace profilovky podle hudby
     function visualize() {
       requestAnimationFrame(visualize);
       if (!isPlaying) return;
 
       analyser.getByteFrequencyData(dataArray);
-      let sum = dataArray.reduce((a, b) => a + b, 0);
-      let avg = sum / dataArray.length;
+      let sum = dataArray.reduce((a,b)=>a+b,0);
+      let avg = sum/dataArray.length;
 
       if (avg > 50) {
         profilePic.classList.add("pulse");
@@ -192,48 +221,32 @@ h2 {color:#ffb7dc;}
       }
     }
 
-    // Discord status přes Lanyard
     async function getDiscordStatus() {
       try {
         const res = await fetch("https://api.lanyard.rest/v1/users/904431016175894528");
         const json = await res.json();
         if (json.success) {
           const status = json.data.discord_status;
-          let statusText = "";
-          let color = "";
-
-          switch(status) {
-            case "online":
-              statusText = "🟢 Online";
-              color = "#43b581";
-              break;
-            case "idle":
-              statusText = "🌙 Idle";
-              color = "#faa61a";
-              break;
-            case "dnd":
-              statusText = "⛔ Do Not Disturb";
-              color = "#f04747";
-              break;
-            default:
-              statusText = "⚫ Offline";
-              color = "#747f8d";
-              break;
+          let statusText="", color="";
+          switch(status){
+            case "online": statusText="🟢 Online"; color="#43b581"; break;
+            case "idle": statusText="🌙 Idle"; color="#faa61a"; break;
+            case "dnd": statusText="⛔ Do Not Disturb"; color="#f04747"; break;
+            default: statusText="⚫ Offline"; color="#747f8d"; break;
           }
-
-          discordStatusDiv.textContent = `Status: ${statusText}`;
-          discordStatusDiv.style.color = color;
+          discordStatusDiv.textContent=`Status: ${statusText}`;
+          discordStatusDiv.style.color=color;
         } else {
-          discordStatusDiv.textContent = "Nepodařilo se načíst status";
+          discordStatusDiv.textContent="Nepodařilo se načíst status";
         }
-      } catch (e) {
+      } catch(e) {
         console.error(e);
-        discordStatusDiv.textContent = "Chyba při načítání statusu";
+        discordStatusDiv.textContent="Chyba při načítání statusu";
       }
     }
 
     getDiscordStatus();
-    setInterval(getDiscordStatus, 30000); // každých 30s
+    setInterval(getDiscordStatus,30000);
   </script>
 </body>
 </html>
