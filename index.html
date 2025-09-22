@@ -8,7 +8,7 @@
 <!-- Basic meta / branding / apple / favicons (testovací odkazy - nahraď svými) -->
 <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 <link rel="apple-touch-icon" href="https://i.imgur.com/VIK1odj.jpeg" />
-<meta name="theme-color" content="#fdd4ff" />
+<meta name="theme-color" id="metaTheme" content="#fdd4ff" />
 <meta name="description" content="Imagine site..." />
 <meta name="author" content="𝐼𝓂𝒶𝑔𝒾𝓃𝑒" />
 
@@ -318,6 +318,7 @@ body{
     <img src="https://i.imgur.com/test.png" alt="YouTube">
   </div>
 </div>
+
   <div class="testarea" id="testarea">
     <h3 id="testToggle">Test</h3>
     <p class="hidden" id="testReveal">test</p>
@@ -327,7 +328,7 @@ body{
   <div class="touch-controls" id="touchControls" aria-hidden="false">
     <div class="dpad" id="dpad">
       <div class="row">
-      </div>
+        <!-- tbtns can be inserted here if needed -->
       </div>
     </div>
   </div>
@@ -355,13 +356,13 @@ const PINK = '#fdd4ff';
 const DISCORD_ID = '904431016175894528'; // uživatelovo ID — už se to táhne do Lanyardu
 const AUDIO_URL = 'https://files.catbox.moe/ay1bsm.mp3';
 
-/* UI refs */
+/* UI refs (safe guards: elements may not exist) */
 const enterBtn = document.getElementById('enterBtn');
 const startCard = document.getElementById('startCard');
 const bgAudio = document.getElementById('bgAudio');
 const iconInstagram = document.getElementById('iconInstagram');
-const iconLogo = document.getElementById('iconLogo');
-const openCustomize = document.getElementById('openCustomize');
+const iconLogo = document.getElementById('iconLogo'); // may be null
+const openCustomize = document.getElementById('openCustomize'); // may be null
 const testToggle = document.getElementById('testToggle');
 const testReveal = document.getElementById('testReveal');
 const pfpImg = document.getElementById('pfpImg');
@@ -631,72 +632,91 @@ canvas.addEventListener('mousemove',(e)=>{ if(mdown){ touchMove.x=e.clientX; tou
 window.addEventListener('mouseup',()=>{ mdown=false; touchMove.active=false});
 
 /* ENTER button behaviour */
-enterBtn.addEventListener('click', async ()=>{
-  // small animation
-  enterBtn.style.transform = 'scale(.98)';
-  setTimeout(()=>enterBtn.style.transform = '',120);
-  // play audio (user gesture allows autoplay)
-  try{
-    bgAudio.currentTime = 0;
-    await bgAudio.play();
-  }catch(err){
-    console.warn('Audio play blocked', err);
-  }
-  // reveal gameplay (fade out start card)
-  startCard.style.transition = 'opacity .6s ease, transform .6s ease';
-  startCard.style.opacity = 0;
-  startCard.style.transform = 'translateY(-10px) scale(.96)';
-  setTimeout(()=>startCard.style.display = 'none',700);
-  playing = true;
-  // subtle pink blink effect on whole bg (CSS via a short lived animation)
-  document.body.animate([{filter:'brightness(1)'},{filter:'brightness(1.04)'},{filter:'brightness(1)'}],{duration:1600,iterations:1});
-});
+if(enterBtn){
+  enterBtn.addEventListener('click', async ()=>{
+    // small animation
+    enterBtn.style.transform = 'scale(.98)';
+    setTimeout(()=>enterBtn.style.transform = '',120);
+    // play audio (user gesture allows autoplay)
+    try{
+      bgAudio.currentTime = 0;
+      await bgAudio.play();
+    }catch(err){
+      console.warn('Audio play blocked', err);
+    }
+    // reveal gameplay (fade out start card)
+    if(startCard){
+      startCard.style.transition = 'opacity .6s ease, transform .6s ease';
+      startCard.style.opacity = 0;
+      startCard.style.transform = 'translateY(-10px) scale(.96)';
+      setTimeout(()=>startCard.style.display = 'none',700);
+    }
+    playing = true;
+    // subtle pink blink effect on whole bg (CSS via a short lived animation)
+    document.body.animate([{filter:'brightness(1)'},{filter:'brightness(1.04)'},{filter:'brightness(1)'}],{duration:1600,iterations:1});
+  });
+}
 
 /* Customize icons toggle pink glow on click */
 function toggleIcon(el){
+  if(!el) return;
   el.classList.toggle('on');
   // visual flash
   if(el.classList.contains('on')){
     el.animate([{boxShadow:'0 0 0px '+PINK},{boxShadow:'0 30px 80px '+PINK}],{duration:420,fill:'forwards'});
   }
 }
-iconInstagram.addEventListener('click', ()=>toggleIcon(iconInstagram));
-iconLogo.addEventListener('click', ()=>toggleIcon(iconLogo));
-openCustomize.addEventListener('click', ()=>{
-  // open a simple prompt so user can replace the image/link quickly
-  const newIG = prompt('Zadej URL na svůj Instagram (nebo nech prázdné pro žádnou změnu):', iconInstagram.dataset.url || '');
-  if(newIG!==null && newIG.trim()!==''){
-    iconInstagram.dataset.url = newIG.trim();
-    // optionally update image
-  }
-  const newLogo = prompt('Zadej URL na logo (obrázek):', iconLogo.dataset.url || '');
-  if(newLogo!==null && newLogo.trim()!==''){
-    iconLogo.dataset.url = newLogo.trim();
-    iconLogo.querySelector('img').src = newLogo.trim();
-  }
+
+/* Make icons clickable: single click toggles glow AND opens link (if set) */
+document.querySelectorAll('.icon').forEach(ic=>{
+  ic.addEventListener('click', (ev)=>{
+    // toggle visual
+    toggleIcon(ic);
+    // open link if present
+    const url = ic.dataset.url;
+    if(url && url.trim() !== ''){
+      // open in new tab safely
+      window.open(url, '_blank', 'noopener');
+    }
+  });
+  // keep dblclick harmless (no extra behavior required)
 });
+
+/* Optional controls that might not exist in the DOM: guard them */
+if(iconLogo){
+  iconLogo.addEventListener('click', ()=>toggleIcon(iconLogo));
+}
+if(openCustomize){
+  openCustomize.addEventListener('click', ()=>{
+    // open a simple prompt so user can replace the image/link quickly
+    const igEl = document.getElementById('iconInstagram');
+    const logoEl = document.getElementById('iconLogo');
+    const newIG = prompt('Zadej URL na svůj Instagram (nebo nech prázdné pro žádnou změnu):', igEl ? (igEl.dataset.url || '') : '');
+    if(newIG!==null && newIG.trim()!=='' && igEl){
+      igEl.dataset.url = newIG.trim();
+    }
+    const newLogo = prompt('Zadej URL na logo (obrázek):', logoEl ? (logoEl.dataset.url || '') : '');
+    if(newLogo!==null && newLogo.trim()!=='' && logoEl){
+      logoEl.dataset.url = newLogo.trim();
+      const img = logoEl.querySelector('img');
+      if(img) img.src = newLogo.trim();
+    }
+  });
+}
 
 /* Test heading reveal */
-testToggle.addEventListener('click', ()=>{
-  const hidden = testReveal.classList.toggle('hidden');
-  // light blink when revealed
-  if(!hidden){
-    testReveal.animate([{opacity:0},{opacity:1}],{duration:380});
-  }
-});
-
-/* click on icons navigates (if link) */
-document.querySelectorAll('.icon').forEach(ic=>{
-  ic.addEventListener('dblclick', ()=>{
-    // double click to open link
-    const url = ic.dataset.url;
-    if(url) window.open(url,'_blank');
+if(testToggle && testReveal){
+  testToggle.addEventListener('click', ()=>{
+    const hidden = testReveal.classList.toggle('hidden');
+    // light blink when revealed
+    if(!hidden){
+      testReveal.animate([{opacity:0},{opacity:1}],{duration:380});
+    }
   });
-  // single click toggles glow (already implemented)
-});
+}
 
-/* small accessibility: single click on icon will toggle, double click opens link,
-   user can change the behavior in openCustomize prompt. */
+/* click on icons navigates (if link): handled above on single click. */
+/* small accessibility note: single click toggles glow and opens link in new tab. */
 
 /* Lanyard Discord status integration (fetch) */
 async function fetchLanyard(){
@@ -713,7 +733,7 @@ async function fetchLanyard(){
       if(online==='dnd') color = '#ed4245';
       if(online==='idle') color = '#faa81a';
       if(online==='offline') color = '#777';
-      statusDot.style.background = color;
+      if(statusDot) statusDot.style.background = color;
       // activity
       let activity = 'Offline / skrytý';
       if(d.activities && d.activities.length){
@@ -726,31 +746,42 @@ async function fetchLanyard(){
       } else {
         activity = online === 'offline' ? 'Offline' : 'Online';
       }
-      statusText.textContent = `Discord: ${activity}`;
+      if(statusText) statusText.textContent = `Discord: ${activity}`;
     } else {
-      statusText.textContent = 'Discord: nedostupné';
-      statusDot.style.background = '#777';
+      if(statusText) statusText.textContent = 'Discord: nedostupné';
+      if(statusDot) statusDot.style.background = '#777';
     }
   }catch(err){
     console.warn('Lanyard err', err);
-    statusText.textContent = 'Discord: chyba načtení';
-    statusDot.style.background = '#777';
+    if(statusText) statusText.textContent = 'Discord: chyba načtení';
+    if(statusDot) statusDot.style.background = '#777';
   }
 }
 // initial fetch + interval refresh
 fetchLanyard();
-setInterval(fetchLanyard, 30_000); // refresh každých 30s
+setInterval(fetchLanyard, 30000); // refresh každých 30s
 
 /* small UX: clicking profile picture allows quick change of URL */
-pfpImg.addEventListener('click', ()=>{
-  const url = prompt('Zadej URL na profilovou fotku (imgur nebo jiný):', pfpImg.src || '');
-  if(url) pfpImg.src = url;
-});
+if(pfpImg){
+  pfpImg.addEventListener('click', ()=>{
+    const url = prompt('Zadej URL na profilovou fotku (imgur nebo jiný):', pfpImg.src || '');
+    if(url) pfpImg.src = url;
+  });
+}
 
-/* hint: allow customizing meta tags — but since this is single file, change head manually */
-
-/* final note: you can replace placeholder imgur/test.png links with reálné odkazy.
-   Double-click any icon to open its stored URL in a new tab (if set). */
+/* Keep meta theme color in sync with CSS variable (in case of dynamic changes) */
+(function syncMetaTheme(){
+  try{
+    const meta = document.getElementById('metaTheme');
+    if(!meta) return;
+    // try to read computed CSS var
+    const style = getComputedStyle(document.documentElement);
+    const cssPink = style.getPropertyValue('--pink').trim() || '#fdd4ff';
+    meta.setAttribute('content', cssPink);
+  }catch(e){
+    // ignore
+  }
+})();
 
 /* Optional: smooth pink ambient pulse */
 (function ambientPulse(){
@@ -759,8 +790,8 @@ pfpImg.addEventListener('click', ()=>{
   function step(){
     t += 0.02;
     const alpha = (Math.sin(t) + 1)/6 + 0.06; // weak pulse
-    // we apply to bg-decor opacity
-    document.querySelector('.bg-decor').style.opacity = String(0.14 * alpha + 0.06);
+    const decor = document.querySelector('.bg-decor');
+    if(decor) decor.style.opacity = String(0.14 * alpha + 0.06);
     requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
