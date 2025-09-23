@@ -3,7 +3,9 @@
   "short_name": "Imagine",
   "description": "Imagine's web",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#fdd4ff",
   "theme_color": "#fdd4ff",
   "icons": [
