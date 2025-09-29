@@ -827,6 +827,35 @@ if(pfpImg){
   }
   requestAnimationFrame(step);
 })();
+  const fsBtn = document.getElementById('fsBtn');
+const target = document.documentElement; // nebo třeba document.getElementById('gamewrap')
+
+fsBtn.addEventListener('click', () => {
+  if (
+    !document.fullscreenElement &&
+    !document.webkitFullscreenElement &&
+    !document.msFullscreenElement
+  ) {
+    // zapnout fullscreen
+    if (target.requestFullscreen) {
+      target.requestFullscreen();
+    } else if (target.webkitRequestFullscreen) { // iOS Safari
+      target.webkitRequestFullscreen();
+    } else if (target.msRequestFullscreen) { // starší Edge
+      target.msRequestFullscreen();
+    }
+  } else {
+    // vypnout fullscreen
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+});
+
 </script>
 </body>
 </html>
