@@ -258,6 +258,24 @@ body{
   color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(4px);cursor:pointer;
   user-select:none;touch-action:none;
 }
+  .fullscreen-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fdd4ff;
+  color: #000;
+  border: none;
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 0 10px #fdd4ff;
+}
+.fullscreen-btn:active {
+  transform: scale(0.95);
+}
+
 
 /* small helper text on top of screen */
 .top-note{position:absolute;top:12px;left:80px;color:rgba(255,255,255,0.6);font-size:13px;z-index:40}
