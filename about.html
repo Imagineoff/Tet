@@ -5,114 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Imagine - Portfolio</title>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    overflow-x: hidden;
-    position: relative;
-  }
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* Jednoduché neon čáry v pozadí */
-  .line {
-    position: absolute;
-    height: 2px;
-    background: #fdd4ff;
-    opacity: 0.5;
-    animation: moveLine 6s linear infinite;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+}
 
-  @keyframes moveLine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
+/* Diagonální neonové čáry */
+.neon-line {
+  position: absolute;
+  height: 2px;
+  background: #fdd4ff;
+  opacity: 0.5;
+  transform: rotate(45deg);
+  animation: moveDiagonal 8s linear infinite;
+}
 
-  /* Různé pozice a délky čar */
-  .line1 { top: 15%; width: 120px; }
-  .line2 { top: 35%; width: 200px; }
-  .line3 { top: 55%; width: 150px; }
-  .line4 { top: 75%; width: 250px; }
-  .line5 { top: 90%; width: 180px; }
+@keyframes moveDiagonal {
+  0% { transform: translate(-100%, -50%) rotate(45deg); }
+  100% { transform: translate(100vw, 100vh) rotate(45deg); }
+}
 
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 50px 20px;
-  }
+/* Různé čáry */
+.line1 { top: 10%; width: 120px; animation-duration: 7s; }
+.line2 { top: 30%; width: 200px; animation-duration: 9s; }
+.line3 { top: 50%; width: 180px; animation-duration: 6s; }
+.line4 { top: 70%; width: 250px; animation-duration: 10s; }
+.line5 { top: 85%; width: 220px; animation-duration: 8s; }
 
-  h2 {
-    cursor: pointer;
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    padding: 5px 10px;
-    border-left: 3px solid #fdd4ff;
-    transition: background 0.2s;
-  }
+/* Container */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
 
-  h2:hover {
-    background: rgba(255,255,255,0.05);
-  }
+/* Headings */
+h2 {
+  cursor: pointer;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-left: 3px solid #fdd4ff;
+  transition: background 0.2s;
+}
 
-  .content {
-    display: none;
-    margin-bottom: 20px;
-    padding-left: 10px;
-    line-height: 1.6;
-    color: #ddd;
-  }
+h2:hover {
+  background: rgba(255,255,255,0.05);
+}
 
-  a {
-    color: #fdd4ff;
-    text-decoration: none;
-  }
+/* Content sections */
+.content {
+  display: none;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  line-height: 1.6;
+  color: #ddd;
+}
 
-  a:hover {
-    text-decoration: underline;
-  }
+/* Links */
+a {
+  color: #fdd4ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 <body>
 
-<!-- Animované čáry -->
-<div class="line line1"></div>
-<div class="line line2"></div>
-<div class="line line3"></div>
-<div class="line line4"></div>
-<div class="line line5"></div>
+<!-- Diagonální neonové čáry -->
+<div class="neon-line line1"></div>
+<div class="neon-line line2"></div>
+<div class="neon-line line3"></div>
+<div class="neon-line line4"></div>
+<div class="neon-line line5"></div>
 
 <div class="container">
+  <!-- About Me -->
   <h2 onclick="toggleContent('about')">About Me</h2>
   <div id="about" class="content">
-    Hello! I'm Imagine, a web developer and programmer focused on building interactive web projects and Discord bots.  
-    I create clean, user-friendly interfaces and integrate functionality into websites and applications.  
-    Currently, I work with HTML, CSS, JavaScript, and Node.js.  
-    I also develop Discord bots to automate tasks, provide information, and improve server interactivity.
+    Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
+    I enjoy building sleek, user-friendly interfaces and integrating creative functionality into websites and apps.  
+    Currently, I focus on projects that combine modern web technologies like HTML, CSS, JavaScript, and Node.js to deliver engaging user experiences.  
+    I also develop and maintain Discord bots that automate tasks, provide information, and enhance server interactivity.  
+    My goal is to continuously improve my coding skills while working on projects that challenge my creativity and technical abilities.
   </div>
 
+  <!-- Favorite Music Artist -->
   <h2 onclick="toggleContent('music')">Favorite Music Artist</h2>
   <div id="music" class="content">
-    The Weeknd - <a href="https://music.apple.com/cz/artist/the-weeknd/479756766" target="_blank">Apple Music</a>
+    My favorite music artist is <strong>The Weeknd</strong>.  
+    I enjoy his ability to blend modern pop with R&B vibes, creating immersive storytelling through music.  
+    Check him out here: <a href="https://music.apple.com/cz/artist/the-weeknd/479756766" target="_blank">Apple Music</a>
   </div>
 
+  <!-- Favorite Film -->
   <h2 onclick="toggleContent('film')">Favorite Film</h2>
   <div id="film" class="content">
-    The Great Gatsby - <a href="https://www.netflix.com/cz-en/title/70244437" target="_blank">Netflix</a>
+    One of my favorite films is <strong>The Great Gatsby</strong>.  
+    I admire its visual storytelling, stylish cinematography, and the way it portrays ambition, love, and personal struggles.  
+    Watch it here: <a href="https://www.netflix.com/cz-en/title/70244437" target="_blank">Netflix</a>
   </div>
 
+  <!-- Favorite Game -->
   <h2 onclick="toggleContent('game')">Favorite Game</h2>
   <div id="game" class="content">
-    Dead by Daylight - <a href="https://www.xbox.com/en-US/games/store/dead-by-daylight/C0N22P73QZ60" target="_blank">Xbox Store</a>
+    My favorite game is <strong>Dead by Daylight</strong>.  
+    I love the strategic gameplay and intense multiplayer experience, where every match is a test of skill, planning, and teamwork.  
+    View it here: <a href="https://www.xbox.com/en-US/games/store/dead-by-daylight/C0N22P73QZ60" target="_blank">Xbox Store</a>
   </div>
 </div>
 
 <script>
-  function toggleContent(id) {
-    const el = document.getElementById(id);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-  }
+function toggleContent(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
 </script>
 
 </body>
