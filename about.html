@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imagine - Portfolio</title>
+<style>
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+}
 
+/* Subtle animated background gradient */
+body::before {
+  content: '';
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: linear-gradient(120deg, #000000, #0a001a, #000000);
+  z-index: 0;
+  animation: bgGradient 20s infinite alternate;
+}
+@keyframes bgGradient {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 100%; }
+}
+
+/* Neon lines */
+.neon-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, #fdd4ff, #ff9cf7);
+  opacity: 0.5;
+  filter: drop-shadow(0 0 10px #fdd4ff);
+  animation: moveDiagonal 8s linear infinite;
+}
+@keyframes moveDiagonal {
+  0% { transform: translate(-100%, -50%) rotate(45deg); }
+  100% { transform: translate(100vw, 100vh) rotate(45deg); }
+}
+
+/* Different line properties */
+.line1 { top: 10%; left: -150px; animation-duration: 7s; width: 120px; }
+.line2 { top: 30%; left: -200px; animation-duration: 9s; width: 200px; }
+.line3 { top: 50%; left: -180px; animation-duration: 6s; width: 180px; }
+.line4 { top: 70%; left: -250px; animation-duration: 10s; width: 250px; }
+.line5 { top: 85%; left: -220px; animation-duration: 8s; width: 220px; }
+
+/* Container */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+/* Section headings */
+h2 {
+  cursor: pointer;
+  font-size: 2em;
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  background: rgba(255,255,255,0.05);
+  border-left: 4px solid #fdd4ff;
+  transition: background 0.3s, transform 0.3s;
+  text-shadow: 0 0 8px #fdd4ff, 0 0 16px #ff9cf7;
+}
+h2:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.02);
+}
+
+/* Section content */
+.content {
+  display: none;
+  font-size: 1em;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  padding-left: 15px;
+  border-left: 3px solid #fdd4ff;
+  color: #ddd;
+  text-shadow: 0 0 5px #fdd4ff;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Links */
+a {
+  color: #fdd4ff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #ff9cf7;
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<!-- Neon lines -->
+<div class="neon-line line1"></div>
+<div class="neon-line line2"></div>
+<div class="neon-line line3"></div>
+<div class="neon-line line4"></div>
+<div class="neon-line line5"></div>
+
+<div class="container">
+  <!-- About Me -->
+  <h2 onclick="toggleContent('about')">About Me</h2>
+  <div id="about" class="content">
+    Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
+    I enjoy building sleek, user-friendly interfaces and integrating creative functionality into websites and apps.  
+    Currently, I focus on projects that combine modern web technologies like HTML, CSS, JavaScript, and Node.js to deliver engaging user experiences.  
+    I also develop and maintain Discord bots that automate tasks, provide information, and enhance server interactivity.  
+    My goal is to continuously improve my coding skills while working on projects that challenge my creativity and technical abilities.
+  </div>
+
+  <!-- Favorite Music Artist -->
+  <h2 onclick="toggleContent('music')">Favorite Music Artist</h2>
+  <div id="music" class="content">
+    My favorite music artist is <strong>The Weeknd</strong>.  
+    I enjoy his ability to blend modern pop with R&B vibes, creating immersive storytelling through music.  
+    Check him out here: <a href="https://music.apple.com/cz/artist/the-weeknd/479756766" target="_blank">Apple Music</a>
+  </div>
+
+  <!-- Favorite Film -->
+  <h2 onclick="toggleContent('film')">Favorite Film</h2>
+  <div id="film" class="content">
+    One of my favorite films is <strong>The Great Gatsby</strong>.  
+    I admire its visual storytelling, stylish cinematography, and the way it portrays ambition, love, and personal struggles.  
+    Watch it here: <a href="https://www.netflix.com/cz-en/title/70244437" target="_blank">Netflix</a>
+  </div>
+
+  <!-- Favorite Game -->
+  <h2 onclick="toggleContent('game')">Favorite Game</h2>
+  <div id="game" class="content">
+    My favorite game is <strong>Dead by Daylight</strong>.  
+    I love the strategic gameplay and intense multiplayer experience, where every match is a test of skill, planning, and teamwork.  
+    View it here: <a href="https://www.xbox.com/en-US/games/store/dead-by-daylight/C0N22P73QZ60" target="_blank">Xbox Store</a>
+  </div>
+</div>
+
+<script>
+function toggleContent(id) {
+  const el = document.getElementById(id);
+  if (el.style.display === 'block') {
+    el.style.opacity = 0;
+    el.style.transform = 'translateX(-20px)';
+    setTimeout(() => el.style.display = 'none', 400);
+  } else {
+    el.style.display = 'block';
+    setTimeout(() => {
+      el.style.opacity = 1;
+      el.style.transform = 'translateX(0)';
+    }, 10);
+  }
+}
+</script>
+
+</body>
+</html>
