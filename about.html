@@ -7,16 +7,10 @@
 <meta name="msapplication-navbutton-color" content="#fdd4ff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <title>About Imagine</title>
+
 <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 <link rel="apple-touch-icon" href="https://i.imgur.com/VIK1odj.jpeg" />
-<meta name="description" content="Some info" />
-<meta name="author" content="About Imagine" />
-<meta property="og:title" content="Imagine" />
-<meta property="og:description" content="Some info" />
-<meta property="og:image" content="https://i.imgur.com/VIK1odj.jpeg" />
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +21,35 @@ body {
   color: #fff;
   overflow-x: hidden;
   position: relative;
+}
+
+/* Loading screen */
+#loadingScreen {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+}
+
+#progressBarContainer {
+  width:300px;
+  height:20px;
+  border:2px solid #fdd4ff;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:20px;
+}
+
+#progressBar {
+  width:0%;
+  height:100%;
+  background:#fdd4ff;
+  transition: width 0.2s;
 }
 
 /* Neon lines */
@@ -76,7 +99,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
   font-size: 1.2em;
 }
 
-/* Random Fun Fact button */
+/* Fun Fact Button */
 h2.funfact-btn {
   display: inline-block;
   border-left: none;
@@ -84,34 +107,38 @@ h2.funfact-btn {
   padding: 10px 20px;
   text-align: center;
   border-radius: 5px;
-  transition: transform 0.2s, background 0.2s;
   animation: pulse 2s infinite;
 }
 
-h2.funfact-btn:hover {
-  background: rgba(255,255,255,0.05);
-  transform: scale(1.05);
+h2.funfact-btn.paused {
+  animation: none;
+  opacity: 0.7;
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 10px #fdd4ff; }
-  50% { box-shadow: 0 0 20px #fdd4ff; }
+  0%,100% { transform: scale(1); box-shadow: 0 0 10px #fdd4ff; }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px #fdd4ff; }
 }
 
-/* Video background */
-#funfactVideo {
+/* Video / GIF background */
+.funfact-media {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top:0; left:0;
+  width:100%; height:100%;
   object-fit: cover;
-  z-index: 1;
-  display: none;
+  z-index:1;
+  display:none;
 }
 </style>
 </head>
 <body>
+
+<div id="loadingScreen">
+  <div>Loading...</div>
+  <div id="progressBarContainer">
+    <div id="progressBar"></div>
+  </div>
+</div>
 
 <!-- Neon lines -->
 <div class="neon-line line1"></div>
@@ -120,60 +147,169 @@ h2.funfact-btn:hover {
 <div class="neon-line line4"></div>
 <div class="neon-line line5"></div>
 
-<video id="funfactVideo" src="https://files.catbox.moe/381lv5.mp4" playsinline muted></video>
-<audio id="funfactAudio" src="https://files.catbox.moe/zdkcrk.mp3"></audio>
+<!-- Video / GIFs -->
+<video id="funfactVideo" class="funfact-media" playsinline muted></video>
+<audio id="funfactAudio"></audio>
+<img id="funfactGif" class="funfact-media" />
 
 <div class="container">
-  <h2>About Me</h2>
+  <h2 onclick="toggleContent('about')">About Me</h2>
   <div id="about" class="content" style="display:block;">
     Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
+    I enjoy building sleek, user-friendly interfaces and integrating creative functionality into websites and apps.  
+    Currently, I focus on projects that combine modern web technologies like HTML, CSS, JavaScript, and Node.js to deliver engaging user experiences.  
+    I also develop and maintain Discord bots that automate tasks, provide information, and enhance server interactivity.  
+    My goal is to continuously improve my coding skills while working on projects that challenge my creativity and technical abilities.
   </div>
 
-  <h2 class="funfact-btn" onclick="playFunFact()">Random Fun Fact</h2>
+  <h2 class="funfact-btn" id="funfactBtn" onclick="playFunFact()">Random Fun Fact</h2>
   <div id="funfactText"></div>
 </div>
 
 <script>
-const funfact = {
-  text: "I’d love to live in New York one day.",
-  video: "https://files.catbox.moe/381lv5.mp4",
-  audio: "https://files.catbox.moe/zdkcrk.mp3"
-};
-
-function hideNeonLines() {
-  document.querySelectorAll('.neon-line').forEach(line => line.style.display = 'none');
+// About toggle
+function toggleContent(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
 }
 
-function showNeonLines() {
-  document.querySelectorAll('.neon-line').forEach(line => line.style.display = 'block');
-}
+// Fun facts data
+const funfacts = [
+  {
+    text:"I’d love to live in New York one day.",
+    video:"https://files.catbox.moe/381lv5.mp4",
+    audio:"https://files.catbox.moe/zdkcrk.mp3",
+    type:"video"
+  },
+  {
+    text:"My favorite music artist is The Weeknd. Check him out here: Apple Music.",
+    video:"https://files.catbox.moe/b4iusx.mov",
+    audio:null,
+    type:"video"
+  },
+  {
+    text:"One of my favorite books is Zoo Station: The Story of Christiane F. Check it here: DatabazeKnih.",
+    type:"text"
+  },
+  {
+    text:"My favorite game is Dead by Daylight. View it here: Xbox Store.",
+    video:"https://i.imgur.com/flUZ8Up.gif",
+    type:"gif"
+  },
+  {
+    text:"One of my favorite films is The Great Gatsby. Watch it here: Netflix.",
+    video:"https://files.catbox.moe/9m15oh.mov",
+    audio:"https://files.catbox.moe/89tlxi.mp3",
+    type:"video"
+  }
+];
 
-function playFunFact() {
+let lastIndex = -1;
+let isPlaying = false;
+
+function hideNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='none');}
+function showNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='block');}
+
+function playFunFact(){
+  if(isPlaying) return;
+  isPlaying=true;
+
+  const btn=document.getElementById('funfactBtn');
+  btn.classList.add('paused');
+
+  // choose random, not same as last
+  let index;
+  do{index=Math.floor(Math.random()*funfacts.length);}while(index===lastIndex);
+  lastIndex=index;
+  const fact=funfacts[index];
+
   hideNeonLines();
+  const video=document.getElementById('funfactVideo');
+  const audio=document.getElementById('funfactAudio');
+  const gif=document.getElementById('funfactGif');
+  const textEl=document.getElementById('funfactText');
 
-  const video = document.getElementById('funfactVideo');
-  const audio = document.getElementById('funfactAudio');
+  video.style.display='none';
+  gif.style.display='none';
+  audio.pause();
+  audio.currentTime=0;
 
-  video.src = funfact.video;
-  audio.src = funfact.audio;
+  textEl.textContent=fact.text;
 
-  video.style.display = 'block';
-  video.currentTime = 0;
-  audio.currentTime = 0;
-  video.muted = true; // video bude tiché
-
-  video.play();
-  audio.play();
-
-  document.getElementById('funfactText').textContent = funfact.text;
-
-  video.onended = () => {
-    video.style.display = 'none';
-    audio.pause();
-    audio.currentTime = 0;
-    showNeonLines();
-  };
+  if(fact.type==='video'){
+    video.src=fact.video;
+    video.style.display='block';
+    video.currentTime=0;
+    if(fact.audio){
+      audio.src=fact.audio;
+      audio.currentTime=0;
+      audio.play();
+    }
+    video.play();
+    video.onended=()=>{
+      video.style.display='none';
+      audio.pause();
+      audio.currentTime=0;
+      showNeonLines();
+      isPlaying=false;
+      btn.classList.remove('paused');
+    };
+  }else if(fact.type==='gif'){
+    gif.src=fact.video;
+    gif.style.display='block';
+    let loopCount=0;
+    const maxLoops=5;
+    const interval=setInterval(()=>{
+      loopCount++;
+      if(loopCount>=maxLoops){ 
+        gif.style.display='none';
+        showNeonLines();
+        isPlaying=false;
+        btn.classList.remove('paused');
+        clearInterval(interval);
+      }
+    },1000);
+      }else if(fact.type==='text'){
+    // jen text, žádné video/gif/audio
+    setTimeout(()=>{
+      showNeonLines();
+      isPlaying=false;
+      btn.classList.remove('paused');
+    },3000); // text zobrazíme 3s
+  }
 }
+
+// Preload videa a audia + progress bar
+const mediaToLoad = [
+  "https://files.catbox.moe/381lv5.mp4",
+  "https://files.catbox.moe/b4iusx.mov",
+  "https://files.catbox.moe/9m15oh.mov",
+  "https://files.catbox.moe/zdkcrk.mp3",
+  "https://files.catbox.moe/89tlxi.mp3",
+  "https://i.imgur.com/flUZ8Up.gif"
+];
+
+let loadedCount = 0;
+const progressBar = document.getElementById('progressBar');
+
+mediaToLoad.forEach(src=>{
+  let el;
+  if(src.endsWith('.mp4') || src.endsWith('.mov')){
+    el=document.createElement('video');
+  } else if(src.endsWith('.mp3')){
+    el=document.createElement('audio');
+  } else if(src.endsWith('.gif')){
+    el=document.createElement('img');
+  }
+  el.src=src;
+  el.onloadeddata = el.onload = ()=>{ 
+    loadedCount++;
+    progressBar.style.width = ((loadedCount/mediaToLoad.length)*100)+'%';
+    if(loadedCount===mediaToLoad.length){
+      document.getElementById('loadingScreen').style.display='none';
+    }
+  };
+});
 </script>
 
 </body>
