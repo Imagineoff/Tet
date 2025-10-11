@@ -52,6 +52,10 @@ body {
   transition: width 0.2s;
 }
 
+#loadingText {
+  font-size:1.1em;
+}
+
 /* Neon lines */
 .neon-line {
   position: absolute;
@@ -133,65 +137,13 @@ h2.funfact-btn.paused {
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
 <div id="loadingScreen">
   <div id="loadingText">Loading...</div>
   <div id="progressBarContainer">
     <div id="progressBar"></div>
   </div>
 </div>
-
-<script>
-const loadingMessages = [
-  "Loading decorative elements...",
-  "Loading videos...",
-  "Loading music...",
-  "Finalizing setup..."
-];
-
-const mediaToLoad = [
-  "https://files.catbox.moe/381lv5.mp4",
-  "https://files.catbox.moe/b4iusx.mov",
-  "https://files.catbox.moe/9m15oh.mov",
-  "https://files.catbox.moe/zdkcrk.mp3",
-  "https://files.catbox.moe/89tlxi.mp3",
-  "https://i.imgur.com/flUZ8Up.gif"
-];
-
-let loadedCount = 0;
-const progressBar = document.getElementById('progressBar');
-const loadingText = document.getElementById('loadingText');
-
-function updateLoadingText() {
-  const percent = Math.floor((loadedCount / mediaToLoad.length) * 100);
-  // Vyber zprávu podle procent
-  const msgIndex = Math.floor(percent / (100 / loadingMessages.length));
-  const remaining = Math.max(0, mediaToLoad.length - loadedCount);
-  loadingText.textContent = `${loadingMessages[msgIndex]} (~${remaining}s remaining)`;
-}
-
-mediaToLoad.forEach(src => {
-  let el;
-  if(src.endsWith('.mp4') || src.endsWith('.mov')){
-    el = document.createElement('video');
-  } else if(src.endsWith('.mp3')){
-    el = document.createElement('audio');
-  } else if(src.endsWith('.gif')){
-    el = document.createElement('img');
-  }
-  el.src = src;
-  el.onloadeddata = el.onload = () => {
-    loadedCount++;
-    progressBar.style.width = ((loadedCount / mediaToLoad.length) * 100) + '%';
-    updateLoadingText();
-    if(loadedCount === mediaToLoad.length){
-      document.getElementById('loadingScreen').style.display = 'none';
-    }
-  };
-});
-
-// Inicialní text
-updateLoadingText();
-</script>
 
 <!-- Neon lines -->
 <div class="neon-line line1"></div>
@@ -322,48 +274,65 @@ function playFunFact(){
         clearInterval(interval);
       }
     },1000);
-      }else if(fact.type==='text'){
-    // jen text, žádné video/gif/audio
+  }else if(fact.type==='text'){
     setTimeout(()=>{
       showNeonLines();
-      isPlaying=false;
-      btn.classList.remove('paused');
-    },3000); // text zobrazíme 3s
-  }
+     isPlaying=false;
+btn.classList.remove(‘paused’);
+}, 3000); // text zobrazíme 3s
+}
 }
 
-// Preload videa a audia + progress bar
+// Preload media + loading screen
 const mediaToLoad = [
-  "https://files.catbox.moe/381lv5.mp4",
-  "https://files.catbox.moe/b4iusx.mov",
-  "https://files.catbox.moe/9m15oh.mov",
-  "https://files.catbox.moe/zdkcrk.mp3",
-  "https://files.catbox.moe/89tlxi.mp3",
-  "https://i.imgur.com/flUZ8Up.gif"
+“https://files.catbox.moe/381lv5.mp4”,
+“https://files.catbox.moe/b4iusx.mov”,
+“https://files.catbox.moe/9m15oh.mov”,
+“https://files.catbox.moe/zdkcrk.mp3”,
+“https://files.catbox.moe/89tlxi.mp3”,
+“https://i.imgur.com/flUZ8Up.gif”
+];
+
+const loadingMessages = [
+“Loading decorative elements…”,
+“Loading videos…”,
+“Loading music…”,
+“Finalizing setup…”
 ];
 
 let loadedCount = 0;
-const progressBar = document.getElementById('progressBar');
+const progressBar = document.getElementById(‘progressBar’);
+const loadingText = document.getElementById(‘loadingText’);
 
-mediaToLoad.forEach(src=>{
-  let el;
-  if(src.endsWith('.mp4') || src.endsWith('.mov')){
-    el=document.createElement('video');
-  } else if(src.endsWith('.mp3')){
-    el=document.createElement('audio');
-  } else if(src.endsWith('.gif')){
-    el=document.createElement('img');
-  }
-  el.src=src;
-  el.onloadeddata = el.onload = ()=>{ 
-    loadedCount++;
-    progressBar.style.width = ((loadedCount/mediaToLoad.length)*100)+'%';
-    if(loadedCount===mediaToLoad.length){
-      document.getElementById('loadingScreen').style.display='none';
-    }
-  };
+function updateLoadingText(){
+const percent = Math.floor((loadedCount / mediaToLoad.length) * 100);
+const msgIndex = Math.min(Math.floor(percent / (100 / loadingMessages.length)), loadingMessages.length - 1);
+const remaining = Math.max(0, mediaToLoad.length - loadedCount);
+loadingText.textContent = ${loadingMessages[msgIndex]} (~${remaining}s remaining);
+}
+
+mediaToLoad.forEach(src => {
+let el;
+if(src.endsWith(’.mp4’) || src.endsWith(’.mov’)){
+el = document.createElement(‘video’);
+} else if(src.endsWith(’.mp3’)){
+el = document.createElement(‘audio’);
+} else if(src.endsWith(’.gif’)){
+el = document.createElement(‘img’);
+}
+el.src = src;
+el.onloadeddata = el.onload = ()=>{
+loadedCount++;
+progressBar.style.width = ((loadedCount / mediaToLoad.length) * 100) + ‘%’;
+updateLoadingText();
+if(loadedCount === mediaToLoad.length){
+document.getElementById(‘loadingScreen’).style.display=‘none’;
+}
+};
 });
-</script>
 
-</body>
+// Initial text
+updateLoadingText();
+ </body>
 </html>
+ 
