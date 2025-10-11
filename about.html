@@ -3,35 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Android / Chrome / Edge -->
-  <meta name="theme-color" content="#fdd4ff">
-  <meta name="msapplication-navbutton-color" content="#fdd4ff">
-
-  <!-- iOS Safari -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <!-- PWA manifest -->
-  <link rel="manifest" href="/manifest.json">
-
-  <!-- iOS ikona (doporučené) -->
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-
-  <title>About Imagine</title>
-
-<!-- Basic meta / branding / apple / favicons (testovací odkazy - nahraď svými) -->
+<meta name="theme-color" content="#fdd4ff">
+<meta name="msapplication-navbutton-color" content="#fdd4ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<title>About Imagine</title>
 <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 <link rel="apple-touch-icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 <meta name="description" content="Some info" />
 <meta name="author" content="About Imagine" />
-
-<!-- Open Graph (test) -->
 <meta property="og:title" content="Imagine" />
 <meta property="og:description" content="Some info" />
 <meta property="og:image" content="https://i.imgur.com/VIK1odj.jpeg" />
 
 <style>
-/* Reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -42,7 +29,7 @@ body {
   position: relative;
 }
 
-/* Diagonální neonové čáry */
+/* Diagonal neon lines */
 .neon-line {
   position: absolute;
   height: 2px;
@@ -57,14 +44,12 @@ body {
   100% { transform: translate(100vw, 100vh) rotate(45deg); }
 }
 
-/* Různé čáry */
 .line1 { top: 10%; width: 120px; animation-duration: 7s; }
 .line2 { top: 30%; width: 200px; animation-duration: 9s; }
 .line3 { top: 50%; width: 180px; animation-duration: 6s; }
 .line4 { top: 70%; width: 250px; animation-duration: 10s; }
 .line5 { top: 85%; width: 220px; animation-duration: 8s; }
 
-/* Container */
 .container {
   position: relative;
   z-index: 1;
@@ -73,7 +58,6 @@ body {
   padding: 50px 20px;
 }
 
-/* Headings */
 h2 {
   cursor: pointer;
   font-size: 1.8em;
@@ -83,85 +67,94 @@ h2 {
   transition: background 0.2s;
 }
 
-h2:hover {
-  background: rgba(255,255,255,0.05);
-}
+h2:hover { background: rgba(255,255,255,0.05); }
 
-/* Content sections */
-.content {
-  display: none;
-  margin-bottom: 20px;
-  padding-left: 10px;
+#funfactText {
+  margin-top: 20px;
   line-height: 1.6;
   color: #ddd;
+  font-size: 1.2em;
 }
 
-/* Links */
-a {
-  color: #fdd4ff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+/* Video overlay */
+#funfactVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  display: none;
 }
 </style>
 </head>
 <body>
 
-<!-- Diagonální neonové čáry -->
+<!-- Neon lines -->
 <div class="neon-line line1"></div>
 <div class="neon-line line2"></div>
 <div class="neon-line line3"></div>
 <div class="neon-line line4"></div>
 <div class="neon-line line5"></div>
 
+<video id="funfactVideo" src="https://i.imgur.com/nuWvmXc.mp4"></video>
+<audio id="funfactAudio" src="https://files.catbox.moe/zdkcrk.mp3"></audio>
+
 <div class="container">
-  <!-- About Me -->
-  <h2 onclick="toggleContent('about')">About Me</h2>
-  <div id="about" class="content">
+  <h2>About Me</h2>
+  <div id="about" class="content" style="display:block;">
     Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
-    I enjoy building sleek, user-friendly interfaces and integrating creative functionality into websites and apps.  
-    Currently, I focus on projects that combine modern web technologies like HTML, CSS, JavaScript, and Node.js to deliver engaging user experiences.  
-    I also develop and maintain Discord bots that automate tasks, provide information, and enhance server interactivity.  
-    My goal is to continuously improve my coding skills while working on projects that challenge my creativity and technical abilities.
   </div>
 
-  <!-- Favorite Music Artist -->
-  <h2 onclick="toggleContent('music')">Favorite Music Artist</h2>
-  <div id="music" class="content">
-    My favorite music artist is <strong>The Weeknd</strong>.  
-    I enjoy his ability to blend modern pop with R&B vibes, creating immersive storytelling through music.  
-    Check him out here: <a href="https://music.apple.com/cz/artist/the-weeknd/479756766" target="_blank">Apple Music</a>
-  </div>
-
-  <!-- Favorite Film -->
-  <h2 onclick="toggleContent('film')">Favorite Film</h2>
-  <div id="film" class="content">
-    One of my favorite films is <strong>The Great Gatsby</strong>.  
-    I admire its visual storytelling, stylish cinematography, and the way it portrays ambition, love, and personal struggles.  
-    Watch it here: <a href="https://www.netflix.com/cz-en/title/70244437" target="_blank">Netflix</a>
-  </div>
-<!-- Favorite Book -->
-<h2 onclick="toggleContent('book')">Favorite Book</h2>
-<div id="book" class="content">
-  One of my favorite books is <strong>Zoo Station: The Story of Christiane F</strong> (originally <em>My děti ze stanice Zoo</em>).  
-  I appreciate its raw and honest storytelling, giving insight into the struggles of youth and society.  
-  Check it here: <a href="https://www.databazeknih.cz/knihy/my-deti-ze-stanice-zoo-my-deti-ze-stanice-zoo-550" target="_blank">DatabázeKnih</a>
-</div>
-  <!-- Favorite Game -->
-  <h2 onclick="toggleContent('game')">Favorite Game</h2>
-  <div id="game" class="content">
-    My favorite game is <strong>Dead by Daylight</strong>.  
-    I love the strategic gameplay and intense multiplayer experience, where every match is a test of skill, planning, and teamwork.  
-    View it here: <a href="https://www.xbox.com/en-US/games/store/dead-by-daylight/C0N22P73QZ60" target="_blank">Xbox Store</a>
-  </div>
+  <h2 onclick="playFunFact()">Random Fun Fact</h2>
+  <div id="funfactText"></div>
 </div>
 
 <script>
-function toggleContent(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+const funfact = {
+  text: "I’d love to live in New York one day.",
+  video: "https://i.imgur.com/nuWvmXc.mp4",
+  audio: "https://files.catbox.moe/zdkcrk.mp3"
+};
+
+function hideNeonLines() {
+  document.querySelectorAll('.neon-line').forEach(line => line.style.display = 'none');
+}
+
+function showNeonLines() {
+  document.querySelectorAll('.neon-line').forEach(line => line.style.display = 'block');
+}
+
+function playFunFact() {
+  // hide neon
+  hideNeonLines();
+
+  // show video
+  const video = document.getElementById('funfactVideo');
+  const audio = document.getElementById('funfactAudio');
+
+  video.src = funfact.video;
+  audio.src = funfact.audio;
+
+  video.style.display = 'block';
+  video.currentTime = 0;
+  audio.currentTime = 0;
+
+  video.play();
+  audio.play();
+
+  // show text immediately under button
+  const textEl = document.getElementById('funfactText');
+  textEl.textContent = funfact.text;
+
+  // when video ends
+  video.onended = () => {
+    video.style.display = 'none';
+    audio.pause();
+    audio.currentTime = 0;
+    showNeonLines();
+  };
 }
 </script>
 
