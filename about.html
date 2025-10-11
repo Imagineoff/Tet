@@ -98,7 +98,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
 <div class="neon-line line4"></div>
 <div class="neon-line line5"></div>
 
-<video id="funfactVideo" src="https://i.imgur.com/nuWvmXc.mp4"></video>
+<video id="funfactVideo" src="https://files.catbox.moe/381lv5.mp4"></video>
 <audio id="funfactAudio" src="https://files.catbox.moe/zdkcrk.mp3"></audio>
 
 <div class="container">
@@ -114,7 +114,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
 <script>
 const funfact = {
   text: "I’d love to live in New York one day.",
-  video: "https://i.imgur.com/nuWvmXc.mp4",
+  video: "https://files.catbox.moe/381lv5.mp4",
   audio: "https://files.catbox.moe/zdkcrk.mp3"
 };
 
@@ -127,10 +127,8 @@ function showNeonLines() {
 }
 
 function playFunFact() {
-  // hide neon
   hideNeonLines();
 
-  // show video
   const video = document.getElementById('funfactVideo');
   const audio = document.getElementById('funfactAudio');
 
@@ -144,11 +142,9 @@ function playFunFact() {
   video.play();
   audio.play();
 
-  // show text immediately under button
   const textEl = document.getElementById('funfactText');
   textEl.textContent = funfact.text;
 
-  // when video ends
   video.onended = () => {
     video.style.display = 'none';
     audio.pause();
