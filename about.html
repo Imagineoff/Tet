@@ -29,7 +29,7 @@ body {
   position: relative;
 }
 
-/* Diagonal neon lines */
+/* Neon lines */
 .neon-line {
   position: absolute;
   height: 2px;
@@ -52,7 +52,7 @@ body {
 
 .container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 700px;
   margin: 0 auto;
   padding: 50px 20px;
@@ -76,7 +76,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
   font-size: 1.2em;
 }
 
-/* Video overlay */
+/* Video background */
 #funfactVideo {
   position: fixed;
   top: 0;
@@ -84,7 +84,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
+  z-index: 1;
   display: none;
 }
 </style>
@@ -98,7 +98,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
 <div class="neon-line line4"></div>
 <div class="neon-line line5"></div>
 
-<video id="funfactVideo" src="https://files.catbox.moe/381lv5.mp4"></video>
+<video id="funfactVideo" src="https://files.catbox.moe/381lv5.mp4" playsinline muted></video>
 <audio id="funfactAudio" src="https://files.catbox.moe/zdkcrk.mp3"></audio>
 
 <div class="container">
@@ -138,12 +138,12 @@ function playFunFact() {
   video.style.display = 'block';
   video.currentTime = 0;
   audio.currentTime = 0;
+  video.muted = false;
 
   video.play();
   audio.play();
 
-  const textEl = document.getElementById('funfactText');
-  textEl.textContent = funfact.text;
+  document.getElementById('funfactText').textContent = funfact.text;
 
   video.onended = () => {
     video.style.display = 'none';
