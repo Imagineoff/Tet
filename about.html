@@ -75,7 +75,7 @@ h2.funfact-btn {
   text-align: center;
   border-radius: 5px;
   animation: pulse 2s infinite;
-  margin-top: 40px; /* přidaná mezera */
+  margin-top: 40px; /* mezera mezi sekcemi */
 }
 
 h2.funfact-btn.paused {
@@ -97,7 +97,7 @@ h2.funfact-btn.paused {
   z-index:1;
   display:none;
   opacity: 0;
-  transition: opacity 0.5s ease; /* jemný fade-in */
+  transition: opacity 0.5s ease;
 }
 .funfact-media.show {
   display:block;
@@ -115,7 +115,7 @@ h2.funfact-btn.paused {
 <div class="neon-line line5"></div>
 
 <!-- Video / GIFs -->
-<video id="funfactVideo" class="funfact-media" playsinline muted></video>
+<video id="funfactVideo" class="funfact-media" playsinline></video>
 <audio id="funfactAudio"></audio>
 <img id="funfactGif" class="funfact-media" />
 
@@ -141,7 +141,7 @@ function toggleContent(id){
 
 const funfacts = [
   { text:"I’d love to live in New York one day.", video:"https://files.catbox.moe/381lv5.mp4", audio:"https://files.catbox.moe/zdkcrk.mp3", type:"video" },
-  { text:"My favorite music artist is The Weeknd. Check him out here: Apple Music.", video:"https://files.catbox.moe/9n8k06.mp4", type:"video" },
+  { text:"My favorite music artist is The Weeknd. Check him out here: Apple Music.", video:"https://files.catbox.moe/9n8k06.mp4", type:"video", unmuted:true },
   { text:"One of my favorite books is Zoo Station: The Story of Christiane F. Check it here: DatabazeKnih.", type:"text" },
   { text:"My favorite game is Dead by Daylight. View it here: Xbox Store.", video:"https://i.imgur.com/flUZ8Up.gif", type:"gif" },
   { text:"One of my favorite films is The Great Gatsby. Watch it here: Netflix.", video:"https://files.catbox.moe/l5sp7a.mp4", audio:"https://files.catbox.moe/89tlxi.mp3", type:"video" }
@@ -180,11 +180,17 @@ function playFunFact(){
 
   if(fact.type === 'video'){
     video.src = fact.video;
-    video.muted = true;
     video.playsInline = true;
-    video.currentTime = 0;
 
-    // ukázání s fade efektem
+    // pokud má být video s vlastním zvukem (např. The Weeknd)
+    if (fact.unmuted) {
+      video.muted = false;
+      video.volume = 1.0;
+    } else {
+      video.muted = true;
+    }
+
+    video.currentTime = 0;
     video.classList.add('show');
 
     const playPromise = video.play();
@@ -194,7 +200,7 @@ function playFunFact(){
       });
     }
 
-    if(fact.audio){
+    if(fact.audio && !fact.unmuted){
       setTimeout(()=>{
         audio.src = fact.audio;
         audio.play().catch(()=>{});
