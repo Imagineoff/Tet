@@ -76,6 +76,28 @@ h2:hover { background: rgba(255,255,255,0.05); }
   font-size: 1.2em;
 }
 
+/* Random Fun Fact button */
+h2.funfact-btn {
+  display: inline-block;
+  border-left: none;
+  border: 2px solid #fdd4ff;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+  transition: transform 0.2s, background 0.2s;
+  animation: pulse 2s infinite;
+}
+
+h2.funfact-btn:hover {
+  background: rgba(255,255,255,0.05);
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 10px #fdd4ff; }
+  50% { box-shadow: 0 0 20px #fdd4ff; }
+}
+
 /* Video background */
 #funfactVideo {
   position: fixed;
@@ -107,7 +129,7 @@ h2:hover { background: rgba(255,255,255,0.05); }
     Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
   </div>
 
-  <h2 onclick="playFunFact()">Random Fun Fact</h2>
+  <h2 class="funfact-btn" onclick="playFunFact()">Random Fun Fact</h2>
   <div id="funfactText"></div>
 </div>
 
@@ -138,7 +160,7 @@ function playFunFact() {
   video.style.display = 'block';
   video.currentTime = 0;
   audio.currentTime = 0;
-  video.muted = false;
+  video.muted = true; // video bude tiché
 
   video.play();
   audio.play();
