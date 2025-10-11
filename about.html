@@ -1,383 +1,245 @@
-<!-- SAVE AS index.html -->
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>About Imagine — Master Piece</title>
-
-<!-- preconnect/prefetch pro domény médií (rychlejší DNS/TCP handshake) -->
-<link rel="preconnect" href="https://files.catbox.moe" crossorigin />
-<link rel="dns-prefetch" href="https://files.catbox.moe" />
-<link rel="preload" href="https://i.imgur.com/flUZ8Up.gif" as="image" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fdd4ff">
+<title>About Imagine</title>
 
 <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 <link rel="apple-touch-icon" href="https://i.imgur.com/VIK1odj.jpeg" />
 
 <style>
-/* ---------- základní styl ---------- */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  background:#000;color:#fff;overflow-x:hidden;position:relative;
-  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* neon lines */
-.neon-line{position:absolute;height:2px;background:#fdd4ff;opacity:.5;transform:rotate(45deg);animation:moveDiagonal 8s linear infinite}
-@keyframes moveDiagonal{0%{transform:translate(-100%,-50%) rotate(45deg)}100%{transform:translate(100vw,100vh) rotate(45deg)}}
-.line1{top:10%;width:120px;animation-duration:7s}
-.line2{top:30%;width:200px;animation-duration:9s}
-.line3{top:50%;width:180px;animation-duration:6s}
-.line4{top:70%;width:250px;animation-duration:10s}
-.line5{top:85%;width:220px;animation-duration:8s}
-
-/* obsah */
-.container{position:relative;z-index:3;max-width:900px;margin:0 auto;padding:48px 20px}
-h1{font-size:1.6rem;margin-bottom:8px}
-h2.clickable{cursor:pointer;font-size:1.4rem;padding:6px 10px;border-left:3px solid #fdd4ff}
-.content{color:#ddd;line-height:1.6;font-size:1.05rem}
-
-/* funfact button + spacing */
-.funfact-btn{display:inline-block;border:2px solid #fdd4ff;padding:10px 18px;border-radius:6px;margin-top:36px;cursor:pointer;animation:pulse 2s infinite}
-.funfact-btn.paused{animation:none;opacity:.7}
-@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 8px #fdd4ff}50%{transform:scale(1.03);box-shadow:0 0 20px #fdd4ff}}
-
-/* media backgrounds (video/gif) */
-.funfact-media{position:fixed;left:0;top:0;width:100%;height:100%;object-fit:cover;z-index:1;display:none;opacity:0;transition:opacity .45s ease}
-.funfact-media.show{display:block;opacity:1}
-
-/* overlay controls (stop/unmute notice) */
-.overlay-controls{position:fixed;left:16px;bottom:16px;z-index:4;display:flex;gap:8px}
-.btn{background:rgba(0,0,0,0.5);color:#fff;padding:8px 10px;border-radius:6px;border:1px solid #fdd4ff;cursor:pointer}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:rgba(0,0,0,0.75);padding:8px 12px;border-radius:6px;color:#fff;border:1px solid #444;z-index:9999;opacity:0;transition:opacity .2s}
-.toast.show{opacity:1}
-
-/* link style */
-a.funlink{color:#fdd4ff;text-decoration:underline}
-
-/* small responsiveness */
-@media(max-width:520px){
-  .container{padding:30px 14px}
-  h1{font-size:1.2rem}
-  .funfact-btn{padding:8px 14px}
+/* Neon lines */
+.neon-line {
+  position: absolute;
+  height: 2px;
+  background: #fdd4ff;
+  opacity: 0.5;
+  transform: rotate(45deg);
+  animation: moveDiagonal 8s linear infinite;
 }
+
+@keyframes moveDiagonal {
+  0% { transform: translate(-100%, -50%) rotate(45deg); }
+  100% { transform: translate(100vw, 100vh) rotate(45deg); }
+}
+
+.line1 { top: 10%; width: 120px; animation-duration: 7s; }
+.line2 { top: 30%; width: 200px; animation-duration: 9s; }
+.line3 { top: 50%; width: 180px; animation-duration: 6s; }
+.line4 { top: 70%; width: 250px; animation-duration: 10s; }
+.line5 { top: 85%; width: 220px; animation-duration: 8s; }
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+h2 {
+  cursor: pointer;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-left: 3px solid #fdd4ff;
+  transition: background 0.2s;
+}
+
+h2:hover { background: rgba(255,255,255,0.05); }
+
+#funfactText {
+  margin-top: 20px;
+  line-height: 1.6;
+  color: #ddd;
+  font-size: 1.2em;
+}
+
+/* Fun Fact Button */
+h2.funfact-btn {
+  display: inline-block;
+  margin-top: 40px;
+  border-left: none;
+  border: 2px solid #fdd4ff;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+  animation: pulse 2s infinite;
+}
+
+h2.funfact-btn.paused {
+  animation: none;
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 10px #fdd4ff; }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px #fdd4ff; }
+}
+
+/* Video / GIF background */
+.funfact-media {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  object-fit: cover;
+  z-index:1;
+  display:none;
+}
+a { color: #fdd4ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<!-- neon -->
+<!-- Neon lines -->
 <div class="neon-line line1"></div>
 <div class="neon-line line2"></div>
 <div class="neon-line line3"></div>
 <div class="neon-line line4"></div>
 <div class="neon-line line5"></div>
 
-<!-- media placeholders -->
-<video id="funfactVideo" class="funfact-media" playsinline></video>
-<img id="funfactGif" class="funfact-media" alt="funfact gif placeholder" />
-<!-- extra audio instance for separate audio files if needed -->
+<!-- Media -->
+<video id="funfactVideo" class="funfact-media" playsinline muted></video>
 <audio id="funfactAudio"></audio>
+<img id="funfactGif" class="funfact-media" />
 
-<!-- content -->
-<div class="container" role="main">
-  <h1 class="clickable" onclick="toggleContent('about')">About Me</h1>
-  <div id="about" class="content">
-    <p>Hello! I'm Imagine — developer & bot maker. I like clean UI and playful interactions. This page demonstrates optimized lazy media playback with caching and great fallbacks.</p>
+<div class="container">
+  <h2 onclick="toggleContent('about')">About Me</h2>
+  <div id="about" class="content" style="display:block;">
+    Hello! I'm Imagine, a passionate web developer and programmer specializing in creating interactive web projects and Discord bots.  
+    I enjoy building sleek, user-friendly interfaces and integrating creative functionality into websites and apps.  
+    Currently, I focus on projects that combine modern web technologies like HTML, CSS, JavaScript, and Node.js to deliver engaging user experiences.  
+    I also develop and maintain Discord bots that automate tasks, provide information, and enhance server interactivity.  
+    My goal is to continuously improve my coding skills while working on projects that challenge my creativity and technical abilities.
   </div>
 
-  <button id="funfactBtn" class="funfact-btn" aria-pressed="false">Random Fun Fact</button>
-  <div id="funfactText" class="content" aria-live="polite" style="margin-top:18px"></div>
+  <h2 class="funfact-btn" id="funfactBtn" onclick="playFunFact()">Random Fun Fact</h2>
+  <div id="funfactText"></div>
 </div>
-
-<!-- overlay controls (stop / unmute / cache status) -->
-<div class="overlay-controls" aria-hidden="false">
-  <button id="stopBtn" class="btn" title="Stop current media">Stop</button>
-  <button id="unmuteBtn" class="btn" title="Unmute (if muted)">Unmute</button>
-  <button id="prefetchBtn" class="btn" title="Prefetch all media to cache">Prefetch & Cache</button>
-</div>
-
-<!-- toast notifications -->
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ------------------- DATA (funfacts) ------------------- 
-   - text: HTML allowed (trusted strings)
-   - video: mp4 or gif
-   - audio: optional external audio file (used only if fact.audio exists and fact.unmuted is false)
-   - unmuted: boolean for video that must play with its own audio (e.g. Weeknd)
-*/
-const funfacts = [
-  { id: 'ny', text: 'I’d love to live in New York one day.', video: 'https://files.catbox.moe/381lv5.mp4', audio: 'https://files.catbox.moe/zdkcrk.mp3', type: 'video' },
-  { id: 'weeknd', text: 'My favorite music artist is <strong>The Weeknd</strong>. <a class="funlink" href="https://music.apple.com/search?term=the%20weeknd" target="_blank" rel="noopener noreferrer">Apple Music</a>', video: 'https://files.catbox.moe/9n8k06.mp4', type: 'video', unmuted: true },
-  { id: 'book', text: 'One of my favorite books is <em>Zoo Station</em>. <a class="funlink" href="https://www.databazeknih.cz/t/?q=Zoo+Station" target="_blank" rel="noopener noreferrer">DatabazeKnih</a>', type:'text' },
-  { id: 'game', text: 'My favorite game is <strong>Dead by Daylight</strong>. <a class="funlink" href="https://www.xbox.com/search?q=Dead%20by%20Daylight" target="_blank" rel="noopener noreferrer">Xbox Store</a>', video:'https://i.imgur.com/flUZ8Up.gif', type:'gif' },
-  { id: 'gatsby', text: 'One of my favorite films is <strong>The Great Gatsby</strong>. <a class="funlink" href="https://www.netflix.com/search?q=The%20Great%20Gatsby" target="_blank" rel="noopener noreferrer">Netflix</a>', video:'https://files.catbox.moe/l5sp7a.mp4', audio:'https://files.catbox.moe/89tlxi.mp3', type:'video' }
-];
+// Toggle about
+function toggleContent(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
 
-const videoEl = document.getElementById('funfactVideo');
-const gifEl   = document.getElementById('funfactGif');
-const audioEl = document.getElementById('funfactAudio');
-const textEl  = document.getElementById('funfactText');
-const btn     = document.getElementById('funfactBtn');
-const stopBtn = document.getElementById('stopBtn');
-const unmuteBtn = document.getElementById('unmuteBtn');
-const prefetchBtn = document.getElementById('prefetchBtn');
-const toastEl = document.getElementById('toast');
+// Fun facts
+const funfacts = [
+  {
+    text:"I’d love to live in New York one day.",
+    video:"https://files.catbox.moe/381lv5.mp4",
+    audio:"https://files.catbox.moe/zdkcrk.mp3",
+    type:"video"
+  },
+  {
+    text:'My favorite music artist is <b>The Weeknd</b>. Check him out on <a href="https://music.apple.com/us/artist/the-weeknd/479756766" target="_blank">Apple Music</a>.',
+    video:"https://files.catbox.moe/9n8k06.mp4",
+    audio:null,
+    type:"video"
+  },
+  {
+    text:'One of my favorite books is <b>Zoo Station: The Story of Christiane F.</b> — check it out on <a href="https://www.databazeknih.cz/knihy/my-deti-ze-stanice-zoo-248" target="_blank">Databáze knih</a>.',
+    type:"text"
+  },
+  {
+    text:'My favorite game is <b>Dead by Daylight</b>. See it on <a href="https://www.xbox.com/en-US/games/store/dead-by-daylight/C0N22P73QW4F" target="_blank">Xbox Store</a>.',
+    video:"https://i.imgur.com/flUZ8Up.gif",
+    type:"gif"
+  },
+  {
+    text:'One of my favorite films is <b>The Great Gatsby</b>. Watch it on <a href="https://www.netflix.com/title/70259168" target="_blank">Netflix</a>.',
+    video:"https://files.catbox.moe/fabifh.mp4",
+    audio:"https://files.catbox.moe/r3v57q.mp3",
+    type:"video"
+  }
+];
 
 let lastIndex = -1;
 let isPlaying = false;
-let cacheName = 'imagine-media-v1';
 
-/* ---------- small utilities ---------- */
-function showToast(msg, timeout = 2500) {
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  setTimeout(()=>toastEl.classList.remove('show'), timeout);
-}
-function pickRandomIndex(){
-  if(funfacts.length <= 1) return 0;
-  let idx;
-  do { idx = Math.floor(Math.random()*funfacts.length); } while(idx === lastIndex);
-  lastIndex = idx;
-  return idx;
-}
+function hideNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='none');}
+function showNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='block');}
 
-/* ---------- toggle about ---------- */
-function toggleContent(id){
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
+function playFunFact(){
+  if(isPlaying) return;
+  isPlaying=true;
 
-/* ---------- playback helpers ---------- */
-function cleanupMedia() {
-  videoEl.classList.remove('show'); gifEl.classList.remove('show');
-  try{ videoEl.pause(); }catch(e){}
-  try{ audioEl.pause(); audioEl.currentTime=0 }catch(e){}
-  gifEl.src = '';
-  videoEl.removeAttribute('src'); videoEl.load();
-}
+  const btn=document.getElementById('funfactBtn');
+  btn.classList.add('paused');
 
-function playVideoFact(fact) {
-  // reset
-  cleanupMedia();
-  textEl.innerHTML = fact.text;
+  let index;
+  do{index=Math.floor(Math.random()*funfacts.length);}while(index===lastIndex);
+  lastIndex=index;
+  const fact=funfacts[index];
 
-  if(fact.type === 'video') {
-    videoEl.src = fact.video;
-    videoEl.playsInline = true;
-    videoEl.currentTime = 0;
+  hideNeonLines();
+  const video=document.getElementById('funfactVideo');
+  const audio=document.getElementById('funfactAudio');
+  const gif=document.getElementById('funfactGif');
+  const textEl=document.getElementById('funfactText');
 
-    if (fact.unmuted) {
-      // if unmuted required: try unmuted; if blocked -> inform user and fallback to muted + show Unmute button
-      videoEl.muted = false;
-    } else {
-      videoEl.muted = true; // allow autoplay silently
+  video.style.display='none';
+  gif.style.display='none';
+  audio.pause();
+  audio.currentTime=0;
+
+  textEl.innerHTML=fact.text;
+
+  if(fact.type==='video'){
+    video.src=fact.video;
+    video.playsInline=true;
+
+    // Weeknd = hraje zvuk z videa
+    video.muted = (index !== 1);
+
+    video.style.display='block';
+    const playPromise = video.play();
+    if(playPromise) playPromise.catch(()=>{});
+
+    if(fact.audio && index !== 1){
+      audio.src=fact.audio;
+      audio.play().catch(()=>{});
     }
 
-    // show with fade
-    videoEl.classList.add('show');
-
-    const p = videoEl.play();
-    if (p !== undefined) {
-      p.catch(err => {
-        // case: unmuted autoplay blocked -> try mute fallback and notify
-        if(fact.unmuted) {
-          console.warn('Unmuted autoplay blocked, muting as fallback:', err);
-          videoEl.muted = true;
-          videoEl.play().catch(()=>{});
-          showToast('Zvuk byl zablokován — stiskni "Unmute" pro zapnutí zvuku.', 4000);
-        } else {
-          console.warn('Video autoplay blocked:', err);
-        }
-      });
-    }
-
-    // if separate audio (and video muted), play it
-    if(fact.audio && !fact.unmuted) {
-      setTimeout(()=> {
-        audioEl.src = fact.audio;
-        audioEl.play().catch(()=>{/* ignore */});
-      }, 300);
-    }
-
-    videoEl.onended = ()=> {
-      cleanupMedia();
-      showNeon();
-      isPlaying = false;
+    video.onended=()=>{
+      video.style.display='none';
+      audio.pause();
+      showNeonLines();
+      isPlaying=false;
       btn.classList.remove('paused');
     };
 
-  } else if(fact.type === 'gif') {
-    gifEl.src = fact.video;
-    gifEl.classList.add('show');
-    // show 5s
-    setTimeout(()=>{ gifEl.classList.remove('show'); showNeon(); isPlaying=false; btn.classList.remove('paused') }, 5000);
-
-  } else { // text
-    textEl.innerHTML = fact.text;
-    setTimeout(()=>{ showNeon(); isPlaying=false; btn.classList.remove('paused') }, 3000);
+  }else if(fact.type==='gif'){
+    gif.src=fact.video;
+    gif.style.display='block';
+    setTimeout(()=>{
+      gif.style.display='none';
+      showNeonLines();
+      isPlaying=false;
+      btn.classList.remove('paused');
+    },5000);
+  }else if(fact.type==='text'){
+    setTimeout(()=>{
+      showNeonLines();
+      isPlaying=false;
+      btn.classList.remove('paused');
+    },3000);
   }
 }
-
-/* ---------- visual neon helpers ---------- */
-function hideNeon(){ document.querySelectorAll('.neon-line').forEach(n=>n.style.display='none'); }
-function showNeon(){ document.querySelectorAll('.neon-line').forEach(n=>n.style.display='block'); }
-
-/* ---------- main play function ---------- */
-async function playFunFact(){
-  if(isPlaying) return;
-  isPlaying = true;
-  hideNeon();
-  btn.classList.add('paused');
-  const idx = pickRandomIndex();
-  const fact = funfacts[idx];
-
-  // quick UX: show "loading" toast only if media is remote and not cached
-  if (fact.video && !(fact.video.endsWith('.gif'))) {
-    const cached = await isCached(fact.video);
-    if(!cached) showToast('Načítám video…', 1200);
-  }
-
-  playVideoFact(fact);
-
-  // after first user gesture, trigger background caching of other media for snappy next plays
-  // run async without blocking UI
-  backgroundCacheOthers(fact.id).catch(()=>{/*silent*/});
-}
-
-/* ---------- stop/unmute controls ---------- */
-stopBtn.addEventListener('click', ()=> {
-  cleanupMedia();
-  showNeon();
-  isPlaying = false;
-  btn.classList.remove('paused');
-});
-unmuteBtn.addEventListener('click', ()=> {
-  // unmute currently playing video or audio
-  if(videoEl.src) { videoEl.muted = false; try{ videoEl.volume = 1.0 }catch(e){} }
-  if(audioEl.src) { try{ audioEl.volume = 1.0 }catch(e){} audioEl.play().catch(()=>{}) }
-  showToast('Zvuk zapnutý', 1500);
-});
-
-/* ---------- CACHE helpers & service worker integration ---------- */
-async function isCached(url) {
-  if(!('caches' in window)) return false;
-  try {
-    const cache = await caches.open(cacheName);
-    const match = await cache.match(url);
-    return !!match;
-  } catch(e) { return false; }
-}
-
-async function cacheUrl(url) {
-  if(!('caches' in window)) return;
-  try {
-    const cache = await caches.open(cacheName);
-    const resp = await fetch(url, {mode:'no-cors'}); // no-cors to avoid CORS blocking; may store an opaque response
-    // note: opaque responses may not be playable in some browsers depending on headers; but usually ok
-    await cache.put(url, resp.clone());
-    return true;
-  } catch(e) {
-    console.warn('cache error', e);
-    return false;
-  }
-}
-
-/* prefetch all (triggered by button) */
-prefetchBtn.addEventListener('click', async ()=>{
-  showToast('Prefetching media… (běží na pozadí)');
-  for(const f of funfacts){
-    if(f.video) cacheUrl(f.video);
-    if(f.audio) cacheUrl(f.audio);
-  }
-});
-
-/* background cache excluding currently played item (called after first gesture) */
-async function backgroundCacheOthers(skipId) {
-  // first register service worker if possible
-  if('serviceWorker' in navigator) {
-    try { await navigator.serviceWorker.register('./sw.js'); console.log('SW registered'); } catch(e){ console.warn('SW reg fail', e); }
-  }
-  // cache other media
-  for(const f of funfacts) {
-    if(f.id === skipId) continue;
-    if(f.video) cacheUrl(f.video);
-    if(f.audio) cacheUrl(f.audio);
-  }
-}
-
-/* ---------- service worker quick registration (file sw.js should be present) ---------- */
-if('serviceWorker' in navigator) {
-  // register only on user gesture ideally; here we register passively but it's safe—service worker itself waits to cache.
-  navigator.serviceWorker.register('/sw.js').then(()=> {
-    console.log('service worker registered (passive)');
-  }).catch(()=>{ console.warn('sw reg failed'); });
-}
-
-/* ---------- event wiring ---------- */
-btn.addEventListener('click', ()=> playFunFact());
-
-/* ---------- accessibility: keyboard support ---------- */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === ' ' || e.key === 'Enter') {
-    const active = document.activeElement;
-    if(active === btn || active === document.body) {
-      e.preventDefault();
-      playFunFact();
-    }
-  }
-});
 </script>
-
-<!-- 
-  Optional service worker file: save as sw.js at the same root as index.html
-  (works only under HTTPS or localhost)
--->
-<!--
-/* sw.js (save this file to your server) */
-
-const CACHE_NAME = 'imagine-media-v1';
-const CORE = [
-  '/', // optional: index page
-  // you can list frequently used assets here (icons, gifs)
-  'https://i.imgur.com/flUZ8Up.gif'
-];
-
-self.addEventListener('install', (evt) => {
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE)).catch(()=>{})
-  );
-});
-
-self.addEventListener('activate', (evt) => {
-  evt.waitUntil(self.clients.claim());
-});
-
-self.addEventListener('fetch', (evt) => {
-  // try cache first for media; otherwise network fetch
-  if(evt.request.method !== 'GET') return;
-  const url = new URL(evt.request.url);
-  // simple heuristic: cache media requests from catbox or images
-  if(url.hostname.includes('files.catbox.moe') || url.pathname.endsWith('.gif') || url.pathname.endsWith('.mp4') || url.pathname.endsWith('.mp3')) {
-    evt.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        const cached = await cache.match(evt.request);
-        if(cached) return cached;
-        try {
-          const resp = await fetch(evt.request);
-          // put a clone into cache (best-effort)
-          cache.put(evt.request, resp.clone()).catch(()=>{});
-          return resp;
-        } catch(e) {
-          // network failed -> fallback to cached or a 503 response
-          return cached || new Response('', {status:503, statusText:'Service Unavailable'});
-        }
-      })
-    );
-  }
-});
--->
 </body>
 </html>
