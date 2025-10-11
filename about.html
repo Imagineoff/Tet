@@ -153,6 +153,7 @@ function showNeonLines(){ document.querySelectorAll('.neon-line').forEach(e=>e.s
 function playFunFact(){
   if(isPlaying) return;
   isPlaying = true;
+
   const btn = document.getElementById('funfactBtn');
   btn.classList.add('paused');
 
@@ -176,14 +177,25 @@ function playFunFact(){
 
   if(fact.type === 'video'){
     video.src = fact.video;
+    video.muted = true; // důležité pro autoplay
+    video.playsInline = true;
     video.style.display = 'block';
     video.currentTime = 0;
-    if(fact.audio){
-      audio.src = fact.audio;
-      audio.currentTime = 0;
-      audio.play();
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        console.warn('Autoplay zablokován – klikni znovu pro přehrání.');
+      });
     }
-    video.play();
+
+    if(fact.audio){
+      setTimeout(()=>{
+        audio.src = fact.audio;
+        audio.play().catch(()=>{});
+      }, 500);
+    }
+
     video.onended = ()=>{
       video.style.display = 'none';
       audio.pause();
@@ -191,6 +203,7 @@ function playFunFact(){
       isPlaying = false;
       btn.classList.remove('paused');
     };
+
   } else if(fact.type === 'gif'){
     gif.src = fact.video;
     gif.style.display = 'block';
@@ -200,6 +213,7 @@ function playFunFact(){
       isPlaying = false;
       btn.classList.remove('paused');
     }, 5000);
+
   } else if(fact.type === 'text'){
     setTimeout(()=>{
       showNeonLines();
