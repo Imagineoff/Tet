@@ -172,167 +172,133 @@ h2.funfact-btn.paused {
 </div>
 
 <script>
-// About toggle
 function toggleContent(id){
-  const el=document.getElementById(id);
-  el.style.display=el.style.display==='block'?'none':'block';
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
 }
 
-// Fun facts data
 const funfacts = [
-  {
-    text:"I’d love to live in New York one day.",
-    video:"https://files.catbox.moe/381lv5.mp4",
-    audio:"https://files.catbox.moe/zdkcrk.mp3",
-    type:"video"
-  },
-  {
-    text:"My favorite music artist is The Weeknd. Check him out here: Apple Music.",
-    video:"https://files.catbox.moe/b4iusx.mov",
-    audio:null,
-    type:"video"
-  },
-  {
-    text:"One of my favorite books is Zoo Station: The Story of Christiane F. Check it here: DatabazeKnih.",
-    type:"text"
-  },
-  {
-    text:"My favorite game is Dead by Daylight. View it here: Xbox Store.",
-    video:"https://i.imgur.com/flUZ8Up.gif",
-    type:"gif"
-  },
-  {
-    text:"One of my favorite films is The Great Gatsby. Watch it here: Netflix.",
-    video:"https://files.catbox.moe/9m15oh.mov",
-    audio:"https://files.catbox.moe/89tlxi.mp3",
-    type:"video"
-  }
+  { text:"I’d love to live in New York one day.", video:"https://files.catbox.moe/381lv5.mp4", audio:"https://files.catbox.moe/zdkcrk.mp3", type:"video" },
+  { text:"My favorite music artist is The Weeknd. Check him out here: Apple Music.", video:"https://files.catbox.moe/b4iusx.mov", type:"video" },
+  { text:"One of my favorite books is Zoo Station: The Story of Christiane F. Check it here: DatabazeKnih.", type:"text" },
+  { text:"My favorite game is Dead by Daylight. View it here: Xbox Store.", video:"https://i.imgur.com/flUZ8Up.gif", type:"gif" },
+  { text:"One of my favorite films is The Great Gatsby. Watch it here: Netflix.", video:"https://files.catbox.moe/9m15oh.mov", audio:"https://files.catbox.moe/89tlxi.mp3", type:"video" }
 ];
 
 let lastIndex = -1;
 let isPlaying = false;
 
-function hideNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='none');}
-function showNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='block');}
+function hideNeonLines(){ document.querySelectorAll('.neon-line').forEach(e=>e.style.display='none'); }
+function showNeonLines(){ document.querySelectorAll('.neon-line').forEach(e=>e.style.display='block'); }
 
 function playFunFact(){
   if(isPlaying) return;
-  isPlaying=true;
-
-  const btn=document.getElementById('funfactBtn');
+  isPlaying = true;
+  const btn = document.getElementById('funfactBtn');
   btn.classList.add('paused');
 
-  // choose random, not same as last
   let index;
-  do{index=Math.floor(Math.random()*funfacts.length);}while(index===lastIndex);
-  lastIndex=index;
-  const fact=funfacts[index];
+  do { index = Math.floor(Math.random() * funfacts.length); } while(index === lastIndex);
+  lastIndex = index;
+  const fact = funfacts[index];
 
   hideNeonLines();
-  const video=document.getElementById('funfactVideo');
-  const audio=document.getElementById('funfactAudio');
-  const gif=document.getElementById('funfactGif');
-  const textEl=document.getElementById('funfactText');
+  const video = document.getElementById('funfactVideo');
+  const audio = document.getElementById('funfactAudio');
+  const gif = document.getElementById('funfactGif');
+  const textEl = document.getElementById('funfactText');
 
-  video.style.display='none';
-  gif.style.display='none';
+  video.style.display = 'none';
+  gif.style.display = 'none';
   audio.pause();
-  audio.currentTime=0;
+  audio.currentTime = 0;
 
-  textEl.textContent=fact.text;
+  textEl.textContent = fact.text;
 
-  if(fact.type==='video'){
-    video.src=fact.video;
-    video.style.display='block';
-    video.currentTime=0;
+  if(fact.type === 'video'){
+    video.src = fact.video;
+    video.style.display = 'block';
+    video.currentTime = 0;
     if(fact.audio){
-      audio.src=fact.audio;
-      audio.currentTime=0;
+      audio.src = fact.audio;
+      audio.currentTime = 0;
       audio.play();
     }
     video.play();
-    video.onended=()=>{
-      video.style.display='none';
+    video.onended = ()=>{
+      video.style.display = 'none';
       audio.pause();
-      audio.currentTime=0;
       showNeonLines();
-      isPlaying=false;
+      isPlaying = false;
       btn.classList.remove('paused');
     };
-  }else if(fact.type==='gif'){
-    gif.src=fact.video;
-    gif.style.display='block';
-    let loopCount=0;
-    const maxLoops=5;
-    const interval=setInterval(()=>{
-      loopCount++;
-      if(loopCount>=maxLoops){ 
-        gif.style.display='none';
-        showNeonLines();
-        isPlaying=false;
-        btn.classList.remove('paused');
-        clearInterval(interval);
-      }
-    },1000);
-  }else if(fact.type==='text'){
+  } else if(fact.type === 'gif'){
+    gif.src = fact.video;
+    gif.style.display = 'block';
+    setTimeout(()=>{
+      gif.style.display = 'none';
+      showNeonLines();
+      isPlaying = false;
+      btn.classList.remove('paused');
+    }, 5000);
+  } else if(fact.type === 'text'){
     setTimeout(()=>{
       showNeonLines();
-     isPlaying=false;
-btn.classList.remove(‘paused’);
-}, 3000); // text zobrazíme 3s
-}
+      isPlaying = false;
+      btn.classList.remove('paused');
+    }, 3000);
+  }
 }
 
 // Preload media + loading screen
 const mediaToLoad = [
-“https://files.catbox.moe/381lv5.mp4”,
-“https://files.catbox.moe/b4iusx.mov”,
-“https://files.catbox.moe/9m15oh.mov”,
-“https://files.catbox.moe/zdkcrk.mp3”,
-“https://files.catbox.moe/89tlxi.mp3”,
-“https://i.imgur.com/flUZ8Up.gif”
+  "https://files.catbox.moe/381lv5.mp4",
+  "https://files.catbox.moe/b4iusx.mov",
+  "https://files.catbox.moe/9m15oh.mov",
+  "https://files.catbox.moe/zdkcrk.mp3",
+  "https://files.catbox.moe/89tlxi.mp3",
+  "https://i.imgur.com/flUZ8Up.gif"
 ];
 
 const loadingMessages = [
-“Loading decorative elements…”,
-“Loading videos…”,
-“Loading music…”,
-“Finalizing setup…”
+  "Loading decorative elements…",
+  "Loading videos…",
+  "Loading music…",
+  "Finalizing setup…"
 ];
 
 let loadedCount = 0;
-const progressBar = document.getElementById(‘progressBar’);
-const loadingText = document.getElementById(‘loadingText’);
+const progressBar = document.getElementById('progressBar');
+const loadingText = document.getElementById('loadingText');
 
 function updateLoadingText(){
-const percent = Math.floor((loadedCount / mediaToLoad.length) * 100);
-const msgIndex = Math.min(Math.floor(percent / (100 / loadingMessages.length)), loadingMessages.length - 1);
-const remaining = Math.max(0, mediaToLoad.length - loadedCount);
-loadingText.textContent = ${loadingMessages[msgIndex]} (~${remaining}s remaining);
+  const percent = Math.floor((loadedCount / mediaToLoad.length) * 100);
+  const msgIndex = Math.min(Math.floor(percent / (100 / loadingMessages.length)), loadingMessages.length - 1);
+  const remaining = Math.max(0, mediaToLoad.length - loadedCount);
+  loadingText.textContent = `${loadingMessages[msgIndex]} (~${remaining}s remaining)`;
 }
 
 mediaToLoad.forEach(src => {
-let el;
-if(src.endsWith(’.mp4’) || src.endsWith(’.mov’)){
-el = document.createElement(‘video’);
-} else if(src.endsWith(’.mp3’)){
-el = document.createElement(‘audio’);
-} else if(src.endsWith(’.gif’)){
-el = document.createElement(‘img’);
-}
-el.src = src;
-el.onloadeddata = el.onload = ()=>{
-loadedCount++;
-progressBar.style.width = ((loadedCount / mediaToLoad.length) * 100) + ‘%’;
-updateLoadingText();
-if(loadedCount === mediaToLoad.length){
-document.getElementById(‘loadingScreen’).style.display=‘none’;
-}
-};
+  let el;
+  if(src.endsWith('.mp4') || src.endsWith('.mov')){
+    el = document.createElement('video');
+  } else if(src.endsWith('.mp3')){
+    el = document.createElement('audio');
+  } else if(src.endsWith('.gif')){
+    el = document.createElement('img');
+  }
+  el.src = src;
+  el.onloadeddata = el.onload = ()=>{
+    loadedCount++;
+    progressBar.style.width = ((loadedCount / mediaToLoad.length) * 100) + '%';
+    updateLoadingText();
+    if(loadedCount === mediaToLoad.length){
+      document.getElementById('loadingScreen').style.display='none';
+    }
+  };
 });
 
-// Initial text
 updateLoadingText();
- </body>
+</script>
+</body>
 </html>
- 
