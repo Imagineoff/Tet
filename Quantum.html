@@ -109,21 +109,25 @@
     }
 
     function updateCooldown() {
-        if (!COOLDOWN_ACTIVE) {
-            cooldownEl.textContent = "Cooldown active: false";
-            return;
-        }
-        const now = new Date();
-        let diff = COOLDOWN_END - now;
-        if (diff <= 0) {
-            cooldownEl.textContent = "Cooldown ended";
-            return;
-        }
-        let hours = Math.floor(diff/1000/60/60);
-        let minutes = Math.floor((diff/1000/60)%60);
-        let seconds = Math.floor((diff/1000)%60);
-        cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
+    if (!COOLDOWN_ACTIVE) {
+        // Skryj element, když cooldown není aktivní
+        cooldownEl.style.display = "none";
+        return;
     }
+    // Pokud je aktivní, ukaž element
+    cooldownEl.style.display = "inline-block";
+
+    const now = new Date();
+    let diff = COOLDOWN_END - now;
+    if (diff <= 0) {
+        cooldownEl.textContent = "Cooldown ended";
+        return;
+    }
+    let hours = Math.floor(diff / 1000 / 60 / 60);
+    let minutes = Math.floor((diff / 1000 / 60) % 60);
+    let seconds = Math.floor((diff / 1000) % 60);
+    cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
+}
 
     updateStatus();
     updateCooldown();
