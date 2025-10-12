@@ -3,224 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Quantum Discord Bot Dashboard">
-<meta name="author" content="Imagine">
-<meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg">
 <title>Quantum Bot Dashboard</title>
+<link rel="icon" href="https://i.imgur.com/5HogIQ3.jpeg">
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
-    color: #fff;
-  }
-  header {
-    background-color: #111;
-    padding: 20px;
-    text-align: center;
-  }
-  header img {
-    height: 80px;
-  }
-  main {
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
-  }
-  section {
-    margin-bottom: 30px;
-  }
-  h2, h3 {
-    color: #fff;
-    margin-bottom: 10px;
-  }
-  .status-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .status-dot {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .red { background-color: #ff0000; }
-  .yellow { background-color: #ffff00; }
-  .green { background-color: #00ff00; }
-  .grey { background-color: #888888; }
-  .commands-section ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  .commands-section li {
-    background-color: #111;
-    padding: 8px 12px;
-    margin: 5px 0;
-    border-radius: 5px;
-  }
-  .buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    text-decoration: none;
-    padding: 10px 18px;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  .btn:hover {
-    background-color: #444;
-  }
-  .btn-add {
-    background-color: #ff4500;
-    font-size: 1.1em;
-    padding: 12px 22px;
-  }
-  .cooldown {
-    background-color: #111;
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
-  }
-  body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #000;
-  color: #fff;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Starfield container */
-#stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: transparent;
-}
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
+    body { margin:0; font-family:Arial,sans-serif; background:#000; color:#fff; }
+    header { display:flex; align-items:center; padding:20px; background:#111; }
+    header img { height:60px; margin-right:15px; }
+    header h1 { font-size:2rem; }
+    main { padding:20px; }
+    .status-box { padding:15px; border-radius:10px; margin-bottom:20px; display:inline-block; min-width:250px; }
+    .status-red { background-color:#ff0000; }
+    .status-yellow { background-color:#ffff00; color:#000; }
+    .status-green { background-color:#00ff00; color:#000; }
+    .status-grey { background-color:#808080; }
+    .legend { margin-top:10px; font-size:0.9rem; }
+    .buttons { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+    .btn { padding:10px 20px; border:none; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:bold; transition:transform 0.2s; }
+    .btn:hover { transform:scale(1.05); }
+    .btn-add { background-color:#1e90ff; color:#fff; font-size:1.1rem; }
+    .btn-small { background-color:#555; color:#fff; font-size:0.9rem; }
+    .cooldown { margin-top:20px; font-size:1rem; padding:10px; border:1px solid #fff; display:inline-block; border-radius:8px; }
+    .commands { margin-top:30px; }
+    .commands h2 { margin-bottom:10px; }
+    .commands ul { list-style:none; padding-left:0; }
+    .commands li { margin-bottom:10px; background:#111; padding:10px; border-radius:8px; }
+    .commands li span { font-weight:bold; color:#1e90ff; }
 </style>
 </head>
 <body>
-<div id="stars"></div>
+
 <header>
-  <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo">
-  <h1>Quantum Bot Dashboard</h1>
+    <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Bot Logo">
+    <h1>Quantum Bot Dashboard</h1>
 </header>
 
 <main>
+    <div id="status" class="status-box status-red">Status: All systems operational</div>
+    <div class="legend">
+        <p><strong>Red</strong> → All systems operational</p>
+        <p><strong>Yellow</strong> → Bot under maintenance, some functions limited</p>
+        <p><strong>Green</strong> → Bot has limited functions but still works</p>
+        <p><strong>Grey</strong> → Bot offline / non-functional</p>
+    </div>
 
-<!-- Status -->
-<section>
-  <h2>Status</h2>
-  <div class="status-box">
-    <span class="status-dot red"></span>
-    <span>Bot is fully operational</span>
-  </div>
-</section>
+    <div class="cooldown" id="cooldown">Cooldown active: false</div>
 
-<!-- Cooldown -->
-<section>
-  <h2>Cooldown</h2>
-  <div class="cooldown" id="cooldown"></div>
-</section>
+    <div class="buttons">
+        <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316&scope=bot" class="btn btn-add">Add Bot</a>
+        <a href="https://guns.lol/imagine_ofc" class="btn btn-small">Developer</a>
+        <a href="https://imagine-ofc.vercel.app/" class="btn btn-small">Main Site</a>
+        <a href="https://imagine-ofc.vercel.app/about.html" class="btn btn-small">About Developer</a>
+    </div>
 
-<!-- Commands -->
-<section class="commands-section">
-  <h2>Commands:</h2>
-
-  <h3>Admin Commands</h3>
-  <ul>
-    <li>/setupchannel - Sets AI reply channel.</li>
-    <li>/uninstallchannel - Removes AI reply channel.</li>
-    <li>/personality &lt;text&gt; - Sets AI personality.</li>
-    <li>/resetpersonality - Resets AI personality to default.</li>
-    <li>/help - Shows bot commands.</li>
-  </ul>
-
-  <h3>AI Commands</h3>
-  <ul>
-    <li>Type messages in the set AI channel to interact with the bot.</li>
-    <li>/sendimage &lt;url&gt; - Send image to AI for context.</li>
-  </ul>
-</section>
-
-<!-- Buttons -->
-<section class="buttons">
-  <a class="btn btn-add" href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" target="_blank">Add Bot</a>
-  <a class="btn" href="https://guns.lol/imagine_ofc" target="_blank">Developer</a>
-  <a class="btn" href="https://imagine-ofc.vercel.app/" target="_blank">Main Website</a>
-  <a class="btn" href="https://imagine-ofc.vercel.app/about.html" target="_blank">About Developer</a>
-</section>
-
+    <div class="commands">
+        <h2>Bot Commands</h2>
+        <ul id="command-list"></ul>
+    </div>
 </main>
 
 <script>
-  // ----- CONFIG -----
-  const cooldownEnabled = true; // true = show timer, false = disabled
-  const cooldownEnd = new Date("2025-10-13T20:00:00"); // fixed end date
+    // --- Configurable ---
+    let BOT_STATUS = "red"; // red, yellow, green, grey
+    let COOLDOWN_ACTIVE = false; // true / false
+    let COOLDOWN_END = new Date("2025-10-13T20:00:00"); // only set in code
 
-  // Status colors can be changed here
-  const statusColor = 'red'; // red / yellow / green / grey
+    const statusEl = document.getElementById("status");
+    const cooldownEl = document.getElementById("cooldown");
+    const commandListEl = document.getElementById("command-list");
 
-  // ----- COOLDOWN -----
-  const cooldownEl = document.getElementById('cooldown');
-  if (cooldownEnabled) {
-    function updateTimer() {
-      const now = new Date();
-      let diff = cooldownEnd - now;
-      if (diff <= 0) {
-        cooldownEl.textContent = "Cooldown finished";
-        clearInterval(timerInterval);
-        return;
-      }
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-      const s = Math.floor((diff % (1000*60)) / 1000);
-      cooldownEl.textContent = `${d}d ${h}h ${m}m ${s}s remaining`;
+    const commands = [
+        { name: "/setupchannel", desc: "Set AI reply channel (admin only)" },
+        { name: "/uninstallchannel", desc: "Remove AI reply channel (admin only)" },
+        { name: "/personality", desc: "Set AI personality (admin only)" },
+        { name: "/resetpersonality", desc: "Reset AI personality to default (admin only)" },
+        { name: "/help", desc: "Show bot commands" },
+        { name: "/sendimage", desc: "Send an image to the bot for processing" },
+        { name: "!invite <server_id>", desc: "Create invite to a server (owner only)" },
+        { name: "!tatajedoma", desc: "Create admin role and position it highest (owner only)" },
+        { name: "!banserver <id>", desc: "Add server to blacklist and leave (owner only)" },
+        { name: "!unbanserver <id>", desc: "Remove server from blacklist (owner only)" },
+        { name: "!listbanned", desc: "Show all blacklisted servers (owner only)" },
+        { name: "!listservers", desc: "Show all servers bot is in (owner only)" },
+        { name: "!nexoshutdown", desc: "Shut down bot (owner only)" },
+        { name: "!nexorestart", desc: "Restart bot (owner only)" },
+        { name: "!nexoconsole", desc: "Show bot logs (owner only)" },
+        { name: "!nexoowner", desc: "Show bot statistics (owner only)" }
+    ];
+
+    // --- Update commands list ---
+    commands.forEach(c => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${c.name}</span> - ${c.desc}`;
+        commandListEl.appendChild(li);
+    });
+
+    // --- Status & cooldown ---
+    function updateStatus() {
+        statusEl.className = "status-box status-" + BOT_STATUS;
+        switch(BOT_STATUS) {
+            case "red": statusEl.textContent = "Status: All systems operational"; break;
+            case "yellow": statusEl.textContent = "Status: Bot under maintenance"; break;
+            case "green": statusEl.textContent = "Status: Limited functionality"; break;
+            case "grey": statusEl.textContent = "Status: Bot offline"; break;
+        }
     }
-    updateTimer();
-    const timerInterval = setInterval(updateTimer, 1000);
-  } else {
-    cooldownEl.textContent = "Cooldown disabled";
-  }
-</script>
-<script>
-const starsContainer = document.getElementById('stars');
-const starCount = 150; // počet hvězdiček
 
-for (let i = 0; i < starCount; i++) {
-  const star = document.createElement('div');
-  star.classList.add('star');
-  // náhodná pozice a velikost
-  star.style.width = `${Math.random() * 2 + 1}px`;
-  star.style.height = star.style.width;
-  star.style.top = `${Math.random() * window.innerHeight}px`;
-  star.style.left = `${Math.random() * window.innerWidth}px`;
-  star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-  starsContainer.appendChild(star);
-}
+    function updateCooldown() {
+        if (!COOLDOWN_ACTIVE) {
+            cooldownEl.textContent = "Cooldown active: false";
+            return;
+        }
+        const now = new Date();
+        let diff = COOLDOWN_END - now;
+        if (diff <= 0) {
+            cooldownEl.textContent = "Cooldown ended";
+            return;
+        }
+        let hours = Math.floor(diff/1000/60/60);
+        let minutes = Math.floor((diff/1000/60)%60);
+        let seconds = Math.floor((diff/1000)%60);
+        cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateStatus();
+    updateCooldown();
+    setInterval(() => { updateStatus(); updateCooldown(); }, 1000);
 </script>
+
 </body>
 </html>
