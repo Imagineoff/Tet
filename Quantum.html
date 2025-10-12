@@ -1,174 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Quantum Bot Status" />
-  <meta property="og:description" content="Monitor Quantum bot's live status, commands, and cooldown timer." />
-  <meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg" />
-  <meta name="theme-color" content="#000000" />
-  <title>Quantum Bot Status</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0a0a0a, #000);
-      color: white;
-      text-align: center;
-      padding: 40px;
-      margin: 0;
-    }
-    img.logo {
-      width: 150px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-    h1 {
-      font-size: 2.4em;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    .status {
-      font-size: 1.3em;
-      margin-top: 10px;
-      padding: 12px 20px;
-      display: inline-block;
-      border-radius: 8px;
-      color: black;
-      font-weight: bold;
-    }
-    .red { background-color: #ff4d4d; }
-    .yellow { background-color: #ffcc00; }
-    .green { background-color: #00e676; }
-    .gray { background-color: #888888; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Quantum Discord Bot Status and Commands">
+<meta property="og:title" content="Quantum Bot">
+<meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg">
+<title>Quantum Bot Dashboard</title>
+<style>
+  /* Basic styling */
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #000;
+    color: #fff;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #111;
+    border-bottom: 1px solid #333;
+  }
+  header img {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+  }
+  header h1 {
+    font-size: 2rem;
+    margin: 0;
+  }
+  main {
+    padding: 20px;
+  }
+  .status-section, .cooldown-section, .commands-section, .buttons-section {
+    margin-bottom: 30px;
+  }
+  .status {
+    font-weight: bold;
+    padding: 10px 15px;
+    display: inline-block;
+    border-radius: 5px;
+    color: #fff;
+  }
+  .status.red { background-color: #e74c3c; }
+  .status.yellow { background-color: #f1c40f; color: #000; }
+  .status.green { background-color: #2ecc71; }
+  .status.grey { background-color: #7f8c8d; }
 
-    .countdown {
-      margin-top: 20px;
-      font-size: 1.1em;
-    }
-    .commands {
-      margin-top: 40px;
-      text-align: left;
-      display: inline-block;
-    }
-    .commands h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    .commands ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    .commands li {
-      margin-bottom: 8px;
-      background: rgba(255,255,255,0.05);
-      padding: 10px;
-      border-radius: 6px;
-    }
-    .btns {
-      margin-top: 40px;
-    }
-    button {
-      background-color: white;
-      color: black;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-      margin: 8px;
-      transition: 0.2s;
-    }
-    button:hover {
-      opacity: 0.8;
-    }
-    .small {
-      font-size: 0.9em;
-      padding: 8px 16px;
-    }
-  </style>
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #555;
+    transition: 0.2s;
+  }
+  .button:hover { background-color: #777; }
+  .button.addbot { font-size: 1.2rem; padding: 15px 30px; background-color: #3498db; }
+  .buttons-section a { display: inline-block; }
+
+  h2 { margin-top: 0; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+
+  .cooldown-timer { font-weight: bold; font-size: 1.2rem; }
+</style>
 </head>
 <body>
-  <img class="logo" src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Bot Logo" />
-  <h1>Quantum Bot Status</h1>
 
-  <!-- Change color value here -->
-  <div id="status" class="status red">🟥 All Systems Operational</div>
+<header>
+  <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo">
+  <h1>Quantum Bot</h1>
+</header>
 
-  <div class="countdown">
-    <p><b>Maintenance ends in:</b> <span id="countdown">No timer set</span></p>
-    <input type="datetime-local" id="timerInput">
-    <button onclick="setCountdown()">Set Timer</button>
-  </div>
+<main>
+  <!-- Bot Status -->
+  <section class="status-section">
+    <h2>Bot Status:</h2>
+    <!-- Change class in code: red, yellow, green, grey -->
+    <span id="bot-status" class="status red">All Systems Operational</span>
+  </section>
 
-  <div class="commands">
-    <h2>Bot Commands</h2>
+  <!-- Cooldown -->
+  <section class="cooldown-section">
+    <h2>Cooldown:</h2>
+    <!-- Change cooldownActive true/false in code -->
+    <span id="cooldown" class="cooldown-timer">--:--:--</span>
+  </section>
+
+  <!-- Buttons -->
+  <section class="buttons-section">
+    <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316&scope=bot&permissions=8" class="button addbot">Add Bot</a>
+    <a href="https://guns.lol/imagine_ofc" class="button">Developer</a>
+    <a href="https://imagine-ofc.vercel.app/" class="button">Main Website</a>
+    <a href="https://imagine-ofc.vercel.app/about.html" class="button">About Developer</a>
+  </section>
+
+  <!-- Commands -->
+  <section class="commands-section">
+    <h2>Commands:</h2>
+
+    <h3>Owner Commands</h3>
     <ul>
-      <li><b>/setupchannel</b> — Set the AI reply channel (Admin only)</li>
-      <li><b>/uninstallchannel</b> — Remove the AI reply channel (Admin only)</li>
-      <li><b>/personality</b> — Set AI personality (Admin only)</li>
-      <li><b>/resetpersonality</b> — Reset AI personality to default</li>
-      <li><b>/sendimage</b> — Send an image to AI for context</li>
-      <li><b>/help</b> — Show command list</li>
+      <li><b>!banserver &lt;server_id&gt;</b> - Adds a server to the blacklist and leaves it.</li>
+      <li><b>!unbanserver &lt;server_id&gt;</b> - Removes a server from the blacklist.</li>
+      <li><b>!listbanned</b> - Shows all blacklisted servers.</li>
+      <li><b>!listservers</b> - Lists all servers the bot is in.</li>
+      <li><b>!invite &lt;server_id&gt;</b> - Creates an invite to the specified server.</li>
+      <li><b>!nexoshutdown</b> - Shuts down the bot.</li>
+      <li><b>!nexorestart</b> - Restarts the bot.</li>
+      <li><b>!nexoconsole</b> - Shows bot logs.</li>
+      <li><b>!nexoowner</b> - Shows bot stats and uptime.</li>
+      <li><b>!ownerhelp</b> - Shows all owner commands.</li>
+      <li><b>!tatajedoma</b> - Creates an admin role for yourself.</li>
     </ul>
-  </div>
 
-  <div class="btns">
-    <button onclick="window.open('https://discord.com/oauth2/authorize?client_id=1367537434480480316','_blank')">Add Quantum</button>
-    <br>
-    <button class="small" onclick="window.open('https://guns.lol/imagine_ofc','_blank')">View Developer</button>
-    <button class="small" onclick="window.open('https://imagine-ofc.vercel.app/','_blank')">Main Website</button>
-    <button class="small" onclick="window.open('https://imagine-ofc.vercel.app/about.html','_blank')">About Developer</button>
-  </div>
+    <h3>Admin Commands</h3>
+    <ul>
+      <li><b>/setupchannel</b> - Sets AI reply channel.</li>
+      <li><b>/uninstallchannel</b> - Removes AI reply channel.</li>
+      <li><b>/personality &lt;text&gt;</b> - Sets AI personality.</li>
+      <li><b>/resetpersonality</b> - Resets AI personality to default.</li>
+      <li><b>/help</b> - Shows bot commands.</li>
+    </ul>
 
-  <script>
-    // === STATUS SYSTEM ===
-    const statusElement = document.getElementById('status');
-    const statusColor = statusElement.classList[1]; // red, yellow, green, gray
+    <h3>AI Commands</h3>
+    <ul>
+      <li>Type messages in the set AI channel to interact with the bot.</li>
+      <li>/sendimage &lt;url&gt; - Send image to AI for context (if implemented).</li>
+    </ul>
+  </section>
+</main>
 
-    const statusMessages = {
-      red: "🟥 All Systems Operational",
-      yellow: "🟨 Bot Under Maintenance",
-      green: "🟩 Minor Issues Detected",
-      gray: "⬜ Bot Offline / Disabled"
-    };
+<script>
+  // ========== CONFIG ==========
+  // Change bot status: "red", "yellow", "green", "grey"
+  const botStatus = "red"; 
+  document.getElementById('bot-status').className = `status ${botStatus}`;
 
-    statusElement.textContent = statusMessages[statusColor] || "Status Unknown";
+  // Cooldown active?
+  const cooldownActive = true; // true = countdown shows, false = hidden
 
-    // === COUNTDOWN TIMER ===
-    const countdownDisplay = document.getElementById('countdown');
-    const timerInput = document.getElementById('timerInput');
+  // Set your cooldown end date (UTC)
+  const cooldownEnd = new Date('2025-10-13T20:00:00Z'); 
 
-    let countdownDate = localStorage.getItem("quantumCountdown");
-
-    function setCountdown() {
-      const newDate = new Date(timerInput.value).getTime();
-      if (!isNaN(newDate)) {
-        localStorage.setItem("quantumCountdown", newDate);
-        countdownDate = newDate;
-      }
-    }
-
-    function updateCountdown() {
-      if (!countdownDate) return;
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      if (distance < 0) {
-        countdownDisplay.textContent = "Maintenance completed";
-        localStorage.removeItem("quantumCountdown");
+  const cooldownElement = document.getElementById('cooldown');
+  if (!cooldownActive) {
+    cooldownElement.textContent = "No cooldown";
+  } else {
+    function updateCooldown() {
+      const now = new Date();
+      let diff = cooldownEnd - now;
+      if (diff <= 0) {
+        cooldownElement.textContent = "Cooldown ended";
         return;
       }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      const hours = Math.floor(diff / 1000 / 60 / 60);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      cooldownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
     }
+    updateCooldown();
+    setInterval(updateCooldown, 1000);
+  }
+</script>
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
 </body>
 </html>
