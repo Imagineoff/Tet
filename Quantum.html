@@ -76,6 +76,11 @@
     </div>
 
     <div class="cooldown" id="cooldown">Cooldown active: false</div>
+    
+<div class="troubleshooting" id="troubleshooting-log" style="display:none;">
+    <h3>Update / Troubleshooting Log</h3>
+    <ul id="log-list"></ul>
+</div>
 
     <div class="buttons">
         <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316&scope=bot" class="btn btn-add">Add Bot</a>
@@ -149,8 +154,42 @@
     }
 
     updateStatus();
+updateCooldown();
+updateLog(); // přidá aktualizaci logu
+setInterval(() => {
+    updateStatus();
     updateCooldown();
-    setInterval(() => { updateStatus(); updateCooldown(); }, 1000);
+    updateLog();
+}, 1000);
+
+    // --- Troubleshooting Log ---
+let SHOW_LOG = true; // true = zobrazí log, false = skryje
+const troubleshootingEl = document.getElementById("troubleshooting-log");
+const logListEl = document.getElementById("log-list");
+
+const logMessages = [
+    { time: "2025-10-12 20:15", text: "Dostali jsme oznámení o chybě API." },
+    { time: "2025-10-12 20:30", text: "Zahájena údržba serveru." },
+    { time: "2025-10-12 21:00", text: "Provedena aktualizace jádra Quantum bota." },
+    { time: "2025-10-12 21:15", text: "Systémy opět plně funkční." }
+];
+
+function updateLog() {
+    if (!SHOW_LOG) {
+        troubleshootingEl.style.display = "none";
+        return;
+    }
+    troubleshootingEl.style.display = "block";
+    logListEl.innerHTML = ""; // vyčistit starý obsah
+    logMessages.forEach(log => {
+        const li = document.createElement("li");
+        li.style.fontSize = "0.9rem";
+        li.style.marginBottom = "5px";
+        li.innerHTML = `<strong>${log.time}</strong> – ${log.text}`;
+        logListEl.appendChild(li);
+    });
+}
+
 </script>
 
 <script>
