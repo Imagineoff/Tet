@@ -44,19 +44,17 @@ body { overflow: hidden; position: relative; }
 
 <main>
     <div id="status" class="status-box">Status: Loading...</div>
-
+       <div class="cooldown" id="cooldown">Cooldown active: false</div>
+    <div class="troubleshooting" id="troubleshooting-log" style="display:none;">
+        <h3>Update / Troubleshooting Log</h3>
+        <ul id="log-list"></ul>
+    </div>
+    
     <div class="legend">
         <p><strong>Red</strong> → All systems operational</p>
         <p><strong>Yellow</strong> → Bot under maintenance, some functions limited</p>
         <p><strong>Green</strong> → Bot has limited functions but still works</p>
         <p><strong>Grey</strong> → Bot offline / non-functional</p>
-    </div>
-
-    <div class="cooldown" id="cooldown">Cooldown active: false</div>
-
-    <div class="troubleshooting" id="troubleshooting-log" style="display:none;">
-        <h3>Update / Troubleshooting Log</h3>
-        <ul id="log-list"></ul>
     </div>
 
     <div class="buttons">
@@ -135,7 +133,7 @@ function updateCooldown() {
 
 // --- Troubleshooting Log ---
 const logMessages = [
-    { time: "2025-10-12 20:15", text: "Dostali jsme oznámení o chybě API." }
+    { time: "2025-10-12 19:46", text: "We received a bug report. The bug is on our side." }
 ];
 
 function updateLog() {
