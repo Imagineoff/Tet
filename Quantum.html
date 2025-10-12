@@ -27,39 +27,36 @@
     .commands h2 { margin-bottom:10px; }
     .commands ul { list-style:none; padding-left:0; }
     .commands li { margin-bottom:10px; background:#111; padding:10px; border-radius:8px; }
-   .commands li span { font-weight:bold; color:#1e90ff; }
+    .commands li span { font-weight:bold; color:#1e90ff; }
+
     body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #000;
-  color: #fff;
-  overflow: hidden;
-  position: relative;
-}
+      overflow: hidden;
+      position: relative;
+    }
 
-/* Starfield container */
-#stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: transparent;
-}
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite alternate;
-}
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: transparent;
+    }
 
-@keyframes twinkle {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
 </style>
 </head>
 <body>
@@ -70,7 +67,7 @@
 </header>
 
 <main>
-    <div id="status" class="status-box status-red">Status: All systems operational</div>
+    <div id="status" class="status-box">Status: Loading...</div>
     <div class="legend">
         <p><strong>Red</strong> → All systems operational</p>
         <p><strong>Yellow</strong> → Bot under maintenance, some functions limited</p>
@@ -96,20 +93,21 @@
 <script>
     // --- Configurable ---
     let BOT_STATUS = "yellow"; // red, yellow, green, grey
-    let COOLDOWN_ACTIVE = false; // true / false
-    let COOLDOWN_END = new Date("2025-10-13T20:00:00"); // only set in code
+    let COOLDOWN_ACTIVE = false;
+    let COOLDOWN_END = new Date("2025-10-13T20:00:00");
 
     const statusEl = document.getElementById("status");
     const cooldownEl = document.getElementById("cooldown");
     const commandListEl = document.getElementById("command-list");
 
+    // ✅ Opraveno – chyběl konec řádku
     const commands = [
         { name: "/setupchannel", desc: "Set AI reply channel (admin only)" },
         { name: "/uninstallchannel", desc: "Remove AI reply channel (admin only)" },
         { name: "/personality", desc: "Set AI personality (admin only)" },
         { name: "/resetpersonality", desc: "Reset AI personality to default (admin only)" },
         { name: "/help", desc: "Show bot commands" },
-        { name: "/sendimage", desc: "Send an image to the bot for 
+        { name: "/sendimage", desc: "Send an image to the bot for analysis" }
     ];
 
     // --- Update commands list ---
@@ -127,42 +125,41 @@
             case "yellow": statusEl.textContent = "Status: Bot under maintenance"; break;
             case "green": statusEl.textContent = "Status: Limited functionality"; break;
             case "grey": statusEl.textContent = "Status: Bot offline"; break;
+            default: statusEl.textContent = "Status: Unknown"; break;
         }
     }
 
     function updateCooldown() {
-    if (!COOLDOWN_ACTIVE) {
-        // Skryj element, když cooldown není aktivní
-        cooldownEl.style.display = "none";
-        return;
-    }
-    // Pokud je aktivní, ukaž element
-    cooldownEl.style.display = "inline-block";
+        if (!COOLDOWN_ACTIVE) {
+            cooldownEl.style.display = "none";
+            return;
+        }
+        cooldownEl.style.display = "inline-block";
 
-    const now = new Date();
-    let diff = COOLDOWN_END - now;
-    if (diff <= 0) {
-        cooldownEl.textContent = "Cooldown ended";
-        return;
+        const now = new Date();
+        let diff = COOLDOWN_END - now;
+        if (diff <= 0) {
+            cooldownEl.textContent = "Cooldown ended";
+            return;
+        }
+        let hours = Math.floor(diff / 1000 / 60 / 60);
+        let minutes = Math.floor((diff / 1000 / 60) % 60);
+        let seconds = Math.floor((diff / 1000) % 60);
+        cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
     }
-    let hours = Math.floor(diff / 1000 / 60 / 60);
-    let minutes = Math.floor((diff / 1000 / 60) % 60);
-    let seconds = Math.floor((diff / 1000) % 60);
-    cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
-}
 
     updateStatus();
     updateCooldown();
     setInterval(() => { updateStatus(); updateCooldown(); }, 1000);
 </script>
+
 <script>
 const starsContainer = document.getElementById('stars');
-const starCount = 150; // počet hvězdiček
+const starCount = 150;
 
 for (let i = 0; i < starCount; i++) {
   const star = document.createElement('div');
   star.classList.add('star');
-  // náhodná pozice a velikost
   star.style.width = `${Math.random() * 2 + 1}px`;
   star.style.height = star.style.width;
   star.style.top = `${Math.random() * window.innerHeight}px`;
@@ -171,7 +168,9 @@ for (let i = 0; i < starCount; i++) {
   starsContainer.appendChild(star);
 }
 </script>
-    <script>
+
+<script>
+// Otevírání odkazů na nové kartě
 document.querySelectorAll('a[href]').forEach(a => {
   a.setAttribute('target', '_blank');
   a.setAttribute('rel', 'noopener noreferrer');
