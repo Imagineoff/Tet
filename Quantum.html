@@ -1,226 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Bot</title>
-
-  <!-- Meta -->
-  <meta name="theme-color" content="#000000">
-  <meta name="description" content="Quantum — your intelligent AI Discord bot with smart features and management tools.">
-  <meta property="og:title" content="Quantum Discord Bot">
-  <meta property="og:description" content="Check Quantum's status, explore its commands, and invite it to your Discord server.">
-  <meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg">
-  <link rel="icon" type="image/jpeg" href="https://i.imgur.com/5HogIQ3.jpeg">
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
+  <meta property="og:title" content="Quantum Bot Status" />
+  <meta property="og:description" content="Monitor Quantum bot's live status, commands, and cooldown timer." />
+  <meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg" />
+  <meta name="theme-color" content="#000000" />
+  <title>Quantum Bot Status</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: radial-gradient(circle at 20% 20%, #111, #000);
-      color: #fff;
-      font-family: 'Orbitron', sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 50px;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0a0a0a, #000);
+      color: white;
+      text-align: center;
+      padding: 40px;
+      margin: 0;
     }
-
-    .logo {
-      width: 100px;
-      height: 100px;
+    img.logo {
+      width: 150px;
       border-radius: 50%;
-      margin-bottom: 15px;
-      box-shadow: 0 0 25px rgba(255,255,255,0.3);
-    }
-
-    h1 {
-      font-size: 2.8em;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px #fff;
-    }
-
-    .status {
-      margin: 20px 0;
-      padding: 15px 25px;
-      border-radius: 8px;
-      font-size: 1.2em;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      box-shadow: 0 0 15px rgba(255,255,255,0.2);
-    }
-
-    .status.red { background: #ff1f1f; }
-    .status.yellow { background: #ffc107; color: #000; }
-    .status.green { background: #00ff80; color: #000; }
-    .status.gray { background: #444; }
-
-    .commands {
-      max-width: 700px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 25px;
-      border-radius: 10px;
-      margin: 30px auto;
-      box-shadow: 0 0 20px rgba(255,255,255,0.1);
-    }
-
-    .commands h2 {
       margin-bottom: 10px;
-      font-size: 1.8em;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      padding-bottom: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
-
-    .commands ul {
-      list-style: none;
-      margin-top: 10px;
+    h1 {
+      font-size: 2.4em;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
     }
-
-    .commands li {
-      margin: 12px 0;
-      font-size: 1.1em;
-    }
-
-    .cooldown {
-      margin-top: 30px;
+    .status {
       font-size: 1.3em;
-    }
-
-    .add-btn {
-      margin-top: 40px;
-      background: #0d6efd;
-      color: #fff;
-      text-decoration: none;
-      padding: 15px 30px;
+      margin-top: 10px;
+      padding: 12px 20px;
+      display: inline-block;
       border-radius: 8px;
+      color: black;
+      font-weight: bold;
+    }
+    .red { background-color: #ff4d4d; }
+    .yellow { background-color: #ffcc00; }
+    .green { background-color: #00e676; }
+    .gray { background-color: #888888; }
+
+    .countdown {
+      margin-top: 20px;
       font-size: 1.1em;
-      transition: 0.2s;
+    }
+    .commands {
+      margin-top: 40px;
+      text-align: left;
       display: inline-block;
     }
-
-    .add-btn:hover {
-      background: #0b5ed7;
-      transform: scale(1.05);
+    .commands h2 {
+      text-align: center;
+      margin-bottom: 15px;
     }
-
-    .secondary-buttons {
-      margin-top: 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .commands ul {
+      list-style-type: none;
+      padding: 0;
     }
-
-    .secondary-btn {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
+    .commands li {
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
       border-radius: 6px;
-      font-size: 0.95em;
+    }
+    .btns {
+      margin-top: 40px;
+    }
+    button {
+      background-color: white;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      margin: 8px;
       transition: 0.2s;
-      border: 1px solid rgba(255,255,255,0.2);
     }
-
-    .secondary-btn:hover {
-      background: rgba(255,255,255,0.25);
-      transform: scale(1.03);
-    }
-
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
+    button:hover {
       opacity: 0.8;
-      animation: twinkle 2s infinite ease-in-out;
     }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
+    .small {
+      font-size: 0.9em;
+      padding: 8px 16px;
     }
   </style>
 </head>
 <body>
-  <div class="stars" id="stars"></div>
+  <img class="logo" src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Bot Logo" />
+  <h1>Quantum Bot Status</h1>
 
-  <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo" class="logo">
-  <h1>Quantum</h1>
+  <!-- Change color value here -->
+  <div id="status" class="status red">🟥 All Systems Operational</div>
 
-  <div class="status red" id="status">All Systems Operational</div>
+  <div class="countdown">
+    <p><b>Maintenance ends in:</b> <span id="countdown">No timer set</span></p>
+    <input type="datetime-local" id="timerInput">
+    <button onclick="setCountdown()">Set Timer</button>
+  </div>
 
   <div class="commands">
-    <h2>Commands</h2>
+    <h2>Bot Commands</h2>
     <ul>
-      <li><b>/setupchannel</b> — Set the AI response channel (admin only)</li>
-      <li><b>/uninstallchannel</b> — Remove the AI response channel (admin only)</li>
-      <li><b>/personality</b> — Define Quantum’s personality (admin only)</li>
-      <li><b>/resetpersonality</b> — Reset the personality to default (admin only)</li>
-      <li><b>/help</b> — Display all available commands</li>
-      <li><b>/sendimage</b> — Send an image to the AI for analysis</li>
+      <li><b>/setupchannel</b> — Set the AI reply channel (Admin only)</li>
+      <li><b>/uninstallchannel</b> — Remove the AI reply channel (Admin only)</li>
+      <li><b>/personality</b> — Set AI personality (Admin only)</li>
+      <li><b>/resetpersonality</b> — Reset AI personality to default</li>
+      <li><b>/sendimage</b> — Send an image to AI for context</li>
+      <li><b>/help</b> — Show command list</li>
     </ul>
   </div>
 
-  <div class="cooldown">
-    <p>Maintenance ends in: <span id="countdown">00:00:00</span></p>
-  </div>
-
-  <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" class="add-btn" target="_blank">+ Add Quantum to your server</a>
-
-  <div class="secondary-buttons">
-    <a href="https://guns.lol/imagine_ofc" class="secondary-btn" target="_blank">View Developer</a>
-    <a href="https://imagine-ofc.vercel.app/" class="secondary-btn" target="_blank">Main Website</a>
-    <a href="https://imagine-ofc.vercel.app/about.html" class="secondary-btn" target="_blank">About Developer</a>
+  <div class="btns">
+    <button onclick="window.open('https://discord.com/oauth2/authorize?client_id=1367537434480480316','_blank')">Add Quantum</button>
+    <br>
+    <button class="small" onclick="window.open('https://guns.lol/imagine_ofc','_blank')">View Developer</button>
+    <button class="small" onclick="window.open('https://imagine-ofc.vercel.app/','_blank')">Main Website</button>
+    <button class="small" onclick="window.open('https://imagine-ofc.vercel.app/about.html','_blank')">About Developer</button>
   </div>
 
   <script>
-    // stars
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      star.style.top = Math.random() * 100 + '%';
-      star.style.left = Math.random() * 100 + '%';
-      star.style.animationDelay = Math.random() * 2 + 's';
-      starsContainer.appendChild(star);
+    // === STATUS SYSTEM ===
+    const statusElement = document.getElementById('status');
+    const statusColor = statusElement.classList[1]; // red, yellow, green, gray
+
+    const statusMessages = {
+      red: "🟥 All Systems Operational",
+      yellow: "🟨 Bot Under Maintenance",
+      green: "🟩 Minor Issues Detected",
+      gray: "⬜ Bot Offline / Disabled"
+    };
+
+    statusElement.textContent = statusMessages[statusColor] || "Status Unknown";
+
+    // === COUNTDOWN TIMER ===
+    const countdownDisplay = document.getElementById('countdown');
+    const timerInput = document.getElementById('timerInput');
+
+    let countdownDate = localStorage.getItem("quantumCountdown");
+
+    function setCountdown() {
+      const newDate = new Date(timerInput.value).getTime();
+      if (!isNaN(newDate)) {
+        localStorage.setItem("quantumCountdown", newDate);
+        countdownDate = newDate;
+      }
     }
 
-    // countdown – edit maintenance end time
-    const endTime = new Date();
-    endTime.setHours(endTime.getHours() + 24); // maintenance ends in 2 hours
-
-    const countdownEl = document.getElementById('countdown');
     function updateCountdown() {
-      const now = new Date();
-      const diff = endTime - now;
-      if (diff <= 0) {
-        countdownEl.textContent = "completed!";
+      if (!countdownDate) return;
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        countdownDisplay.textContent = "Maintenance completed";
+        localStorage.removeItem("quantumCountdown");
         return;
       }
-      const h = Math.floor(diff / (1000 * 60 * 60));
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      countdownEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
+
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
