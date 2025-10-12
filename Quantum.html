@@ -17,11 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: radial-gradient(circle at 20% 20%, #111, #000);
       color: #fff;
@@ -106,6 +102,7 @@
       border-radius: 8px;
       font-size: 1.1em;
       transition: 0.2s;
+      display: inline-block;
     }
 
     .add-btn:hover {
@@ -113,7 +110,30 @@
       transform: scale(1.05);
     }
 
-    /* stars */
+    .secondary-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .secondary-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: scale(1.03);
+    }
+
     .stars {
       position: fixed;
       top: 0;
@@ -146,7 +166,6 @@
   <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo" class="logo">
   <h1>Quantum</h1>
 
-  <!-- Bot status (change class: red, yellow, green, gray) -->
   <div class="status red" id="status">All Systems Operational</div>
 
   <div class="commands">
@@ -166,6 +185,12 @@
   </div>
 
   <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" class="add-btn" target="_blank">+ Add Quantum to your server</a>
+
+  <div class="secondary-buttons">
+    <a href="https://guns.lol/imagine_ofc" class="secondary-btn" target="_blank">View Developer</a>
+    <a href="https://imagine-ofc.vercel.app/" class="secondary-btn" target="_blank">Main Website</a>
+    <a href="https://imagine-ofc.vercel.app/about.html" class="secondary-btn" target="_blank">About Developer</a>
+  </div>
 
   <script>
     // stars
