@@ -1,212 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Bot Status</title>
+  <title>Quantum Bot</title>
 
-  <!-- 🧠 SEO + Social -->
-  <meta name="description" content="Quantum – advanced Discord AI bot with personality system, moderation, and automation.">
-  <meta property="og:title" content="Quantum Bot">
-  <meta property="og:description" content="Quantum – your smart AI Discord assistant. Check live status, commands, and updates.">
+  <!-- Meta -->
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Quantum — váš inteligentní Discord bot s AI funkcemi a systémem správy serveru.">
+  <meta property="og:title" content="Quantum Discord Bot">
+  <meta property="og:description" content="Sleduj stav bota, jeho příkazy a přidej si ho na svůj server.">
   <meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://your-site-link-here.example">
   <link rel="icon" type="image/jpeg" href="https://i.imgur.com/5HogIQ3.jpeg">
 
-  <style>
-    :root {
-      --main-bg: #0e0e10;
-      --panel-bg: #1a1a1d;
-      --accent: #00d4ff;
-      --text-light: #fff;
-      --text-dim: #ccc;
-      --font: 'Segoe UI', sans-serif;
-    }
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
-    body {
-      background-color: var(--main-bg);
-      color: var(--text-light);
-      font-family: var(--font);
+  <style>
+    * {
       margin: 0;
       padding: 0;
-      text-align: center;
+      box-sizing: border-box;
     }
-
-    header {
-      background: linear-gradient(90deg, #007bff, #00d4ff);
-      padding: 25px;
+    body {
+      background: radial-gradient(circle at 20% 20%, #111, #000);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 15px;
-      font-size: 1.8em;
-      font-weight: bold;
+      justify-content: flex-start;
+      padding-top: 50px;
     }
 
-    header img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: 2px solid #fff;
+    h1 {
+      font-size: 2.8em;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #fff;
     }
 
     .status {
-      margin: 25px auto;
-      padding: 15px;
-      width: 260px;
-      border-radius: 10px;
-      font-weight: bold;
-      color: #fff;
-      font-size: 1.2em;
-      transition: all 0.3s ease;
-    }
-
-    .status.red { background: #d93025; }      /* All OK */
-    .status.yellow { background: #fbbc05; }   /* In Repair */
-    .status.green { background: #34a853; }    /* Limited functions */
-    .status.gray { background: #80868b; }     /* Offline */
-
-    section {
-      margin: 30px auto;
-      max-width: 600px;
-      background: var(--panel-bg);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    h2 {
-      color: var(--accent);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      background: #222;
-      margin: 10px 0;
-      padding: 10px;
+      margin: 20px 0;
+      padding: 15px 25px;
       border-radius: 8px;
-      text-align: left;
-      border-left: 3px solid var(--accent);
+      font-size: 1.2em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    .status.red { background: #ff1f1f; }
+    .status.yellow { background: #ffc107; color: #000; }
+    .status.green { background: #00ff80; color: #000; }
+    .status.gray { background: #444; }
+
+    .commands {
+      max-width: 700px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 25px;
+      border-radius: 10px;
+      margin: 30px auto;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .commands h2 {
+      margin-bottom: 10px;
+      font-size: 1.8em;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+
+    .commands ul {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .commands li {
+      margin: 12px 0;
+      font-size: 1.1em;
     }
 
     .cooldown {
-      margin-top: 25px;
-      font-size: 1.1em;
-      color: var(--text-dim);
+      margin-top: 30px;
+      font-size: 1.3em;
     }
 
-    .addbot {
-      display: inline-block;
-      margin: 30px auto;
-      background: linear-gradient(90deg, #00d4ff, #007bff);
+    .add-btn {
+      margin-top: 40px;
+      background: #0d6efd;
       color: #fff;
       text-decoration: none;
-      font-weight: bold;
-      padding: 15px 25px;
+      padding: 15px 30px;
       border-radius: 8px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 1.1em;
+      transition: 0.2s;
     }
 
-    .addbot:hover {
+    .add-btn:hover {
+      background: #0b5ed7;
       transform: scale(1.05);
-      box-shadow: 0 0 10px #00d4ff;
     }
 
-    footer {
-      margin: 40px 0 20px;
-      color: #666;
-      font-size: 0.9em;
+    /* hvězdy */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo">
-    Quantum Bot Status
-  </header>
+  <div class="stars" id="stars"></div>
 
-  <!-- 🟢 Change class based on bot status -->
-  <div id="botStatus" class="status red">🔴 All Systems Operational</div>
+  <h1>Quantum</h1>
 
-  <section>
-    <h2>📜 Commands</h2>
+  <!-- Bot status (změň class podle stavu: red, yellow, green, gray) -->
+  <div class="status red" id="status">Vše OK</div>
+
+  <div class="commands">
+    <h2>Příkazy</h2>
     <ul>
-      <li><b>/setupchannel</b> — Set the AI reply channel (admin only)</li>
-      <li><b>/uninstallchannel</b> — Remove the AI reply channel (admin only)</li>
-      <li><b>/personality</b> — Set the AI’s personality (admin only)</li>
-      <li><b>/resetpersonality</b> — Reset AI personality to default (admin only)</li>
-      <li><b>/help</b> — Show all commands</li>
-      <li><b>!invite &lt;serverID&gt;</b> — Create an invite link to a server (owner only)</li>
-      <li><b>!tátajedoma</b> — Gives owner admin role and moves it highest (owner only)</li>
-      <li><b>!sendimage</b> — Send an image for AI to interpret (owner only)</li>
-      <li><b>!blacklist add/remove/list</b> — Manage blacklisted users (owner only)</li>
+      <li><b>/setupchannel</b> — Nastaví kanál, kde bude AI odpovídat (admin only)</li>
+      <li><b>/uninstallchannel</b> — Odebere AI kanál (admin only)</li>
+      <li><b>/personality</b> — Nastaví osobnost bota (admin only)</li>
+      <li><b>/resetpersonality</b> — Resetuje osobnost na výchozí (admin only)</li>
+      <li><b>/help</b> — Zobrazí všechny příkazy</li>
+      <li><b>/sendimage</b> — Odešle obrázek do AI pro analýzu</li>
     </ul>
-  </section>
+  </div>
 
-  <section>
-    <h2>⏱️ Maintenance Cooldown</h2>
-    <div class="cooldown">
-      Status: <span id="cooldownState">false</span><br>
-      Time remaining: <span id="countdown">00:00:00</span>
-    </div>
-  </section>
+  <div class="cooldown">
+    <p>Opravy dokončeny za: <span id="countdown">00:00:00</span></p>
+  </div>
 
-  <a class="addbot" href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" target="_blank">
-    ➕ Add Quantum to your Server
-  </a>
-
-  <footer>© 2025 Quantum by Imagine. All rights reserved.</footer>
+  <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" class="add-btn" target="_blank">+ Přidat Quantum na server</a>
 
   <script>
-    // --- STATUS SETTINGS ---
-    const botStatus = document.getElementById('botStatus');
-    const statusType = "red"; // red / yellow / green / gray
-    const statusText = {
-      red: "🔴 All Systems Operational",
-      yellow: "🟡 Under Maintenance",
-      green: "🟢 Some Features Limited",
-      gray: "⚫ Offline / Disabled"
-    };
-    botStatus.className = `status ${statusType}`;
-    botStatus.textContent = statusText[statusType];
-
-    // --- COOLDOWN TIMER ---
-    const cooldownEnabled = true; // true / false
-    const cooldownState = document.getElementById('cooldownState');
-    cooldownState.textContent = cooldownEnabled ? "true" : "false";
-
-    // Set end time (example: 2 hours from now)
-    const endTime = new Date().getTime() + (2 * 60 * 60 * 1000);
-
-    function updateCountdown() {
-      if (!cooldownEnabled) {
-        document.getElementById("countdown").textContent = "--:--:--";
-        return;
-      }
-
-      const now = new Date().getTime();
-      const distance = endTime - now;
-
-      if (distance <= 0) {
-        document.getElementById("countdown").textContent = "✅ Maintenance complete";
-        return;
-      }
-
-      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((distance / (1000 * 60)) % 60);
-      const seconds = Math.floor((distance / 1000) % 60);
-
-      document.getElementById("countdown").textContent =
-        `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    // hvězdy
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 2 + 's';
+      starsContainer.appendChild(star);
     }
 
+    // cooldown – nastav cíl
+    const endTime = new Date();
+    endTime.setHours(endTime.getHours() + 2); // oprav se dokončí za 2 hodiny
+
+    const countdownEl = document.getElementById('countdown');
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endTime - now;
+      if (diff <= 0) {
+        countdownEl.textContent = "opraveno!";
+        return;
+      }
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      countdownEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
     setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
