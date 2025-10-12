@@ -240,6 +240,14 @@ function playFunFact(){
     },3000);
   }
 }
+  // Otevřít všechny odkazy ve funfact textu v novém tabu
+document.addEventListener("click", (e) => {
+  if (e.target.tagName === "A") {
+    e.target.setAttribute("target", "_blank");
+    e.target.setAttribute("rel", "noopener noreferrer");
+  }
+});
+
 </script>
 </body>
 </html>
