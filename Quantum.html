@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,9 @@
 
   <!-- Meta -->
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Quantum — váš inteligentní Discord bot s AI funkcemi a systémem správy serveru.">
+  <meta name="description" content="Quantum — your intelligent AI Discord bot with smart features and management tools.">
   <meta property="og:title" content="Quantum Discord Bot">
-  <meta property="og:description" content="Sleduj stav bota, jeho příkazy a přidej si ho na svůj server.">
+  <meta property="og:description" content="Check Quantum's status, explore its commands, and invite it to your Discord server.">
   <meta property="og:image" content="https://i.imgur.com/5HogIQ3.jpeg">
   <link rel="icon" type="image/jpeg" href="https://i.imgur.com/5HogIQ3.jpeg">
 
@@ -33,6 +33,14 @@
       align-items: center;
       justify-content: flex-start;
       padding-top: 50px;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      box-shadow: 0 0 25px rgba(255,255,255,0.3);
     }
 
     h1 {
@@ -105,7 +113,7 @@
       transform: scale(1.05);
     }
 
-    /* hvězdy */
+    /* stars */
     .stars {
       position: fixed;
       top: 0;
@@ -135,31 +143,32 @@
 <body>
   <div class="stars" id="stars"></div>
 
+  <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Logo" class="logo">
   <h1>Quantum</h1>
 
-  <!-- Bot status (změň class podle stavu: red, yellow, green, gray) -->
-  <div class="status red" id="status">Vše OK</div>
+  <!-- Bot status (change class: red, yellow, green, gray) -->
+  <div class="status red" id="status">All Systems Operational</div>
 
   <div class="commands">
-    <h2>Příkazy</h2>
+    <h2>Commands</h2>
     <ul>
-      <li><b>/setupchannel</b> — Nastaví kanál, kde bude AI odpovídat (admin only)</li>
-      <li><b>/uninstallchannel</b> — Odebere AI kanál (admin only)</li>
-      <li><b>/personality</b> — Nastaví osobnost bota (admin only)</li>
-      <li><b>/resetpersonality</b> — Resetuje osobnost na výchozí (admin only)</li>
-      <li><b>/help</b> — Zobrazí všechny příkazy</li>
-      <li><b>/sendimage</b> — Odešle obrázek do AI pro analýzu</li>
+      <li><b>/setupchannel</b> — Set the AI response channel (admin only)</li>
+      <li><b>/uninstallchannel</b> — Remove the AI response channel (admin only)</li>
+      <li><b>/personality</b> — Define Quantum’s personality (admin only)</li>
+      <li><b>/resetpersonality</b> — Reset the personality to default (admin only)</li>
+      <li><b>/help</b> — Display all available commands</li>
+      <li><b>/sendimage</b> — Send an image to the AI for analysis</li>
     </ul>
   </div>
 
   <div class="cooldown">
-    <p>Opravy dokončeny za: <span id="countdown">00:00:00</span></p>
+    <p>Maintenance ends in: <span id="countdown">00:00:00</span></p>
   </div>
 
-  <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" class="add-btn" target="_blank">+ Přidat Quantum na server</a>
+  <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316" class="add-btn" target="_blank">+ Add Quantum to your server</a>
 
   <script>
-    // hvězdy
+    // stars
     const starsContainer = document.getElementById('stars');
     for (let i = 0; i < 100; i++) {
       const star = document.createElement('div');
@@ -170,16 +179,16 @@
       starsContainer.appendChild(star);
     }
 
-    // cooldown – nastav cíl
+    // countdown – edit maintenance end time
     const endTime = new Date();
-    endTime.setHours(endTime.getHours() + 2); // oprav se dokončí za 2 hodiny
+    endTime.setHours(endTime.getHours() + 2); // maintenance ends in 2 hours
 
     const countdownEl = document.getElementById('countdown');
     function updateCountdown() {
       const now = new Date();
       const diff = endTime - now;
       if (diff <= 0) {
-        countdownEl.textContent = "opraveno!";
+        countdownEl.textContent = "completed!";
         return;
       }
       const h = Math.floor(diff / (1000 * 60 * 60));
