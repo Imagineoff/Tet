@@ -98,6 +98,7 @@ h2.funfact-btn.paused {
   z-index:1;
   display:none;
 }
+
 a { color: #fdd4ff; text-decoration: none; }
 a:hover { text-decoration: underline; }
 </style>
@@ -152,7 +153,7 @@ const funfacts = [
     type:"video"
   },
   {
-    text:'My favorite game is Resident Evil, and my favorite character in it is Ada Wong</b>. See it on <a href="https://www.xbox.com/en-US/games/resident-evil" target="_blank">Xbox Store</a>.',
+    text:'My favorite game is Resident Evil, and my favorite character in it is <b>Ada Wong</b>. See it on <a href="https://www.xbox.com/en-US/games/resident-evil" target="_blank">Xbox Store</a>.',
     video:"https://h.uguu.se/YjBJDCiF.mp4",
     audio:null,
     type:"video"
@@ -209,14 +210,14 @@ function playFunFact(){
     video.src=fact.video;
     video.playsInline=true;
 
-    // Weeknd = hraje zvuk z videa
-    video.muted = (index !== 1);
+    // 🔊 Zvuk povolen u The Weeknd (index 1) a Ada Wong (index 2)
+    video.muted = !(index === 1 || index === 2);
 
     video.style.display='block';
     const playPromise = video.play();
     if(playPromise) playPromise.catch(()=>{});
 
-    if(fact.audio && index !== 1){
+    if(fact.audio && !(index === 1 || index === 2)){
       audio.src=fact.audio;
       audio.play().catch(()=>{});
     }
@@ -246,14 +247,14 @@ function playFunFact(){
     },3000);
   }
 }
-  // Otevřít všechny odkazy ve funfact textu v novém tabu
+
+// Otevřít všechny odkazy ve funfact textu v novém tabu
 document.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.target.setAttribute("target", "_blank");
     e.target.setAttribute("rel", "noopener noreferrer");
   }
 });
-
 </script>
 </body>
 </html>
