@@ -113,8 +113,7 @@ a:hover { text-decoration: underline; }
 <div class="neon-line line5"></div>
 
 <!-- Media -->
-<video id="funfactVideo" class="funfact-media" playsinline muted></video>
-<audio id="funfactAudio"></audio>
+<video id="funfactVideo" class="funfact-media" playsinline></video>
 <img id="funfactGif" class="funfact-media" />
 
 <div class="container">
@@ -132,30 +131,25 @@ a:hover { text-decoration: underline; }
 </div>
 
 <script>
-// Toggle about
 function toggleContent(id){
   const el=document.getElementById(id);
   el.style.display=el.style.display==='block'?'none':'block';
 }
 
-// Fun facts
 const funfacts = [
   {
     text:"I’d love to live in New York one day.",
     video:"https://download948.mediafire.com/2lvzbafy8tjgNOGkMe3zWADflP2tO9jSR0vSK_VgVNgBdC-17996a9HgHovBTVr-5h-SXB-nKsD99gDmM4kWypGmpkASM3DwecVntmbgIBV0DivQfE6qx3cT87t8r-PjDv-CvFBT94bki2w1aPcyEU3vnA2pWgStIi6Q7fbNNX1O/nl7z1ov82fkclsp/ssstik.io_%40luca.sh0ts_1760192652840.mp4",
-    audio:"https://files.catbox.moe/zdkcrk.mp3",
     type:"video"
   },
   {
     text:'My favorite music artist is <b>The Weeknd</b>. Check him out on <a href="https://music.apple.com/us/artist/the-weeknd/479756766" target="_blank">Apple Music</a>.',
     video:"https://www.mediafire.com/file/h459czh34begkqe/ScreenRecording_10-12-2025+00-33-23_1.mp4/file?dkey=tueretxd6hv&r=257",
-    audio:null,
     type:"video"
   },
   {
     text:'My favorite game is Resident Evil, and my favorite character in it is <b>Ada Wong</b>. See it on <a href="https://www.xbox.com/en-US/games/resident-evil" target="_blank">Xbox Store</a>.',
     video:"https://download1979.mediafire.com/hwyea9dt1kogdTywkNXbuiq7uhUpu5Gj3yZmvVGfxUCVzPNCj-S0X6VXtopAAbecUwea7QVsCvcexda0ulquN3MH3t-t8_X5IVNdjV2sz2iHa76FH-gjVLbw8gMwQ6bfKz6sYVxIDvJ5l8cGUkwzwQRxlWhMxyeMKprEjjP1Wj5K/rieujpwa1sskkgj/ssstik.io_1760741136250.mp4",
-    audio:null,
     type:"video"
   },
   {
@@ -170,7 +164,6 @@ const funfacts = [
   {
     text:'One of my favorite films is <b>The Great Gatsby</b>. Watch it on <a href="https://www.netflix.com/cz-en/title/70244437">Netflix</a>.',
     video:"https://download1336.mediafire.com/wo466fnfou7gyVOUA6J-ufE_XwTGLEShys-Ad-Mm-SQcjw2PaxX94nCFbKg0MdgPW2dZx-xJF7eikkaOsO4QHb5KkGtTRVNsPaAiFFbv39qTlBwEMhCXv_73QHNv5JToXWWQIcFu0_HBGL8NZRnMTgLvMfkcCxEOs_r22aAX5y_9/3mcwswufbpxt4sj/ScreenRecording_10-12-2025+00-54-14_1+2.mp4",
-    audio:"https://files.catbox.moe/r3v57q.mp3",
     type:"video"
   }
 ];
@@ -178,73 +171,68 @@ const funfacts = [
 let lastIndex = -1;
 let isPlaying = false;
 
-function hideNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='none');}
-function showNeonLines(){document.querySelectorAll('.neon-line').forEach(e=>e.style.display='block');}
+function hideNeonLines(){
+  document.querySelectorAll('.neon-line').forEach(e => e.style.display = 'none');
+}
+
+function showNeonLines(){
+  document.querySelectorAll('.neon-line').forEach(e => e.style.display = 'block');
+}
 
 function playFunFact(){
   if(isPlaying) return;
-  isPlaying=true;
+  isPlaying = true;
 
-  const btn=document.getElementById('funfactBtn');
+  const btn = document.getElementById('funfactBtn');
   btn.classList.add('paused');
 
   let index;
-  do{index=Math.floor(Math.random()*funfacts.length);}while(index===lastIndex);
-  lastIndex=index;
-  const fact=funfacts[index];
+  do { index = Math.floor(Math.random() * funfacts.length); } while(index === lastIndex);
+  lastIndex = index;
 
-  hideNeonLines();
-  const video=document.getElementById('funfactVideo');
-  const audio=document.getElementById('funfactAudio');
-  const gif=document.getElementById('funfactGif');
-  const textEl=document.getElementById('funfactText');
+  const fact = funfacts[index];
+  const video = document.getElementById('funfactVideo');
+  const gif = document.getElementById('funfactGif');
+  const textEl = document.getElementById('funfactText');
 
-  video.style.display='none';
-  gif.style.display='none';
-  audio.pause();
-  audio.currentTime=0;
+  // Skryjeme všechny média
+  video.style.display = 'none';
+  gif.style.display = 'none';
+  video.pause();
+  video.currentTime = 0;
 
-  textEl.innerHTML=fact.text;
+  textEl.innerHTML = fact.text;
 
-  if(fact.type==='video'){
-    video.src=fact.video;
-    video.playsInline=true;
+  if(fact.type === 'video'){
+    video.src = fact.video;
+    video.muted = false;  // vždy zvuk z videa
+    video.style.display = 'block';
+    
+    video.play().catch(() => {}); // spustit video
 
-    // 🔊 Zvuk povolen u The Weeknd (index 1) a Ada Wong (index 2)
-    video.muted = !(index === 1 || index === 2);
-
-    video.style.display='block';
-    const playPromise = video.play();
-    if(playPromise) playPromise.catch(()=>{});
-
-    if(fact.audio && !(index === 1 || index === 2)){
-      audio.src=fact.audio;
-      audio.play().catch(()=>{});
-    }
-
-    video.onended=()=>{
-      video.style.display='none';
-      audio.pause();
+    video.onended = () => {
+      video.style.display = 'none';
       showNeonLines();
-      isPlaying=false;
+      isPlaying = false;
       btn.classList.remove('paused');
     };
 
-  }else if(fact.type==='gif'){
-    gif.src=fact.video;
-    gif.style.display='block';
-    setTimeout(()=>{
-      gif.style.display='none';
+  } else if(fact.type === 'gif'){
+    gif.src = fact.video;
+    gif.style.display = 'block';
+    setTimeout(() => {
+      gif.style.display = 'none';
       showNeonLines();
-      isPlaying=false;
+      isPlaying = false;
       btn.classList.remove('paused');
-    },5000);
-  }else if(fact.type==='text'){
-    setTimeout(()=>{
+    }, 5000);
+    
+  } else if(fact.type === 'text'){
+    setTimeout(() => {
       showNeonLines();
-      isPlaying=false;
+      isPlaying = false;
       btn.classList.remove('paused');
-    },3000);
+    }, 3000);
   }
 }
 
@@ -258,3 +246,4 @@ document.addEventListener("click", (e) => {
 </script>
 </body>
 </html>
+  
