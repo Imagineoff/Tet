@@ -288,6 +288,26 @@ body{
   .testarea{width:160px}
   .tbtn{width:48px;height:48px}
 }
+  /* Splash text styl */
+.splash {
+  position: absolute;
+  top: 10%;
+  right: 6%;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffeb3b;
+  text-shadow: 2px 2px 0 #000, 3px 3px 10px rgba(255,255,0,0.6);
+  white-space: nowrap;
+  animation: slideIn 1.8s ease-out forwards;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes slideIn {
+  0% { transform: translateX(-60%) rotate(-8deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateX(0) rotate(-8deg); opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -859,7 +879,19 @@ fsBtn.addEventListener('click', () => {
     }
   }
 });
+// Splash text - náhodný výběr
+const splashTexts = ["test", "test", "test", "test", "test"];
+const splash = document.createElement("div");
+splash.className = "splash";
+splash.textContent = splashTexts[Math.floor(Math.random() * splashTexts.length)];
+startCard.appendChild(splash);
 
+// Zmizí při kliknutí na ENTER
+enterBtn.addEventListener("click", () => {
+  splash.style.transition = "opacity .4s ease";
+  splash.style.opacity = "0";
+  setTimeout(() => splash.remove(), 400);
+});
 </script>
 </body>
 </html>
