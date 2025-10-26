@@ -289,19 +289,21 @@ body{
   .tbtn{width:48px;height:48px}
 }
 .splash {
-  font-size: clamp(16px, 4vw, 28px); /* min 16px, max 28px, dynamicky podle viewportu */
-  color: #fdd4ff;
-  font-weight: 700;
   position: absolute;
   top: 10%;
   right: 6%;
-  text-shadow: 2px 2px 0 #000, 3px 3px 10px rgba(253, 212, 255, 0.6);
-  white-space: nowrap;
-  animation: slideIn 1.8s ease-out forwards, pulse 2s ease-in-out infinite alternate;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fdd4ff;
+  text-shadow: 2px 2px 0 #000, 3px 3px 10px rgba(253,212,255,0.6);
+  white-space: normal;         /* umožní zalamování do více řádků */
+  word-break: break-word;      /* zalomí dlouhá slova */
+  max-width: 90vw;             /* nepřekročí šířku viewportu */
+  line-height: 1.2em;          /* lepší čitelnost více řádků */
+  animation: float 3s ease-in-out infinite alternate, pulse 2s ease-in-out infinite;
   user-select: none;
   pointer-events: none;
 }
-
 @keyframes slideIn {
   0% { transform: translateX(-60%) rotate(-8deg); opacity: 0; }
   30% { opacity: 1; }
