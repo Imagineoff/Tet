@@ -288,7 +288,7 @@ body{
   .testarea{width:160px}
   .tbtn{width:48px;height:48px}
 }
- .splash {
+.splash {
   position: absolute;
   top: 10%;
   right: 6%;
@@ -297,7 +297,7 @@ body{
   color: #fdd4ff;
   text-shadow: 2px 2px 0 #000, 3px 3px 10px rgba(253, 212, 255, 0.6);
   white-space: nowrap;
-  animation: slideIn 1.8s ease-out forwards, float 3s ease-in-out infinite alternate, drift 6s ease-in-out infinite;
+  animation: slideIn 1.8s ease-out forwards, pulse 2s ease-in-out infinite;
   user-select: none;
   pointer-events: none;
 }
@@ -308,14 +308,9 @@ body{
   100% { transform: translateX(0) rotate(-8deg); opacity: 1; }
 }
 
-@keyframes float {
-  from { transform: translateY(-2px) rotate(-8deg); }
-  to { transform: translateY(4px) rotate(-8deg); }
-}
-
-@keyframes drift {
-  0% { transform: translateX(-3px) rotate(-8deg); }
-  100% { transform: translateX(3px) rotate(-8deg); }
+@keyframes pulse {
+  0%, 100% { transform: scale(1) rotate(-8deg); }
+  50% { transform: scale(1.05) rotate(-8deg); } /* zvětšení o 5% */
 }
 </style>
 </head>
