@@ -1,187 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum Bot Dashboard</title>
-<link rel="icon" href="https://i.imgur.com/5HogIQ3.jpeg">
-<style>
-body { margin:0; font-family:Arial,sans-serif; background:#000; color:#fff; }
-header { display:flex; align-items:center; padding:20px; background:#111; }
-header img { height:60px; margin-right:15px; }
-header h1 { font-size:2rem; }
-main { padding:20px; }
-.status-box { padding:15px; border-radius:10px; margin-bottom:20px; display:inline-block; min-width:250px; }
-.status-red { background-color:#ff0000; }
-.status-yellow { background-color:#ffff00; color:#000; }
-.status-green { background-color:#00ff00; color:#000; }
-.status-grey { background-color:#808080; }
-.legend { margin-top:10px; font-size:0.9rem; }
-.buttons { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
-.btn { padding:10px 20px; border:none; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:bold; transition:transform 0.2s; }
-.btn:hover { transform:scale(1.05); }
-.btn-add { background-color:#1e90ff; color:#fff; font-size:1.1rem; }
-.btn-small { background-color:#555; color:#fff; font-size:0.9rem; }
-.cooldown { margin-top:20px; font-size:1rem; padding:10px; border:1px solid #fff; display:inline-block; border-radius:8px; }
-.commands { margin-top:30px; }
-.commands h2 { margin-bottom:10px; }
-.commands ul { list-style:none; padding-left:0; }
-.commands li { margin-bottom:10px; background:#111; padding:10px; border-radius:8px; }
-.commands li span { font-weight:bold; color:#1e90ff; }
-
-body { overflow: hidden; position: relative; }
-#stars { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background:transparent; }
-.star { position:absolute; background:white; border-radius:50%; opacity:0.8; animation:twinkle 2s infinite alternate; }
-@keyframes twinkle { 0% {opacity:0.3;} 50% {opacity:1;} 100% {opacity:0.3;} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Under Reconstruction</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    p {
+      color: #aaa;
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+    .loader {
+      margin-top: 25px;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #444;
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-<div id="stars"></div>
-<header>
-    <img src="https://i.imgur.com/5HogIQ3.jpeg" alt="Quantum Bot Logo">
-    <h1>Quantum Bot Dashboard</h1>
-</header>
-
-<main>
-    <div id="status" class="status-box">Status: Loading...</div>
-       <div class="cooldown" id="cooldown">Cooldown active: false</div>
-    <div class="troubleshooting" id="troubleshooting-log" style="display:none;">
-        <h3>Update / Troubleshooting Log</h3>
-        <ul id="log-list"></ul>
-    </div>
-    
-    <div class="legend">
-        <p><strong>Red</strong> → All systems operational</p>
-        <p><strong>Yellow</strong> → Bot under maintenance, some functions limited</p>
-        <p><strong>Green</strong> → Bot has limited functions but still works</p>
-        <p><strong>Grey</strong> → Bot offline / non-functional</p>
-    </div>
-
-    <div class="buttons">
-        <a href="https://discord.com/oauth2/authorize?client_id=1367537434480480316&scope=bot" class="btn btn-add">Add Bot</a>
-        <a href="https://guns.lol/imagine_ofc" class="btn btn-small">Developer</a>
-        <a href="https://imagine-ofc.vercel.app/" class="btn btn-small">Main Site</a>
-        <a href="https://imagine-ofc.vercel.app/about.html" class="btn btn-small">About Developer</a>
-    </div>
-
-    <div class="commands">
-        <h2>Bot Commands</h2>
-        <ul id="command-list"></ul>
-    </div>
-</main>
-
-<script>
-// --- Configurable ---
-let BOT_STATUS = "red"; // red, yellow, green, grey
-let COOLDOWN_ACTIVE = false;
-let COOLDOWN_END = new Date("2025-10-13T20:00:00");
-let SHOW_LOG = false; // true = zobrazí troubleshooting log
-
-// --- Elementy ---
-const statusEl = document.getElementById("status");
-const cooldownEl = document.getElementById("cooldown");
-const commandListEl = document.getElementById("command-list");
-const troubleshootingEl = document.getElementById("troubleshooting-log");
-const logListEl = document.getElementById("log-list");
-
-// --- Commands ---
-const commands = [
-    { name: "/setupchannel", desc: "Set AI reply channel (admin only)" },
-    { name: "/uninstallchannel", desc: "Remove AI reply channel (admin only)" },
-    { name: "/personality", desc: "Set AI personality (admin only)" },
-    { name: "/resetpersonality", desc: "Reset AI personality to default (admin only)" },
-    { name: "/help", desc: "Show bot commands" },
-];
-
-commands.forEach(c => {
-    const li = document.createElement("li");
-    li.innerHTML = `<span>${c.name}</span> - ${c.desc}`;
-    commandListEl.appendChild(li);
-});
-
-// --- Status ---
-function updateStatus() {
-    statusEl.className = "status-box status-" + BOT_STATUS;
-    switch(BOT_STATUS) {
-        case "red": statusEl.textContent = "Status: All systems operational"; break;
-        case "yellow": statusEl.textContent = "Status: Bot under maintenance"; break;
-        case "green": statusEl.textContent = "Status: Limited functionality"; break;
-        case "grey": statusEl.textContent = "Status: Bot offline"; break;
-        default: statusEl.textContent = "Status: Unknown"; break;
-    }
-}
-
-// --- Cooldown ---
-function updateCooldown() {
-    if (!COOLDOWN_ACTIVE) {
-        cooldownEl.style.display = "none";
-        return;
-    }
-    cooldownEl.style.display = "inline-block";
-    const now = new Date();
-    let diff = COOLDOWN_END - now;
-    if (diff <= 0) {
-        cooldownEl.textContent = "Cooldown ended";
-        return;
-    }
-    let hours = Math.floor(diff / 1000 / 60 / 60);
-    let minutes = Math.floor((diff / 1000 / 60) % 60);
-    let seconds = Math.floor((diff / 1000) % 60);
-    cooldownEl.textContent = `Cooldown ends in: ${hours}h ${minutes}m ${seconds}s`;
-}
-
-// --- Troubleshooting Log ---
-const logMessages = [
-    { time: "2025-10-12 19:46", text: "We received a bug report. The bug is on our side." }
-];
-
-function updateLog() {
-    if (!SHOW_LOG) {
-        troubleshootingEl.style.display = "none";
-        return;
-    }
-    troubleshootingEl.style.display = "block";
-    logListEl.innerHTML = "";
-    logMessages.forEach(log => {
-        const li = document.createElement("li");
-        li.style.fontSize = "0.9rem";
-        li.style.marginBottom = "5px";
-        li.innerHTML = `<strong>${log.time}</strong> – ${log.text}`;
-        logListEl.appendChild(li);
-    });
-}
-
-// --- Inicializace ---
-updateStatus();
-updateCooldown();
-updateLog();
-
-setInterval(() => {
-    updateStatus();
-    updateCooldown();
-    updateLog();
-}, 1000);
-
-// --- Starfield ---
-const starsContainer = document.getElementById('stars');
-const starCount = 150;
-for (let i = 0; i < starCount; i++) {
-    const star = document.createElement('div');
-    star.classList.add('star');
-    star.style.width = `${Math.random() * 2 + 1}px`;
-    star.style.height = star.style.width;
-    star.style.top = `${Math.random() * window.innerHeight}px`;
-    star.style.left = `${Math.random() * window.innerWidth}px`;
-    star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-    starsContainer.appendChild(star);
-}
-
-// --- Odkazy nové okno ---
-document.querySelectorAll('a[href]').forEach(a => {
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
-});
-</script>
-
+  <div>
+    <h1>Website under reconstruction</h1>
+    <p>We’ll be back soon.</p>
+    <div class="loader"></div>
+  </div>
 </body>
 </html>
