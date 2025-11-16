@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Imagine — Landing</title>
-
-  <!-- Theme / Favicons (replace as needed) -->
+  <title>imagine</title>
   <meta name="theme-color" content="#fdd4ff">
   <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg">
 
@@ -13,211 +11,95 @@
   :root{
     --pink: #fdd4ff;
     --bg: #000000;
-    --glass: rgba(255,255,255,0.03);
+    --white: #ffffff;
+    --muted-white: rgba(255,255,255,0.7);
     --ui-height: 64px;
     --max-width: 1100px;
     --radius: 12px;
-    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    --soft-white: rgba(255,255,255,0.94);
-    --muted: rgba(255,255,255,0.65);
-    --accent-shadow: 0 12px 40px rgba(253,212,255,0.06);
+    --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-
-  /* Reset & base */
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
     min-height:100vh;
-    font-family:var(--font);
+    font-family:var(--font-main);
     background:var(--bg);
-    color:var(--soft-white);
+    color:var(--white);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
-    line-height:1.35;
-    overflow: auto; /* allow scroll on small screens */
+    line-height:1.45;
   }
 
-  /* App shell */
+  /* Layout */
   .app{
     min-height:100vh;
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:20px;
+    gap:18px;
     position:relative;
-    padding:20px;
+    padding:28px 18px;
   }
 
-  /* Canvas background (full-bleed) */
-  .bg-canvas {
-    position:fixed;
-    inset:0;
-    z-index:0;
-    display:block;
-    background:linear-gradient(180deg,#000,#050505 60%);
-    overflow:hidden;
-  }
-  canvas#game {
-    width:100%;
-    height:100%;
-    display:block;
-  }
-
-  /* subtle decorative layer */
-  .bg-decor{
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.12;
-    mix-blend-mode:screen;
-    background:
-      radial-gradient(circle at 10% 20%, rgba(253,212,255,0.06) 0 2%, transparent 6%),
-      radial-gradient(circle at 80% 70%, rgba(253,212,255,0.05) 0 2%, transparent 6%),
-      radial-gradient(circle at 50% 40%, rgba(253,212,255,0.04) 0 2%, transparent 6%);
-    animation: floatbg 14s linear infinite;
-  }
-  @keyframes floatbg{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-
-  /* Top header: left profile + center title + right status */
   header.header {
-    position:relative;
-    z-index: 10;
     width: min(100%, var(--max-width));
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
     padding:8px;
-    pointer-events:auto;
+    z-index:20;
   }
-  .brand {
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .pfp {
-    width:56px;height:56px;border-radius:12px;overflow:hidden;
-    background:linear-gradient(90deg,var(--pink),#fff2);
-    display:flex;align-items:center;justify-content:center;
-    border:1px solid rgba(255,255,255,0.06);
-    box-shadow:var(--accent-shadow);
-    cursor:pointer;
-    flex-shrink:0;
-  }
-  .pfp img{width:100%;height:100%;object-fit:cover;display:block}
 
-  .title-block{
-    display:flex;flex-direction:column;
-    gap:2px;
-  }
-  .title{
-    font-weight:700;
-    font-size:18px;
+  /* Aggressive per-letter font change title */
+  .title-agg {
+    font-size:38px;
+    font-weight:900;
     letter-spacing:0.6px;
-    color:var(--pink);
-    text-shadow: 1px 1px 0 #000;
-  }
-  .subtitle{
-    font-size:13px;color:var(--muted);
-  }
-
-  /* Status block */
-  .status {
-    background:var(--glass);
-    padding:8px 12px;
-    border-radius:10px;
     display:flex;
+    gap:6px;
     align-items:center;
-    gap:10px;
-    font-size:13px;
-    border:1px solid rgba(255,255,255,0.03);
-    backdrop-filter: blur(6px) saturate(120%);
+    user-select:none;
   }
-  .status .dot{width:10px;height:10px;border-radius:50%;background:#777;border:2px solid rgba(0,0,0,0.4)}
+  .title-agg span {
+    display:inline-block;
+    transition: transform .12s ease;
+    will-change: font-family, transform;
+    padding:2px 0;
+  }
 
-  /* Center main panel */
+  /* Tab-focused subtitle */
+  .subtitle { color: var(--muted-white); font-size:13px; margin-top:4px; }
+
   main {
-    z-index:10;
     width: min(100%, var(--max-width));
-    display:flex;
+    display:grid;
+    grid-template-columns: 1fr 360px;
     gap:20px;
-    align-items:flex-start;
-    justify-content:center;
-    pointer-events:auto;
+    align-items:start;
+    z-index:10;
   }
 
-  /* Left column: center card / start area */
-  .center-column{
-    flex:1 1 560px;
-    min-width:260px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:12px;
-  }
-
-  /* Start card */
-  .start-card{
-    width:100%;
-    max-width:760px;
+  /* Left: card with about + controls */
+  .card {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius: var(--radius);
-    padding:28px;
-    text-align:center;
+    padding:22px;
     border:1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    align-items:center;
-  }
-  .start-title{
-    font-size:20px;
-    font-weight:700;
-    color:var(--pink);
-  }
-  .start-sub{
-    color:var(--muted);
-    font-size:14px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
   }
 
-  #enterBtn{
-    --size:160px;
-    width:var(--size);
-    height:var(--size);
-    border-radius:999px;
-    display:grid;
-    place-items:center;
-    font-weight:800;
-    font-size:18px;
-    color:#111;
-    background:linear-gradient(180deg,white,#ffd6f7);
-    box-shadow: var(--accent-shadow), 0 0 0 6px rgba(253,212,255,0.02) inset;
-    border: 2px solid rgba(255,255,255,0.6);
-    cursor:pointer;
-    transition: transform .12s ease, box-shadow .18s ease;
-    outline:none;
-  }
-  #enterBtn:active{ transform: scale(.98) }
-  #enterBtn:focus{ box-shadow: 0 0 0 6px rgba(253,212,255,0.14) }
+  h1.section-title { margin:0 0 10px 0; font-size:18px; color:var(--pink); }
+  p.about { color: #e6e6e6; font-size:15px; line-height:1.6; }
 
-  /* Right column: icons & controls */
-  .side-column{
-    width:320px;
-    min-width:220px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-  }
+  /* Right: links panel */
   .links-panel{
-    background:var(--glass);
-    border-radius:var(--radius);
+    background: rgba(255,255,255,0.02);
+    border-radius:12px;
     padding:12px;
     border:1px solid rgba(255,255,255,0.03);
     display:grid;
-    grid-template-columns:repeat(2,1fr);
     gap:10px;
   }
   .link-item{
@@ -226,623 +108,320 @@
     align-items:center;
     padding:8px;
     border-radius:10px;
-    background:rgba(255,255,255,0.01);
+    background:transparent;
     cursor:pointer;
-    transition: transform .12s ease;
+    transition: transform .12s ease, background .12s;
+    border: 1px solid rgba(255,255,255,0.03);
   }
   .link-item:hover{ transform: translateY(-4px) }
   .link-item img{width:44px;height:44px;border-radius:8px;object-fit:cover}
 
-  .panel-title{ font-size:13px; color:var(--muted); margin-bottom:6px }
+  /* UI elements that are 'white details' - they will pulse red on big audio changes */
+  .white-detail { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); }
+  .white-detail a { color: var(--white); text-decoration:none; }
 
-  /* footer controls area */
+  /* pulse to red animation (applied by JS) */
+  .pulse-red {
+    animation: toRed 1.1s ease-in-out;
+  }
+  @keyframes toRed {
+    0% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 24px rgba(253,212,255,0.02); }
+    40% { color: #ff4a4a; border-color: #ff4a4a; box-shadow: 0 12px 40px rgba(255,74,74,0.14); transform: scale(1.02); }
+    100% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); transform: scale(1); }
+  }
+
+  /* small controls */
+  .controls { display:flex; gap:10px; margin-top:14px; align-items:center; flex-wrap:wrap; }
+  .btn { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--muted-white); }
+  .btn.primary { background:var(--pink); color:#000; border:none; }
+
   footer.footer {
-    z-index:10;
     width:min(100%,var(--max-width));
     display:flex;
     gap:12px;
     align-items:center;
     justify-content:space-between;
     padding:8px 0;
-    pointer-events:auto;
+    color:var(--muted-white);
   }
 
-  .controls {
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .control-btn{
-    background:transparent;
-    border:1px solid rgba(255,255,255,0.06);
-    padding:8px 10px;
-    border-radius:10px;
-    cursor:pointer;
-    color:var(--muted);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  /* fullscreen floating button (smaller, unobtrusive) */
-  .fs-fab {
-    position:fixed;
-    right:18px;
-    bottom:18px;
-    z-index:20;
-    background:var(--pink);
-    color:#000;
-    border:none;
-    padding:8px 12px;
-    border-radius:10px;
-    box-shadow:0 10px 30px rgba(253,212,255,0.12);
-    cursor:pointer;
-  }
-
-  /* Splash text */
-  .splash{
-    margin-top:6px;
-    font-weight:700;
-    color:var(--pink);
-    text-shadow: 2px 2px 0 #000, 3px 3px 10px rgba(253,212,255,0.6);
-    max-width:86%;
-    font-size:14px;
-    line-height:1.25;
-  }
-
-  /* touch dpad (shows on small screens) */
-  .touch-controls{
-    display:none;
-    position:fixed;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:86px;
-    z-index:19;
-    pointer-events:none;
-  }
-  .dpad{ pointer-events:auto; display:flex; gap:8px }
-  .dpad .tbtn{
-    width:56px;height:56px;border-radius:10px;background:rgba(255,255,255,0.02);
-    display:grid;place-items:center;font-weight:700;color:var(--soft-white);
-    border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(4px);cursor:pointer;
-  }
-
-  /* responsive / small screens */
   @media (max-width:980px){
-    .main{flex-direction:column}
-    main{flex-direction:column;gap:18px;align-items:stretch}
-    .side-column{width:100%}
-    .links-panel{grid-template-columns:repeat(3,1fr)}
-  }
-  @media (max-width:640px){
-    header.header{padding:6px}
-    .pfp{width:46px;height:46px}
-    .start-card{padding:16px}
-    #enterBtn{--size:120px;font-size:16px}
-    .touch-controls{display:block}
-    .fs-fab{right:12px;bottom:78px}
+    main{ grid-template-columns: 1fr; }
+    .links-panel{ order: 2; }
   }
 
-  /* accessibility: reduce motion */
+  /* small accessibility: reduce motion */
   @media (prefers-reduced-motion: reduce){
-    .bg-decor, #enterBtn::after, .start-card, .pfp { animation: none !important; transition: none !important; }
+    .title-agg span { transition: none; animation: none; }
   }
-
-  /* helper small text */
-  .muted { color:var(--muted); font-size:13px }
-
   </style>
 </head>
 <body>
-  <div class="bg-canvas" aria-hidden="true">
-    <canvas id="game" aria-hidden="true"></canvas>
-    <div class="bg-decor" aria-hidden="true"></div>
-  </div>
-
-  <div class="app" id="app">
-    <!-- Header -->
-    <header class="header" role="banner" aria-label="Top header">
-      <div class="brand">
-        <div class="pfp" id="pfp" title="Click to change avatar (dev)">
-          <img id="pfpImg" src="https://i.imgur.com/VIK1odj.jpeg" alt="Profile picture">
-        </div>
-        <div class="title-block">
-          <div class="title">Imagine</div>
-          <div class="subtitle">Arcade · landing</div>
-        </div>
+  <div class="app">
+    <header class="header">
+      <div>
+        <div id="titleAgg" class="title-agg" aria-hidden="true"></div>
+        <div class="subtitle">Arcade · landing</div>
       </div>
 
-      <div class="status" id="discordStatus" aria-live="polite" aria-atomic="true">
-        <div class="dot" id="statusDot" aria-hidden="true"></div>
-        <div id="statusText">Discord: loading…</div>
-      </div>
+      <div class="subtitle white-detail" id="statusText">Discord: loading…</div>
     </header>
 
-    <!-- Main content -->
-    <main role="main" aria-label="Main content area">
-      <div class="center-column">
-        <section class="start-card" id="startCard" role="dialog" aria-label="Start">
-          <div class="start-title">Welcome to Imagine</div>
-          <div class="start-sub">Click ENTER to begin — music and gameplay will start.</div>
+    <main>
+      <!-- Left: About + audio control -->
+      <section class="card">
+        <h1 class="section-title">About Me</h1>
+        <p class="about white-detail" id="aboutText">
+          <!-- About text is injected by JS (combined from your files) -->
+        </p>
 
-          <button id="enterBtn" aria-label="Enter the game">
-            <span class="label">ENTER</span>
-          </button>
+        <div class="controls">
+          <button id="playBtn" class="btn primary">Play Music</button>
+          <button id="pauseBtn" class="btn">Pause</button>
+          <button id="muteBtn" class="btn">Mute</button>
+        </div>
 
-          <div class="splash" id="splash">Check the links on the right — or tap the avatar to change it.</div>
-          <div class="muted">Tip: use arrow keys, WASD, or touch to move.</div>
-        </section>
-      </div>
+        <div style="margin-top:12px; color:var(--muted-white); font-size:13px;">
+          Audio source: <span class="white-detail">RE.mp3 (project)</span>
+        </div>
+      </section>
 
-      <aside class="side-column" aria-label="Quick links and controls">
-        <div>
-          <div class="panel-title">Quick links</div>
-          <div class="links-panel" id="linksPanel" role="navigation" aria-label="Social links">
-            <!-- Link items: replace data-url with your own -->
-            <div class="link-item" data-url="https://instagram.com/imagine_ofc_" title="Instagram">
-              <img src="https://i.imgur.com/2kUGZ8w.png" alt="Instagram">
-              <div>
-                <div style="font-weight:700">Instagram</div>
-                <div class="muted">@imagine_ofc_</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://twitch.tv/Imagine_ofc" title="Twitch">
-              <img src="https://i.imgur.com/dlkzRxg.png" alt="Twitch">
-              <div>
-                <div style="font-weight:700">Twitch</div>
-                <div class="muted">Live streams</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://m.youtube.com/@imagine_ofc" title="YouTube">
-              <img src="https://i.imgur.com/y32pAoI.png" alt="YouTube">
-              <div>
-                <div style="font-weight:700">YouTube</div>
-                <div class="muted">Shorts & videos</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://imagine-ofc.vercel.app/about.html" title="About">
-              <img src="https://i.imgur.com/8hDawtU.jpeg" alt="About">
-              <div>
-                <div style="font-weight:700">About</div>
-                <div class="muted">Project info</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://game.capcom.com/residentevil/sp/en/p2450532.html" title="Resident Evil">
-              <img src="https://i.imgur.com/c1OgfAW.jpeg" alt="Resident Evil">
-              <div>
-                <div style="font-weight:700">Resident Evil</div>
-                <div class="muted">Capcom</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://www.roblox.com/communities/35831139/Imaginova-Dimenze" title="Roblox">
-              <img src="https://i.imgur.com/R79e1x7.png" alt="Roblox">
-              <div>
-                <div style="font-weight:700">Roblox</div>
-                <div class="muted">Community</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://silentstudio.vercel.app/" title="Silent Studio">
-              <img src="https://i.imgur.com/LeDYnNo.jpeg" alt="Silent Studio">
-              <div>
-                <div style="font-weight:700">Silent Studio</div>
-                <div class="muted">Creative</div>
-              </div>
-            </div>
-
-            <div class="link-item" data-url="https://imagine-ofc.vercel.app/Quantum.html" title="Quantum">
-              <img src="https://i.imgur.com/Xt3I8Z5.png" alt="Quantum">
-              <div>
-                <div style="font-weight:700">Quantum</div>
-                <div class="muted">Discord bot</div>
-              </div>
-            </div>
+      <!-- Right: quick links -->
+      <aside class="links-panel white-detail" role="navigation" aria-label="Social links">
+        <!-- Link items preserved from your original landing. Update data-url if needed. -->
+        <div class="link-item white-detail" data-url="https://instagram.com/imagine_ofc_" title="Instagram">
+          <img src="https://i.imgur.com/2kUGZ8w.png" alt="Instagram">
+          <div>
+            <div style="font-weight:700">Instagram</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">@imagine_ofc_</div>
           </div>
         </div>
 
-        <div style="margin-top:8px">
-          <div class="panel-title">Controls</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="control-btn" id="audioToggle" aria-pressed="false">🔊 Audio</button>
-            <button class="control-btn" id="toggleIcons">✨ Toggle glow</button>
-            <button class="control-btn" id="openCustomize">✏️ Edit links</button>
+        <div class="link-item white-detail" data-url="https://twitch.tv/Imagine_ofc" title="Twitch">
+          <img src="https://i.imgur.com/dlkzRxg.png" alt="Twitch">
+          <div>
+            <div style="font-weight:700">Twitch</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Live streams</div>
           </div>
         </div>
 
+        <div class="link-item white-detail" data-url="https://m.youtube.com/@imagine_ofc" title="YouTube">
+          <img src="https://i.imgur.com/y32pAoI.png" alt="YouTube">
+          <div>
+            <div style="font-weight:700">YouTube</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Shorts & videos</div>
+          </div>
+        </div>
+
+        <div class="link-item white-detail" data-url="https://imagine-ofc.vercel.app/about.html" title="About">
+          <img src="https://i.imgur.com/8hDawtU.jpeg" alt="About">
+          <div>
+            <div style="font-weight:700">About</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Project info</div>
+          </div>
+        </div>
+
+        <div class="link-item white-detail" data-url="https://game.capcom.com/residentevil/sp/en/p2450532.html" title="Resident Evil">
+          <img src="https://i.imgur.com/c1OgfAW.jpeg" alt="Resident Evil">
+          <div>
+            <div style="font-weight:700">Resident Evil</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Capcom</div>
+          </div>
+        </div>
+
+        <div class="link-item white-detail" data-url="https://www.roblox.com/communities/35831139/Imaginova-Dimenze" title="Roblox">
+          <img src="https://i.imgur.com/R79e1x7.png" alt="Roblox">
+          <div>
+            <div style="font-weight:700">Roblox</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Community</div>
+          </div>
+        </div>
+
+        <div class="link-item white-detail" data-url="https://silentstudio.vercel.app/" title="Silent Studio">
+          <img src="https://i.imgur.com/LeDYnNo.jpeg" alt="Silent Studio">
+          <div>
+            <div style="font-weight:700">Silent Studio</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Creative</div>
+          </div>
+        </div>
+
+        <div class="link-item white-detail" data-url="https://imagine-ofc.vercel.app/Quantum.html" title="Quantum">
+          <img src="https://i.imgur.com/Xt3I8Z5.png" alt="Quantum">
+          <div>
+            <div style="font-weight:700">Quantum</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Discord bot</div>
+          </div>
+        </div>
       </aside>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-      <div class="muted">Built with ❤️ — press ENTER to start</div>
-      <div class="controls">
-        <div class="muted">© Imagine</div>
-      </div>
+    <footer class="footer">
+      <div style="color:var(--muted-white)">Built with ❤️ — Imagine</div>
+      <div style="color:var(--muted-white)">© Imagine</div>
     </footer>
-
-    <!-- Floating fullscreen button -->
-    <button id="fsBtn" class="fs-fab" aria-label="Toggle fullscreen">Fullscreen</button>
-
-    <!-- Touch controls (visible on small screens) -->
-    <div class="touch-controls" id="touchControls" aria-hidden="true">
-      <div class="dpad" id="dpad" role="toolbar" aria-label="Touch controls">
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <button class="tbtn" data-action="up" aria-label="Up">▲</button>
-          <div style="display:flex;gap:6px">
-            <button class="tbtn" data-action="left" aria-label="Left">◀</button>
-            <button class="tbtn" data-action="down" aria-label="Down">▼</button>
-            <button class="tbtn" data-action="right" aria-label="Right">▶</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Audio (preload; play only after user gesture) -->
-  <audio id="bgAudio" preload="auto" loop crossorigin="anonymous">
-    <source src="https://files.catbox.moe/ay1bsm.mp3" type="audio/mpeg">
+  <!-- AUDIO (raw GitHub URL) -->
+  <audio id="bgAudio" preload="auto" crossorigin="anonymous">
+    <source src="https://raw.githubusercontent.com/Imagineoff/Tet/main/RE.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <script>
-  /* ========= Configuration ========= */
-  const PINK = '#fdd4ff';
-  const DISCORD_ID = '904431016175894528'; // keep or replace
-  const AUDIO = document.getElementById('bgAudio');
+  /********* Content merge (About text) *********/
+  // Base about text (from your old landing) + combined funfacts (picked only the text pieces)
+  const aboutParts = [
+    `Hello! I'm Imagine, a passionate web developer and programmer who builds interactive web projects and Discord bots. I enjoy creating sleek, user-friendly interfaces and integrating creative functionality into websites and apps using modern technologies like HTML, CSS, JavaScript, and Node.js.`,
+    // funfact texts extracted and merged (only textual content)
+    `I’d love to live in New York one day.`,
+    `My favorite music artist is The Weeknd.`,
+    `My favorite game series is Resident Evil and my favorite character is Ada Wong.`,
+    `One of my favorite books is "Zoo Station: The Story of Christiane F."`,
+    `My favorite multiplayer game is Dead by Daylight.`,
+    `One of my favorite films is The Great Gatsby.`
+  ];
+  document.getElementById('aboutText').innerHTML = aboutParts.join(' ');
 
-  /* ========= DOM refs ========= */
-  const enterBtn = document.getElementById('enterBtn');
-  const startCard = document.getElementById('startCard');
-  const splash = document.getElementById('splash');
-  const pfpImg = document.getElementById('pfpImg');
-  const statusText = document.getElementById('statusText');
-  const statusDot = document.getElementById('statusDot');
-  const linksPanel = document.getElementById('linksPanel');
-  const audioToggle = document.getElementById('audioToggle');
-  const toggleIconsBtn = document.getElementById('toggleIcons');
-  const openCustomize = document.getElementById('openCustomize');
-  const fsBtn = document.getElementById('fsBtn');
-
-  /* ========= Small UX helpers ========= */
-  function safeOpen(url){
-    if(!url) return;
-    window.open(url,'_blank','noopener');
-  }
-
-  /* make each .link-item clickable and manageable without layout overlap */
-  linksPanel.querySelectorAll('.link-item').forEach(el=>{
+  /********* Links: make items open new tab *********/
+  document.querySelectorAll('.link-item').forEach(el=>{
     el.addEventListener('click', ()=> {
       const url = el.dataset.url;
-      // small visual toggle:
-      el.classList.toggle('active');
-      if(url) safeOpen(url);
+      if(url) window.open(url, '_blank', 'noopener');
     });
   });
 
-  /* allow editing of avatar (quick dev helper) */
-  pfpImg.addEventListener('click', ()=>{
-    const url = prompt('Enter avatar image URL (leave empty to cancel):', pfpImg.src || '');
-    if(url) pfpImg.src = url;
-  });
+  /********* Title: aggressive per-letter font changes *********/
+  const titleStr = "Imagine";
+  const titleAgg = document.getElementById('titleAgg');
 
-  /* audio toggle */
-  audioToggle.addEventListener('click', async ()=>{
-    if(AUDIO.paused){
-      try{
-        await AUDIO.play();
-        audioToggle.setAttribute('aria-pressed','true');
-        audioToggle.textContent = '🔈 Audio ON';
-      }catch(e){
-        console.warn('Audio play blocked', e);
-      }
-    }else{
-      AUDIO.pause();
-      audioToggle.setAttribute('aria-pressed','false');
-      audioToggle.textContent = '🔊 Audio';
-    }
-  });
+// create spans for each letter
+const fonts = [
+  "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial",
+  "Georgia, 'Times New Roman', Times, serif",
+  "'Courier New', Courier, monospace",
+  "Impact, Haettenschweiler, 'Arial Black', sans-serif",
+  "Verdana, Geneva, sans-serif",
+  "Roboto, 'Helvetica Neue', Arial, sans-serif",
+  "Lora, serif",
+  "Oswald, 'Helvetica Neue', Arial, sans-serif"
+];
 
-  /* toggle icons visual (simple) */
-  toggleIconsBtn.addEventListener('click', ()=>{
-    linksPanel.querySelectorAll('.link-item').forEach((el,i)=>{
-      if(i % 2 === 0) el.classList.toggle('active');
-    });
-  });
+titleAgg.innerHTML = "";
+for(let ch of titleStr){
+  const sp = document.createElement('span');
+  sp.textContent = ch;
+  sp.style.fontFamily = fonts[0];
+  titleAgg.appendChild(sp);
+}
 
-  /* open customize (simple prompts to change link URLs) */
-  openCustomize.addEventListener('click', ()=>{
-    const items = Array.from(linksPanel.querySelectorAll('.link-item'));
-    items.forEach(item=>{
-      const url = prompt('Enter new target URL for this link (leave blank to keep):', item.dataset.url || '');
-      if(url !== null && url.trim() !== ''){
-        item.dataset.url = url.trim();
-      }
-    });
-    alert('Done — links updated.');
-  });
-
-  /* Fullscreen toggle button */
-  fsBtn.addEventListener('click', ()=>{
-    const target = document.documentElement;
-    if(!document.fullscreenElement){
-      if(target.requestFullscreen) target.requestFullscreen();
-      else if(target.webkitRequestFullscreen) target.webkitRequestFullscreen();
-    } else {
-      if(document.exitFullscreen) document.exitFullscreen();
-    }
-  });
-
-  /* Splash random text */
-  const splashTexts = [
-    "Seven Minutes. Seven Minutes is all I can spare to play with you right now.",
-    "Web version 15.0!",
-    "These texts are displayed randomly..",
-    "I love Resident Evil!",
-    "Check the links on the right!"
-  ];
-  splash.textContent = splashTexts[Math.floor(Math.random()*splashTexts.length)];
-
-  /* ======= Canvas game (kept simplified & robust) ======= */
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  let W = canvas.width = window.innerWidth;
-  let H = canvas.height = window.innerHeight;
-
-  function resizeCanvas(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+// change fonts of random letters rapidly
+setInterval(()=> {
+  const spans = titleAgg.querySelectorAll('span');
+  // change 1-3 random letters per tick for aggressive effect
+  const count = Math.floor(Math.random()*3) + 1;
+  for(let i=0;i<count;i++){
+    const idx = Math.floor(Math.random()*spans.length);
+    const f = fonts[Math.floor(Math.random()*fonts.length)];
+    spans[idx].style.fontFamily = f;
+    // slight random nudge
+    spans[idx].style.transform = `translateY(${(Math.random()-0.5)*6}px)`;
+    // reset transform shortly after
+    setTimeout(()=> spans[idx].style.transform = '', 120);
   }
-  window.addEventListener('resize', resizeCanvas);
+}, 80); // very fast/aggressive
 
-  const ship = { x: W/2, y: H*0.75, w:28, h:38, speed:5, color:PINK };
-  const bullets = [];
-  const rocks = [];
-  let rockTimer = 0;
-  let autoShootTimer = 0;
-  let playing = false;
-  const keys = {left:false,right:false,up:false,down:false};
-  let touchMove = {active:false,x:0,y:0};
-  let last = performance.now();
-
-  function drawShip(s){
-    ctx.save();
-    ctx.translate(s.x, s.y);
-    ctx.beginPath();
-    ctx.moveTo(0, -s.h/2);
-    ctx.lineTo(s.w/2, s.h/2);
-    ctx.lineTo(-s.w/2, s.h/2);
-    ctx.closePath();
-    ctx.fillStyle = s.color;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  function spawnBullet(x,y){ bullets.push({x,y,r:4,vy:-8}) }
-  function spawnRock(){
-    const r = 10 + Math.random()*30;
-    const x = Math.random()*(W - 2*r) + r;
-    const y = -r;
-    const vy = 1.2 + Math.random()*2.4;
-    rocks.push({x,y,r,vy,rot:Math.random()*Math.PI*2,vr:(Math.random()-0.5)*0.02});
-  }
-
-  function update(dt){
-    // movement from keys
-    let mvX = 0, mvY = 0;
-    if(keys.left) mvX -= 1;
-    if(keys.right) mvX += 1;
-    if(keys.up) mvY -= 1;
-    if(keys.down) mvY += 1;
-
-    if(touchMove.active){
-      const dx = touchMove.x - ship.x;
-      const dy = touchMove.y - ship.y;
-      const d = Math.hypot(dx,dy) || 1;
-      mvX = dx/d;
-      mvY = dy/d;
-    }
-
-    ship.x += mvX * ship.speed;
-    ship.y += mvY * ship.speed;
-    ship.x = Math.max(20, Math.min(W-20, ship.x));
-    ship.y = Math.max(20, Math.min(H-20, ship.y));
-
-    bullets.forEach((b,i)=> {
-      b.y += b.vy;
-      if(b.y < -10) bullets.splice(i,1);
-    });
-
-    rocks.forEach((r,i)=> {
-      r.y += r.vy;
-      r.rot += r.vr;
-      if(r.y - r.r > H + 50) rocks.splice(i,1);
-    });
-
-    rockTimer += dt;
-    if(rockTimer > 700 + Math.random()*900){
-      spawnRock();
-      rockTimer = 0;
-    }
-
-    autoShootTimer += dt;
-    if(autoShootTimer > 220){
-      spawnBullet(ship.x, ship.y - ship.h/2 - 6);
-      autoShootTimer = 0;
-    }
-
-    // collisions
-    for(let i = rocks.length - 1; i >= 0; i--){
-      const r = rocks[i];
-      for(let j = bullets.length - 1; j >= 0; j--){
-        const b = bullets[j];
-        const dx = r.x - b.x;
-        const dy = r.y - b.y;
-        if(dx*dx + dy*dy < (r.r + b.r)*(r.r + b.r)){
-          rocks.splice(i,1);
-          bullets.splice(j,1);
-          break;
-        }
+  /********* Tab title: typewriter effect for "imagine" *********/
+  const targetTitle = 'imagine';
+  let ti = 0, typing = true;
+  function typeTick() {
+    if(typing) {
+      ti++;
+      document.title = targetTitle.slice(0, ti);
+      if(ti >= targetTitle.length) {
+        typing = false;
+        setTimeout(()=> { typing = true; ti = 0; }, 1200); // pause then repeat
       }
     }
+    setTimeout(typeTick, 120);
+  }
+  typeTick();
+
+  /********* AUDIO VISUALIZER + big-change pulse *********/
+  const audioEl = document.getElementById('bgAudio');
+  let audioCtx, analyser, source;
+  const fftSize = 512;
+  let prevAvg = 0;
+  const threshold = 28; // tune: how big change needs to be
+  let cooldown = false;
+
+  function ensureAudioContext(){
+    if(audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = fftSize;
+    source = audioCtx.createMediaElementSource(audioEl);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
   }
 
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    // subtle grid/stars
-    ctx.fillStyle = 'rgba(255,255,255,0.02)';
-    for(let i=0;i<40;i++){
-      if(i%10===0){
-        const sx = (i*47)%W;
-        const sy = (i*73)%H;
-        ctx.fillRect(sx,sy,1,1);
-      }
-    }
-
-    // rocks
-    for(const r of rocks){
-      ctx.save();
-      ctx.translate(r.x,r.y);
-      ctx.rotate(r.rot);
-      ctx.beginPath();
-      ctx.moveTo(-r.r,-r.r);
-      ctx.lineTo(r.r,-r.r/2);
-      ctx.lineTo(r.r*0.6,r.r);
-      ctx.lineTo(-r.r*0.5,r.r*0.8);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(180,180,180,0.9)';
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // bullets
-    for(const b of bullets){
-      ctx.beginPath();
-      ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-      ctx.fillStyle = '#fff9';
-      ctx.fill();
-    }
-
-    drawShip(ship);
+  function getAverage(data){
+    let sum = 0;
+    for(let i=0;i<data.length;i++) sum += data[i];
+    return sum / data.length;
   }
 
-  function loop(now){
-    const dt = now - last;
-    last = now;
-    if(playing){
-      update(dt);
-      draw();
-    } else {
-      // idle draw with ship near bottom center
-      ship.x += (W/2 - ship.x) * 0.06;
-      ship.y += (H*0.75 - ship.y) * 0.06;
-      draw();
+  function monitorAudio(){
+    if(!analyser) return;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(data);
+    const avg = getAverage(data);
+    const delta = Math.abs(avg - prevAvg);
+    // detect large jump
+    if(delta > threshold && !cooldown) {
+      triggerPulse();
+      cooldown = true;
+      setTimeout(()=> cooldown = false, 1200); // cooldown time
     }
-    requestAnimationFrame(loop);
+    prevAvg = avg * 0.6 + prevAvg * 0.4; // smoothing
+    requestAnimationFrame(monitorAudio);
   }
-  requestAnimationFrame(loop);
 
-  /* ======= Controls: keyboard & touch ======= */
-  window.addEventListener('keydown', e=>{
-    const k = e.key.toLowerCase();
-    if(k==='arrowleft' || k==='a') keys.left = true;
-    if(k==='arrowright' || k==='d') keys.right = true;
-    if(k==='arrowup' || k==='w') keys.up = true;
-    if(k==='arrowdown' || k==='s') keys.down = true;
-    // allow Enter to start as well
-    if(k==='enter' && !playing){ enterBtn.click(); }
-  });
-  window.addEventListener('keyup', e=>{
-    const k = e.key.toLowerCase();
-    if(k==='arrowleft' || k==='a') keys.left = false;
-    if(k==='arrowright' || k==='d') keys.right = false;
-    if(k==='arrowup' || k==='w') keys.up = false;
-    if(k==='arrowdown' || k==='s') keys.down = false;
-  });
+  function triggerPulse(){
+    // add pulse class to all white-detail elements
+    const els = document.querySelectorAll('.white-detail');
+    els.forEach(e => {
+      e.classList.remove('pulse-red');
+      // force reflow to restart animation
+      void e.offsetWidth;
+      e.classList.add('pulse-red');
+      // remove class after animation finishes
+      setTimeout(()=> e.classList.remove('pulse-red'), 1200);
+    });
+  }
 
-  // touch dpad
-  document.querySelectorAll('.tbtn').forEach(btn=>{
-    btn.addEventListener('touchstart', ev=>{
-      ev.preventDefault();
-      const act = btn.dataset.action;
-      if(act==='left') keys.left=true;
-      if(act==='right') keys.right=true;
-      if(act==='up') keys.up=true;
-      if(act==='down') keys.down=true;
-    }, {passive:false});
-    btn.addEventListener('touchend', ev=>{
-      ev.preventDefault();
-      const act = btn.dataset.action;
-      if(act==='left') keys.left=false;
-      if(act==='right') keys.right=false;
-      if(act==='up') keys.up=false;
-      if(act==='down') keys.down=false;
-    }, {passive:false});
+  // Play / Pause / Mute buttons
+  document.getElementById('playBtn').addEventListener('click', async ()=>{
+    try {
+      ensureAudioContext();
+      await audioCtx.resume();
+      await audioEl.play();
+      // start monitoring
+      requestAnimationFrame(monitorAudio);
+    } catch(e){ console.warn('play err', e); }
   });
 
-  // canvas touch drag
-  canvas.addEventListener('touchstart', e=>{
-    const t = e.touches[0];
-    touchMove.active = true;
-    touchMove.x = t.clientX;
-    touchMove.y = t.clientY;
-  }, {passive:true});
-  canvas.addEventListener('touchmove', e=>{
-    const t = e.touches[0];
-    touchMove.x = t.clientX;
-    touchMove.y = t.clientY;
-  }, {passive:true});
-  canvas.addEventListener('touchend', ()=>{ touchMove.active = false; });
-
-  // mouse drag
-  let mdown = false;
-  canvas.addEventListener('mousedown', e=>{
-    mdown = true;
-    touchMove.active = true;
-    touchMove.x = e.clientX;
-    touchMove.y = e.clientY;
-  });
-  canvas.addEventListener('mousemove', e=>{
-    if(mdown){ touchMove.x = e.clientX; touchMove.y = e.clientY; }
-  });
-  window.addEventListener('mouseup', ()=>{ mdown = false; touchMove.active = false; });
-
-  /* ===== Start / Enter button behavior ===== */
-  enterBtn.addEventListener('click', async ()=>{
-    // small micro animation
-    enterBtn.style.transform = 'scale(.98)';
-    setTimeout(()=> enterBtn.style.transform = '', 120);
-
-    // play audio (user gesture allows autoplay)
-    try{
-      AUDIO.currentTime = 0;
-      await AUDIO.play();
-      audioToggle.setAttribute('aria-pressed','true');
-      audioToggle.textContent = '🔈 Audio ON';
-    }catch(err){
-      console.warn('Audio play blocked', err);
-    }
-
-    // hide start card with smooth transition
-    startCard.style.transition = 'opacity .5s ease, transform .5s ease';
-    startCard.style.opacity = 0;
-    startCard.style.transform = 'translateY(-10px) scale(.98)';
-    setTimeout(()=> {
-      startCard.style.display = 'none';
-      playing = true;
-    }, 520);
-
-    // fade out splash
-    if(splash){ splash.style.opacity = 0; setTimeout(()=> splash.remove(), 600) }
+  document.getElementById('pauseBtn').addEventListener('click', ()=>{
+    audioEl.pause();
   });
 
-  /* ====== Lanyard / Discord status fetch (keeps original behavior) ====== */
+  document.getElementById('muteBtn').addEventListener('click', ()=>{
+    audioEl.muted = !audioEl.muted;
+    document.getElementById('muteBtn').textContent = audioEl.muted ? 'Unmute' : 'Mute';
+  });
+
+  /********* Discord status fetch (kept lightweight) *********/
+  // if you want to keep original lanyard behavior you can set DISCORD_ID accordingly.
+  const DISCORD_ID = '904431016175894528';
   async function fetchLanyard(){
     try{
       const res = await fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID);
@@ -855,52 +434,21 @@
         if(online==='online') color = '#3ba55d';
         if(online==='dnd') color = '#ed4245';
         if(online==='idle') color = '#faa81a';
-        statusDot.style.background = color;
-
-        let activity = 'Offline / invisible';
+        document.getElementById('statusText').style.color = color;
+        let activity = 'Offline';
         if(d.activities && d.activities.length){
-          activity = d.activities.map(a=>{
-            if(a.type === 0) return a.name;
-            if(a.type === 2) return (a.state || a.name);
-            return a.name || 'Activity';
-          }).join(', ');
+          activity = d.activities.map(a => a.name || a.state || 'Activity').join(', ');
         } else {
           activity = online === 'offline' ? 'Offline' : 'Online';
         }
-        statusText.textContent = `Discord: ${activity}`;
-      } else {
-        statusText.textContent = 'Discord: unavailable';
-        statusDot.style.background = '#777';
+        document.getElementById('statusText').textContent = `Discord: ${activity}`;
       }
     }catch(err){
-      console.warn('Lanyard err', err);
-      statusText.textContent = 'Discord: error';
-      statusDot.style.background = '#777';
+      // ignore silently
     }
   }
   fetchLanyard();
   setInterval(fetchLanyard, 30000);
-
-  /* ===== small ambient pulse for the decor ===== */
-  (function ambientPulse(){
-    const decor = document.querySelector('.bg-decor');
-    if(!decor) return;
-    let t = 0;
-    function step(){
-      t += 0.02;
-      const alpha = (Math.sin(t) + 1)/6 + 0.06;
-      decor.style.opacity = String(0.12 * alpha + 0.02);
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  })();
-
-  /* ===== accessibility: keyboard focus outline improvements ===== */
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Tab'){
-      document.documentElement.classList.add('show-focus');
-    }
-  });
 
   </script>
 </body>
