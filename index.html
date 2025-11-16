@@ -12,23 +12,59 @@
     --pink: #fdd4ff;
     --bg: #000000;
     --white: #ffffff;
-    --muted-white: rgba(255,255,255,0.7);
-    --ui-height: 64px;
-    --max-width: 1100px;
+    --muted-white: rgba(255,255,255,0.75);
+    --accent: #8be9fd;
     --radius: 12px;
+    --max-width: 1200px;
     --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
+
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
     min-height:100vh;
     font-family:var(--font-main);
-    background:var(--bg);
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(20,20,20,0.35), transparent), 
+                radial-gradient(900px 400px at 90% 90%, rgba(30,10,40,0.25), transparent),
+                var(--bg);
     color:var(--white);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
-    line-height:1.45;
+    overflow-x:hidden;
+  }
+
+  /* Overlay (ENTER) */
+  .entry-overlay{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.92));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    flex-direction:column;
+    gap:22px;
+  }
+  .enter-btn{
+    padding:18px 36px;
+    border-radius:12px;
+    border:2px solid rgba(255,255,255,0.08);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    color:var(--white);
+    font-weight:800;
+    letter-spacing:3px;
+    cursor:pointer;
+    font-size:18px;
+    transition:transform .12s ease, box-shadow .12s;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+  .enter-btn:active{ transform: translateY(2px) scale(.995) }
+
+  .entry-small{
+    color:var(--muted-white);
+    font-size:13px;
+    opacity:.9;
   }
 
   /* Layout */
@@ -39,101 +75,124 @@
     align-items:center;
     gap:18px;
     position:relative;
-    padding:28px 18px;
+    padding:36px 22px;
   }
 
+  /* header reduced (kept only small status) */
   header.header {
     width: min(100%, var(--max-width));
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    justify-content:flex-end;
     gap:12px;
-    padding:8px;
+    padding:8px 12px;
     z-index:20;
   }
+  .status {
+    color:var(--muted-white);
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.04);
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  }
 
-  /* Aggressive per-letter font change title */
+  /* HERO: big title centered on page */
+  .hero{
+    width:100%;
+    max-width:var(--max-width);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    margin-top:8px;
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
+  }
+
   .title-agg {
-    font-size:38px;
     font-weight:900;
-    letter-spacing:0.6px;
     display:flex;
     gap:6px;
     align-items:center;
     user-select:none;
+    pointer-events:auto;
   }
   .title-agg span {
     display:inline-block;
-    transition: transform .12s ease;
-    will-change: font-family, transform;
+    transition: transform .12s cubic-bezier(.2,.9,.2,1), color .12s, text-shadow .12s;
+    will-change: font-family, transform, text-shadow, color;
     padding:2px 0;
+    color:var(--white);
+    text-shadow: 0 6px 30px rgba(0,0,0,0.6);
   }
 
-  /* Tab-focused subtitle */
-  .subtitle { color: var(--muted-white); font-size:13px; margin-top:4px; }
+  /* responsive big size */
+  .title-agg { font-size: clamp(46px, 14vw, 120px); letter-spacing: -2px; }
+  .subtitle-small { color:var(--muted-white); font-size:14px; margin-top:-6px; pointer-events:none; }
 
+  /* Main layout with about + links */
   main {
     width: min(100%, var(--max-width));
     display:grid;
     grid-template-columns: 1fr 360px;
-    gap:20px;
+    gap:26px;
     align-items:start;
-    z-index:10;
+    margin-top:10px;
   }
 
-  /* Left: card with about + controls */
   .card {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius: var(--radius);
-    padding:22px;
+    border-radius: 14px;
+    padding:26px;
     border:1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    pointer-events:auto;
   }
 
-  h1.section-title { margin:0 0 10px 0; font-size:18px; color:var(--pink); }
-  p.about { color: #e6e6e6; font-size:15px; line-height:1.6; }
+  h2.section-title { margin:0 0 10px 0; font-size:18px; color:var(--pink); letter-spacing:1px; text-transform:uppercase; }
+  p.about { color: #e6e6e6; font-size:15px; line-height:1.6; margin:0; }
 
-  /* Right: links panel */
   .links-panel{
     background: rgba(255,255,255,0.02);
     border-radius:12px;
-    padding:12px;
+    padding:14px;
     border:1px solid rgba(255,255,255,0.03);
     display:grid;
-    gap:10px;
+    gap:12px;
+    pointer-events:auto;
   }
   .link-item{
     display:flex;
-    gap:10px;
+    gap:12px;
     align-items:center;
-    padding:8px;
+    padding:10px;
     border-radius:10px;
     background:transparent;
     cursor:pointer;
     transition: transform .12s ease, background .12s;
     border: 1px solid rgba(255,255,255,0.03);
   }
-  .link-item:hover{ transform: translateY(-4px) }
-  .link-item img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+  .link-item:hover{ transform: translateY(-6px); background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) }
+  .link-item img{width:46px;height:46px;border-radius:8px;object-fit:cover}
 
-  /* UI elements that are 'white details' - they will pulse red on big audio changes */
+  /* white details (will pulse red on big change) */
   .white-detail { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); }
   .white-detail a { color: var(--white); text-decoration:none; }
 
-  /* pulse to red animation (applied by JS) */
   .pulse-red {
     animation: toRed 1.1s ease-in-out;
   }
   @keyframes toRed {
-    0% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 24px rgba(253,212,255,0.02); }
-    40% { color: #ff4a4a; border-color: #ff4a4a; box-shadow: 0 12px 40px rgba(255,74,74,0.14); transform: scale(1.02); }
-    100% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); transform: scale(1); }
+    0% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 24px rgba(253,212,255,0.02); transform: none; }
+    40% { color: #ff4a4a; border-color: #ff4a4a; box-shadow: 0 18px 50px rgba(255,74,74,0.16); transform: scale(1.02) translateY(-2px); text-shadow: 0 10px 30px rgba(255,74,74,0.08); }
+    100% { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); transform: none; }
   }
 
-  /* small controls */
-  .controls { display:flex; gap:10px; margin-top:14px; align-items:center; flex-wrap:wrap; }
+  .controls { display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap; }
   .btn { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--muted-white); }
-  .btn.primary { background:var(--pink); color:#000; border:none; }
+  .btn.primary { background:var(--pink); color:#000; border:none; font-weight:700; }
 
   footer.footer {
     width:min(100%,var(--max-width));
@@ -141,59 +200,63 @@
     gap:12px;
     align-items:center;
     justify-content:space-between;
-    padding:8px 0;
+    padding:18px 0;
     color:var(--muted-white);
+    pointer-events:none;
   }
 
   @media (max-width:980px){
     main{ grid-template-columns: 1fr; }
     .links-panel{ order: 2; }
+    .hero{ margin-top:18px }
   }
 
-  /* small accessibility: reduce motion */
   @media (prefers-reduced-motion: reduce){
     .title-agg span { transition: none; animation: none; }
   }
   </style>
 </head>
 <body>
-  <div class="app">
-    <header class="header">
-      <div>
-        <div id="titleAgg" class="title-agg" aria-hidden="true"></div>
-        <div class="subtitle">Arcade · landing</div>
+  <!-- Entry overlay with big ENTER button -->
+  <div id="entryOverlay" class="entry-overlay" role="dialog" aria-modal="true" aria-label="Enter site">
+    <div style="pointer-events:none;">
+      <div id="entryTitle" class="title-agg" style="font-size: clamp(36px, 10vw, 96px);">
+        <!-- letters will be injected by JS for aggressive per-letter changes -->
       </div>
+    </div>
+    <div class="entry-small">Press ENTER to enter</div>
+    <button id="enterBtn" class="enter-btn" aria-label="Enter site">ENTER</button>
+  </div>
 
-      <div class="subtitle white-detail" id="statusText">Discord: loading…</div>
+  <div class="app" id="appRoot" aria-hidden="true">
+    <header class="header">
+      <div id="statusText" class="status white-detail">Loading…</div>
     </header>
 
+    <section class="hero" aria-hidden="false">
+      <div id="titleAgg" class="title-agg" aria-hidden="true"></div>
+      <div class="subtitle-small">creative projects & visuals</div>
+    </section>
+
     <main>
-      <!-- Left: About + audio control -->
-      <section class="card">
-        <h1 class="section-title">About Me</h1>
-        <p class="about white-detail" id="aboutText">
-          <!-- About text is injected by JS (combined from your files) -->
+      <section class="card white-detail" aria-labelledby="aboutHeading">
+        <h2 id="aboutHeading" class="section-title">About</h2>
+        <p class="about" id="aboutText">
+          <!-- about text injected by JS -->
         </p>
 
-        <div class="controls">
-          <button id="playBtn" class="btn primary">Play Music</button>
+        <div class="controls" style="margin-top:18px;">
           <button id="pauseBtn" class="btn">Pause</button>
           <button id="muteBtn" class="btn">Mute</button>
         </div>
-
-        <div style="margin-top:12px; color:var(--muted-white); font-size:13px;">
-          Audio source: <span class="white-detail">RE.mp3 (project)</span>
-        </div>
       </section>
 
-      <!-- Right: quick links -->
       <aside class="links-panel white-detail" role="navigation" aria-label="Social links">
-        <!-- Link items preserved from your original landing. Update data-url if needed. -->
         <div class="link-item white-detail" data-url="https://instagram.com/imagine_ofc_" title="Instagram">
           <img src="https://i.imgur.com/2kUGZ8w.png" alt="Instagram">
           <div>
             <div style="font-weight:700">Instagram</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">@imagine_ofc_</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.85)">@imagine_ofc_</div>
           </div>
         </div>
 
@@ -201,7 +264,7 @@
           <img src="https://i.imgur.com/dlkzRxg.png" alt="Twitch">
           <div>
             <div style="font-weight:700">Twitch</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Live streams</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Live</div>
           </div>
         </div>
 
@@ -209,7 +272,7 @@
           <img src="https://i.imgur.com/y32pAoI.png" alt="YouTube">
           <div>
             <div style="font-weight:700">YouTube</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Shorts & videos</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Videos</div>
           </div>
         </div>
 
@@ -217,7 +280,7 @@
           <img src="https://i.imgur.com/8hDawtU.jpeg" alt="About">
           <div>
             <div style="font-weight:700">About</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Project info</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Project info</div>
           </div>
         </div>
 
@@ -225,31 +288,7 @@
           <img src="https://i.imgur.com/c1OgfAW.jpeg" alt="Resident Evil">
           <div>
             <div style="font-weight:700">Resident Evil</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Capcom</div>
-          </div>
-        </div>
-
-        <div class="link-item white-detail" data-url="https://www.roblox.com/communities/35831139/Imaginova-Dimenze" title="Roblox">
-          <img src="https://i.imgur.com/R79e1x7.png" alt="Roblox">
-          <div>
-            <div style="font-weight:700">Roblox</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Community</div>
-          </div>
-        </div>
-
-        <div class="link-item white-detail" data-url="https://silentstudio.vercel.app/" title="Silent Studio">
-          <img src="https://i.imgur.com/LeDYnNo.jpeg" alt="Silent Studio">
-          <div>
-            <div style="font-weight:700">Silent Studio</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Creative</div>
-          </div>
-        </div>
-
-        <div class="link-item white-detail" data-url="https://imagine-ofc.vercel.app/Quantum.html" title="Quantum">
-          <img src="https://i.imgur.com/Xt3I8Z5.png" alt="Quantum">
-          <div>
-            <div style="font-weight:700">Quantum</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.8)">Discord bot</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Capcom</div>
           </div>
         </div>
       </aside>
@@ -261,18 +300,15 @@
     </footer>
   </div>
 
-  <!-- AUDIO (raw GitHub URL) -->
+  <!-- Hidden audio element (source can be GitHub raw or Catbox) -->
   <audio id="bgAudio" preload="auto" crossorigin="anonymous">
     <source src="https://raw.githubusercontent.com/Imagineoff/Tet/main/RE.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
   <script>
-  /********* Content merge (About text) *********/
-  // Base about text (from your old landing) + combined funfacts (picked only the text pieces)
+  /* ------------------ Content (About) ------------------ */
   const aboutParts = [
-    `Hello! I'm Imagine, a passionate web developer and programmer who builds interactive web projects and Discord bots. I enjoy creating sleek, user-friendly interfaces and integrating creative functionality into websites and apps using modern technologies like HTML, CSS, JavaScript, and Node.js.`,
-    // funfact texts extracted and merged (only textual content)
+    `Hello! I'm Imagine, a developer who builds interactive web projects and Discord bots.`,
     `I’d love to live in New York one day.`,
     `My favorite music artist is The Weeknd.`,
     `My favorite game series is Resident Evil and my favorite character is Ada Wong.`,
@@ -280,9 +316,11 @@
     `My favorite multiplayer game is Dead by Daylight.`,
     `One of my favorite films is The Great Gatsby.`
   ];
-  document.getElementById('aboutText').innerHTML = aboutParts.join(' ');
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.getElementById('aboutText').textContent = aboutParts.join(' ');
+  });
 
-  /********* Links: make items open new tab *********/
+  /* ------------------ Links open in new tab ------------------ */
   document.querySelectorAll('.link-item').forEach(el=>{
     el.addEventListener('click', ()=> {
       const url = el.dataset.url;
@@ -290,47 +328,55 @@
     });
   });
 
-  /********* Title: aggressive per-letter font changes *********/
+  /* ------------------ Aggressive per-letter title ------------------ */
   const titleStr = "Imagine";
-  const titleAgg = document.getElementById('titleAgg');
+  const fonts = [
+    "Impact, Haettenschweiler, 'Arial Black', sans-serif",
+    "Georgia, 'Times New Roman', Times, serif",
+    "'Courier New', Courier, monospace",
+    "Verdana, Geneva, sans-serif",
+    "Roboto, 'Helvetica Neue', Arial, sans-serif",
+    "'Lora', serif",
+    "'Oswald', 'Helvetica Neue', Arial, sans-serif",
+    "'Segoe UI', Tahoma, Geneva, sans-serif"
+  ];
 
-// create spans for each letter
-const fonts = [
-  "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial",
-  "Georgia, 'Times New Roman', Times, serif",
-  "'Courier New', Courier, monospace",
-  "Impact, Haettenschweiler, 'Arial Black', sans-serif",
-  "Verdana, Geneva, sans-serif",
-  "Roboto, 'Helvetica Neue', Arial, sans-serif",
-  "Lora, serif",
-  "Oswald, 'Helvetica Neue', Arial, sans-serif"
-];
-
-titleAgg.innerHTML = "";
-for(let ch of titleStr){
-  const sp = document.createElement('span');
-  sp.textContent = ch;
-  sp.style.fontFamily = fonts[0];
-  titleAgg.appendChild(sp);
-}
-
-// change fonts of random letters rapidly
-setInterval(()=> {
-  const spans = titleAgg.querySelectorAll('span');
-  // change 1-3 random letters per tick for aggressive effect
-  const count = Math.floor(Math.random()*3) + 1;
-  for(let i=0;i<count;i++){
-    const idx = Math.floor(Math.random()*spans.length);
-    const f = fonts[Math.floor(Math.random()*fonts.length)];
-    spans[idx].style.fontFamily = f;
-    // slight random nudge
-    spans[idx].style.transform = `translateY(${(Math.random()-0.5)*6}px)`;
-    // reset transform shortly after
-    setTimeout(()=> spans[idx].style.transform = '', 120);
+  function buildTitle(containerId){
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    for(let ch of titleStr){
+      const sp = document.createElement('span');
+      sp.textContent = ch;
+      sp.style.fontFamily = fonts[0];
+      container.appendChild(sp);
+    }
+    return container;
   }
-}, 80); // very fast/aggressive
 
-  /********* Tab title: typewriter effect for "imagine" *********/
+  const heroTitle = buildTitle('titleAgg');
+  const entryTitle = buildTitle('entryTitle');
+
+  // aggressive change: change random letters frequently
+  function randomizeLetters(container, speed=80){
+    return setInterval(()=>{
+      const spans = container.querySelectorAll('span');
+      const count = Math.floor(Math.random()*3) + 1;
+      for(let i=0;i<count;i++){
+        const idx = Math.floor(Math.random()*spans.length);
+        const f = fonts[Math.floor(Math.random()*fonts.length)];
+        spans[idx].style.fontFamily = f;
+        spans[idx].style.transform = `translateY(${(Math.random()-0.5)*10}px) rotate(${(Math.random()-0.5)*6}deg)`;
+        spans[idx].style.color = `rgba(255,255,255,${0.85 + Math.random()*0.15})`;
+        spans[idx].style.textShadow = `0 ${6+Math.random()*8}px ${20+Math.random()*30}px rgba(0,0,0,0.6)`;
+        (function(s){ setTimeout(()=> s.style.transform = '', 140); })(spans[idx]);
+      }
+    }, speed);
+  }
+
+  const intA = randomizeLetters(heroTitle, 90);
+  const intB = randomizeLetters(entryTitle, 70);
+
+  /* ------------------ Tab title typewriter ------------------ */
   const targetTitle = 'imagine';
   let ti = 0, typing = true;
   function typeTick() {
@@ -339,20 +385,21 @@ setInterval(()=> {
       document.title = targetTitle.slice(0, ti);
       if(ti >= targetTitle.length) {
         typing = false;
-        setTimeout(()=> { typing = true; ti = 0; }, 1200); // pause then repeat
+        setTimeout(()=> { typing = true; ti = 0; }, 1200);
       }
     }
-    setTimeout(typeTick, 120);
+    setTimeout(typeTick, 140);
   }
   typeTick();
 
-  /********* AUDIO VISUALIZER + big-change pulse *********/
+  /* ------------------ Audio + visual pulse reaction ------------------ */
   const audioEl = document.getElementById('bgAudio');
   let audioCtx, analyser, source;
   const fftSize = 512;
   let prevAvg = 0;
-  const threshold = 28; // tune: how big change needs to be
   let cooldown = false;
+  let rafId = null;
+  const threshold = 28;
 
   function ensureAudioContext(){
     if(audioCtx) return;
@@ -376,51 +423,82 @@ setInterval(()=> {
     analyser.getByteFrequencyData(data);
     const avg = getAverage(data);
     const delta = Math.abs(avg - prevAvg);
-    // detect large jump
     if(delta > threshold && !cooldown) {
       triggerPulse();
       cooldown = true;
-      setTimeout(()=> cooldown = false, 1200); // cooldown time
+      setTimeout(()=> cooldown = false, 1200);
     }
-    prevAvg = avg * 0.6 + prevAvg * 0.4; // smoothing
-    requestAnimationFrame(monitorAudio);
+    // subtle background glow based on low/high freq balance
+    const low = data.slice(0, data.length/6).reduce((a,b)=>a+b,0)/ (data.length/6 || 1);
+    const high = data.slice(data.length/3).reduce((a,b)=>a+b,0)/ (data.length*2/3 || 1);
+    const glow = Math.min(1, Math.abs(low-high)/60);
+    document.body.style.background = `radial-gradient(1200px 600px at 10% 10%, rgba(20,20,20,${0.35+glow*0.12}), transparent), radial-gradient(900px 400px at 90% 90%, rgba(30,10,40,${0.25+glow*0.12}), transparent), ${getComputedStyle(document.documentElement).getPropertyValue('--bg')}`;
+    prevAvg = avg * 0.6 + prevAvg * 0.4;
+    rafId = requestAnimationFrame(monitorAudio);
   }
 
   function triggerPulse(){
-    // add pulse class to all white-detail elements
     const els = document.querySelectorAll('.white-detail');
     els.forEach(e => {
       e.classList.remove('pulse-red');
-      // force reflow to restart animation
       void e.offsetWidth;
       e.classList.add('pulse-red');
-      // remove class after animation finishes
       setTimeout(()=> e.classList.remove('pulse-red'), 1200);
     });
   }
 
-  // Play / Pause / Mute buttons
-  document.getElementById('playBtn').addEventListener('click', async ()=>{
+  /* ------------------ ENTER overlay behavior ------------------ */
+  const entryOverlay = document.getElementById('entryOverlay');
+  const enterBtn = document.getElementById('enterBtn');
+
+  async function enterSite(){
     try {
       ensureAudioContext();
       await audioCtx.resume();
+      // small fade-in of volume
+      audioEl.volume = 0;
       await audioEl.play();
-      // start monitoring
-      requestAnimationFrame(monitorAudio);
-    } catch(e){ console.warn('play err', e); }
+      // fade to normal
+      let v = 0;
+      const fade = setInterval(()=>{ v += 0.06; audioEl.volume = Math.min(1, v); if(v>=1) clearInterval(fade); }, 60);
+      // start monitor
+      monitorAudio();
+    } catch(e){
+      console.warn('autoplay blocked? ', e);
+    } finally {
+      // remove overlay and reveal content
+      entryOverlay.style.transition = 'opacity .35s ease';
+      entryOverlay.style.opacity = '0';
+      setTimeout(()=> { entryOverlay.remove(); document.getElementById('appRoot').removeAttribute('aria-hidden'); }, 420);
+    }
+  }
+
+  enterBtn.addEventListener('click', enterSite);
+  // also allow keyboard Enter
+  window.addEventListener('keydown', (e)=>{
+    if((e.key === 'Enter' || e.keyCode === 13) && document.getElementById('entryOverlay')) {
+      enterSite();
+    }
   });
 
+  /* ------------------ Pause / Mute controls ------------------ */
   document.getElementById('pauseBtn').addEventListener('click', ()=>{
-    audioEl.pause();
+    if(audioEl.paused) {
+      audioEl.play();
+      document.getElementById('pauseBtn').textContent = 'Pause';
+      if(!rafId) monitorAudio();
+    } else {
+      audioEl.pause();
+      document.getElementById('pauseBtn').textContent = 'Play';
+      if(rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
   });
-
   document.getElementById('muteBtn').addEventListener('click', ()=>{
     audioEl.muted = !audioEl.muted;
     document.getElementById('muteBtn').textContent = audioEl.muted ? 'Unmute' : 'Mute';
   });
 
-  /********* Discord status fetch (kept lightweight) *********/
-  // if you want to keep original lanyard behavior you can set DISCORD_ID accordingly.
+  /* ------------------ small discord status (optional) ------------------ */
   const DISCORD_ID = '904431016175894528';
   async function fetchLanyard(){
     try{
@@ -434,22 +512,23 @@ setInterval(()=> {
         if(online==='online') color = '#3ba55d';
         if(online==='dnd') color = '#ed4245';
         if(online==='idle') color = '#faa81a';
-        document.getElementById('statusText').style.color = color;
+        const st = document.getElementById('statusText');
+        st.style.color = color;
         let activity = 'Offline';
         if(d.activities && d.activities.length){
           activity = d.activities.map(a => a.name || a.state || 'Activity').join(', ');
         } else {
           activity = online === 'offline' ? 'Offline' : 'Online';
         }
-        document.getElementById('statusText').textContent = `Discord: ${activity}`;
+        st.textContent = activity;
       }
     }catch(err){
       // ignore silently
     }
   }
+  // try fetch once (fails silently if blocked)
   fetchLanyard();
   setInterval(fetchLanyard, 30000);
-
   </script>
 </body>
 </html>
