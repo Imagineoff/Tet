@@ -78,7 +78,6 @@
     padding:36px 22px;
   }
 
-  /* header reduced (kept only small status) */
   header.header {
     width: min(100%, var(--max-width));
     display:flex;
@@ -97,7 +96,6 @@
     background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
   }
 
-  /* HERO: big title centered on page */
   .hero{
     width:100%;
     max-width:var(--max-width);
@@ -128,11 +126,9 @@
     text-shadow: 0 6px 30px rgba(0,0,0,0.6);
   }
 
-  /* responsive big size */
   .title-agg { font-size: clamp(46px, 14vw, 120px); letter-spacing: -2px; }
   .subtitle-small { color:var(--muted-white); font-size:14px; margin-top:-6px; pointer-events:none; }
 
-  /* Main layout with about + links */
   main {
     width: min(100%, var(--max-width));
     display:grid;
@@ -177,7 +173,6 @@
   .link-item:hover{ transform: translateY(-6px); background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) }
   .link-item img{width:46px;height:46px;border-radius:8px;object-fit:cover}
 
-  /* white details (will pulse red on big change) */
   .white-detail { color: var(--white); border-color: var(--white); box-shadow: 0 6px 20px rgba(253,212,255,0.02); }
   .white-detail a { color: var(--white); text-decoration:none; }
 
@@ -217,12 +212,9 @@
   </style>
 </head>
 <body>
-  <!-- Entry overlay with big ENTER button -->
   <div id="entryOverlay" class="entry-overlay" role="dialog" aria-modal="true" aria-label="Enter site">
     <div style="pointer-events:none;">
-      <div id="entryTitle" class="title-agg" style="font-size: clamp(36px, 10vw, 96px);">
-        <!-- letters will be injected by JS for aggressive per-letter changes -->
-      </div>
+      <div id="entryTitle" class="title-agg" style="font-size: clamp(36px, 10vw, 96px);"></div>
     </div>
     <div class="entry-small">Press ENTER to enter</div>
     <button id="enterBtn" class="enter-btn" aria-label="Enter site">ENTER</button>
@@ -241,9 +233,7 @@
     <main>
       <section class="card white-detail" aria-labelledby="aboutHeading">
         <h2 id="aboutHeading" class="section-title">About</h2>
-        <p class="about" id="aboutText">
-          <!-- about text injected by JS -->
-        </p>
+        <p class="about" id="aboutText"></p>
 
         <div class="controls" style="margin-top:18px;">
           <button id="pauseBtn" class="btn">Pause</button>
@@ -300,13 +290,12 @@
     </footer>
   </div>
 
-  <!-- Hidden audio element (source can be GitHub raw or Catbox) -->
   <audio id="bgAudio" preload="auto" crossorigin="anonymous">
     <source src="https://raw.githubusercontent.com/Imagineoff/Tet/main/RE.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-  /* ------------------ Content (About) ------------------ */
+  /* ------------------ About ------------------ */
   const aboutParts = [
     `Hello! I'm Imagine, a developer who builds interactive web projects and Discord bots.`,
     `I’d love to live in New York one day.`,
@@ -320,7 +309,7 @@
     document.getElementById('aboutText').textContent = aboutParts.join(' ');
   });
 
-  /* ------------------ Links open in new tab ------------------ */
+  /* ------------------ Links ------------------ */
   document.querySelectorAll('.link-item').forEach(el=>{
     el.addEventListener('click', ()=> {
       const url = el.dataset.url;
@@ -328,7 +317,7 @@
     });
   });
 
-  /* ------------------ Aggressive per-letter title ------------------ */
+  /* ------------------ Title letters ------------------ */
   const titleStr = "Imagine";
   const fonts = [
     "Impact, Haettenschweiler, 'Arial Black', sans-serif",
@@ -356,27 +345,24 @@
   const heroTitle = buildTitle('titleAgg');
   const entryTitle = buildTitle('entryTitle');
 
-  // aggressive change: change random letters frequently
-  function randomizeLetters(container, speed=80){
+  // fast per-letter jitter for visual life (runs always)
+  function randomizeLetters(container, speed=90){
     return setInterval(()=>{
       const spans = container.querySelectorAll('span');
-      const count = Math.floor(Math.random()*3) + 1;
+      const count = Math.floor(Math.random()*2) + 1;
       for(let i=0;i<count;i++){
         const idx = Math.floor(Math.random()*spans.length);
         const f = fonts[Math.floor(Math.random()*fonts.length)];
         spans[idx].style.fontFamily = f;
-        spans[idx].style.transform = `translateY(${(Math.random()-0.5)*10}px) rotate(${(Math.random()-0.5)*6}deg)`;
-        spans[idx].style.color = `rgba(255,255,255,${0.85 + Math.random()*0.15})`;
-        spans[idx].style.textShadow = `0 ${6+Math.random()*8}px ${20+Math.random()*30}px rgba(0,0,0,0.6)`;
-        (function(s){ setTimeout(()=> s.style.transform = '', 140); })(spans[idx]);
+        spans[idx].style.transform = `translateY(${(Math.random()-0.5)*6}px) rotate(${(Math.random()-0.5)*3}deg)`;
+        (function(s){ setTimeout(()=> s.style.transform = '', 120); })(spans[idx]);
       }
     }, speed);
   }
+  const intA = randomizeLetters(heroTitle, 110);
+  const intB = randomizeLetters(entryTitle, 80);
 
-  const intA = randomizeLetters(heroTitle, 90);
-  const intB = randomizeLetters(entryTitle, 70);
-
-  /* ------------------ Tab title typewriter ------------------ */
+  // Tab title typewriter
   const targetTitle = 'imagine';
   let ti = 0, typing = true;
   function typeTick() {
@@ -392,20 +378,23 @@
   }
   typeTick();
 
-  /* ------------------ Audio + visual pulse reaction ------------------ */
+  /* ------------------ Audio reaction (more frequent) ------------------ */
   const audioEl = document.getElementById('bgAudio');
   let audioCtx, analyser, source;
-  const fftSize = 512;
+  // more resolution -> quicker/smoother reactions
+  const fftSize = 1024;
   let prevAvg = 0;
-  let cooldown = false;
   let rafId = null;
-  const threshold = 28;
+  const threshold = 6;      // much lower => reacts easier
+  const cooldownMs = 110;   // shorter cooldown between red pulses
+  let cooldown = false;
 
   function ensureAudioContext(){
     if(audioCtx) return;
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     analyser = audioCtx.createAnalyser();
     analyser.fftSize = fftSize;
+    analyser.smoothingTimeConstant = 0.25; // less smoothing -> more reactive
     source = audioCtx.createMediaElementSource(audioEl);
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
@@ -417,22 +406,46 @@
     return sum / data.length;
   }
 
+  // main monitor: continuous intensity + occasional pulses
   function monitorAudio(){
     if(!analyser) return;
     const data = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(data);
     const avg = getAverage(data);
-    const delta = Math.abs(avg - prevAvg);
-    if(delta > threshold && !cooldown) {
+    const delta = avg - prevAvg; // positive when energy rises
+    // intensity 0..1 for continuous visual mapping
+    const intensity = Math.min(1, Math.max(0, (avg) / 55)); // tune divisor for sensivity
+    // subtle background glow and tint based on intensity
+    const glow = Math.min(0.5, intensity * 0.9);
+    document.body.style.background = `radial-gradient(1200px 600px at 10% 10%, rgba(20,20,20,${0.35+glow}), transparent), radial-gradient(900px 400px at 90% 90%, rgba(30,10,40,${0.25+glow}), transparent), var(--bg)`;
+
+    // per-letter reaction (tighter/sharper than before)
+    const spans = heroTitle.querySelectorAll('span');
+    const t = performance.now() / 1000;
+    spans.forEach((s, i) => {
+      // base movement depends on intensity, plus tiny frequency-based modulation
+      const bandIndex = Math.floor(i % (data.length/6));
+      const band = data[Math.min(bandIndex, data.length-1)] / 255;
+      const move = (Math.sin(t*8 + i) * 6 + band*18) * (0.6 + intensity*1.4);
+      const rot = (Math.sin(t*5 + i) * 2 + band*6) * intensity * 0.6;
+      const scale = 1 + (0.02 + band*0.05) * intensity;
+      s.style.transform = `translateY(${move}px) rotate(${rot}deg) scale(${scale})`;
+      // slight color shift toward warm on beats
+      const r = Math.round(255 - intensity*40 - band*40);
+      const g = Math.round(255 - intensity*80 - band*80);
+      const b = 255;
+      s.style.color = `rgb(${r}, ${g}, ${b})`;
+      s.style.textShadow = `0 ${6 + intensity*12}px ${20 + intensity*30}px rgba(0,0,0,0.6)`;
+    });
+
+    // trigger red pulse more often when delta rises
+    if((delta > threshold || avg > 40) && !cooldown) {
       triggerPulse();
       cooldown = true;
-      setTimeout(()=> cooldown = false, 1200);
+      setTimeout(()=> cooldown = false, cooldownMs);
     }
-    // subtle background glow based on low/high freq balance
-    const low = data.slice(0, data.length/6).reduce((a,b)=>a+b,0)/ (data.length/6 || 1);
-    const high = data.slice(data.length/3).reduce((a,b)=>a+b,0)/ (data.length*2/3 || 1);
-    const glow = Math.min(1, Math.abs(low-high)/60);
-    document.body.style.background = `radial-gradient(1200px 600px at 10% 10%, rgba(20,20,20,${0.35+glow*0.12}), transparent), radial-gradient(900px 400px at 90% 90%, rgba(30,10,40,${0.25+glow*0.12}), transparent), ${getComputedStyle(document.documentElement).getPropertyValue('--bg')}`;
+
+    // update prevAvg with light smoothing (keeps reactiveness)
     prevAvg = avg * 0.6 + prevAvg * 0.4;
     rafId = requestAnimationFrame(monitorAudio);
   }
@@ -443,7 +456,7 @@
       e.classList.remove('pulse-red');
       void e.offsetWidth;
       e.classList.add('pulse-red');
-      setTimeout(()=> e.classList.remove('pulse-red'), 1200);
+      setTimeout(()=> e.classList.remove('pulse-red'), 1100);
     });
   }
 
@@ -455,33 +468,29 @@
     try {
       ensureAudioContext();
       await audioCtx.resume();
-      // small fade-in of volume
       audioEl.volume = 0;
       await audioEl.play();
-      // fade to normal
+      // quicker fade-in
       let v = 0;
-      const fade = setInterval(()=>{ v += 0.06; audioEl.volume = Math.min(1, v); if(v>=1) clearInterval(fade); }, 60);
-      // start monitor
+      const fade = setInterval(()=>{ v += 0.12; audioEl.volume = Math.min(1, v); if(v>=1) clearInterval(fade); }, 40);
       monitorAudio();
     } catch(e){
-      console.warn('autoplay blocked? ', e);
+      console.warn('play err', e);
     } finally {
-      // remove overlay and reveal content
-      entryOverlay.style.transition = 'opacity .35s ease';
+      entryOverlay.style.transition = 'opacity .28s ease';
       entryOverlay.style.opacity = '0';
-      setTimeout(()=> { entryOverlay.remove(); document.getElementById('appRoot').removeAttribute('aria-hidden'); }, 420);
+      setTimeout(()=> { entryOverlay.remove(); document.getElementById('appRoot').removeAttribute('aria-hidden'); }, 360);
     }
   }
 
   enterBtn.addEventListener('click', enterSite);
-  // also allow keyboard Enter
   window.addEventListener('keydown', (e)=>{
     if((e.key === 'Enter' || e.keyCode === 13) && document.getElementById('entryOverlay')) {
       enterSite();
     }
   });
 
-  /* ------------------ Pause / Mute controls ------------------ */
+  /* ------------------ Pause / Mute ------------------ */
   document.getElementById('pauseBtn').addEventListener('click', ()=>{
     if(audioEl.paused) {
       audioEl.play();
@@ -526,7 +535,6 @@
       // ignore silently
     }
   }
-  // try fetch once (fails silently if blocked)
   fetchLanyard();
   setInterval(fetchLanyard, 30000);
   </script>
