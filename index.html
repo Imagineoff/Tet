@@ -32,7 +32,6 @@
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden;
-    /* Plynulý přechod pro pozadí */
     transition: background .3s ease;
   }
 
@@ -121,9 +120,6 @@
   }
   .title-agg span {
     display:inline-block;
-    /* UPRAVENO: Původní přechod byl komplikovanější,
-      teď je tu plynulý přechod pro naše nové efekty 
-    */
     transition: transform 0.2s cubic-bezier(.2,.9,.2,1), 
                 color 0.2s, 
                 text-shadow 0.2s,
@@ -185,39 +181,42 @@
     color: var(--white); 
     border-color: var(--white); 
     box-shadow: 0 6px 20px rgba(253,212,255,0.02); 
-    /* PŘIDÁNO: Plynulý přechod pro naše nové efekty 
-    */
+    /* UPRAVENO: Přidán přechod pro box-shadow a border-width */
     transition: transform 0.2s ease-in-out, 
                 color 0.2s ease-in-out, 
                 text-shadow 0.2s ease-in-out, 
                 border-color 0.2s ease-in-out,
-                opacity 0.5s ease-in-out;
+                opacity 0.5s ease-in-out,
+                box-shadow 0.2s ease-in-out,
+                border-width 0.2s ease-in-out;
   }
   .white-detail a { color: var(--white); text-decoration:none; }
 
-  /* ODEBRÁNO: Původní `.pulse-red` a `@keyframes toRed` byly odstraněny.
-  */
-
-  /* PŘIDÁNO: Nové třídy efektů podle tvých timestampů
-  */
+  /* UPRAVENO: Nové třídy efektů podle tvých poznámek */
   .effect-hodne {
-    color: #ff4a4a !important; /* Vynutí červenou barvu */
+    color: #ff4a4a !important; 
     border-color: #ff4a4a !important;
-    transform: scale(1.02); /* Lehké přiblížení */
+    transform: scale(1.02);
     text-shadow: 0 10px 30px rgba(255,74,74,0.1);
+    /* PŘIDÁNO: Silnější záře, stín a tloušťka okraje */
+    box-shadow: 0 0 15px 3px rgba(255, 74, 74, 0.4), 0 10px 40px rgba(0,0,0,0.8);
+    border-width: 2px;
   }
 
   .effect-lehce {
-    color: var(--pink) !important; /* Použije růžovou z proměnných */
+    color: var(--pink) !important;
     border-color: var(--pink) !important;
     transform: scale(1.01);
     text-shadow: 0 6px 20px rgba(253,212,255,0.05);
+    /* PŘIDÁNO: Lehčí růžová záře, stín a tloušťka okraje */
+    box-shadow: 0 0 12px 2px rgba(253, 212, 255, 0.25), 0 8px 30px rgba(0,0,0,0.7);
+    border-width: 2px;
   }
 
   .effect-tlumit {
-    opacity: 0.65; /* Sníží viditelnost */
+    opacity: 0.65;
   }
-  /* Konec přidaného CSS */
+  /* Konec upraveného CSS */
 
 
   .controls { display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap; }
@@ -320,7 +319,7 @@
     </main>
 
     <footer class="footer">
-      <div style="color:var(--muted-white)">Built with ❤️ — Imagine</div>
+      <div style="color:var(--muted-white)">Web version 20</div>
       <div style="color:var(--muted-white)">© Imagine</div>
     </footer>
   </div>
@@ -330,54 +329,38 @@
   </audio>
 
   <script>
-  /* PŘIDÁNO: Tvoje timestampy v sekundách
-    Předpokládám, že 30:30 byl překlep a mělo to být 3:30 (210 sekund)
-  */
+  /* PŘIDÁNO: Tvoje timestampy v sekundách */
   const timeEvents = [
-    // 2:38 - 2:42 - lehce
     { start: 158, end: 162, effect: 'lehce' },
-    // 3:27 - 3:30 - hodne 
     { start: 207, end: 210, effect: 'hodne' },
-    // 3:33 - 3:35 - lehce
     { start: 213, end: 215, effect: 'lehce' },
-    // 3:40 - 3:44 - lehce
     { start: 220, end: 224, effect: 'lehce' },
-    // 3:47 - 3:50 - hodne
     { start: 227, end: 230, effect: 'hodne' },
-    // 3:54 - 3:56 - lehce
     { start: 234, end: 236, effect: 'lehce' },
-    // 4:01 - 4:05 - lehce
     { start: 241, end: 245, effect: 'lehce' },
-    // 4:34 - 4:50 - tlumit
     { start: 274, end: 290, effect: 'tlumit' },
-    // 5:09 - 5:13 - hodne
     { start: 309, end: 313, effect: 'hodne' },
-    // 5:16 - 5:20 - lehce
     { start: 316, end: 320, effect: 'lehce' },
-    // 5:23 - 5:27 - lehce
     { start: 323, end: 327, effect: 'lehce' },
-    // 5:30 - 6:03 - tlumit
     { start: 330, end: 363, effect: 'tlumit' }
   ];
 
-  // Globální proměnná pro všechny elementy, které mají reagovat
   let reactionTargets = [];
   const effectClasses = ['effect-lehce', 'effect-hodne', 'effect-tlumit'];
 
-  /* ------------------ About ------------------ */
+  /* UPRAVENO: Nový text pro "About" sekci */
   const aboutParts = [
-    `Hello! I'm Imagine, a developer who builds interactive web projects and Discord bots.`,
-    `I’d love to live in New York one day.`,
+    `Hello! I'm Imagine, a game developer and creative coder based in the Czech Republic.`,
+    `I focus on building interactive web projects and Discord bots.`,
+    `I'm a massive fan of the Resident Evil series (my favorite character is Ada Wong) and Dead by Daylight.`,
+    `I also spend time as a Guard in the game Stepford County Railway (SCR).`,
     `My favorite music artist is The Weeknd.`,
-    `My favorite game series is Resident Evil and my favorite character is Ada Wong.`,
-    `One of my favorite books is "Zoo Station: The Story of Christiane F."`,
-    `My favorite multiplayer game is Dead by Daylight.`,
-    `One of my favorite films is The Great Gatsby.`
+    `I’d love to live in New York one day.`
   ];
+  /* Konec upraveného textu */
+
   document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('aboutText').textContent = aboutParts.join(' ');
-
-    // PŘIDÁNO: Najdeme všechny elementy pro reakci hned po načtení
     const titleSpans = document.querySelectorAll('#titleAgg span');
     const whiteDetails = document.querySelectorAll('.white-detail');
     reactionTargets = [...titleSpans, ...whiteDetails];
@@ -419,7 +402,6 @@
   const heroTitle = buildTitle('titleAgg');
   const entryTitle = buildTitle('entryTitle');
 
-  // fast per-letter jitter for visual life (runs always)
   function randomizeLetters(container, speed=90){
     return setInterval(()=>{
       const spans = container.querySelectorAll('span');
@@ -428,9 +410,6 @@
         const idx = Math.floor(Math.random()*spans.length);
         const f = fonts[Math.floor(Math.random()*fonts.length)];
         spans[idx].style.fontFamily = f;
-        /* ODEBRÁNO: Původní `transform` odsud byl odstraněn,
-          protože kolidoval s novými CSS efekty.
-        */
       }
     }, speed);
   }
@@ -453,13 +432,7 @@
   }
   typeTick();
 
-  /* ODEBRÁNO: Celá stará sekce "Audio reaction (more frequent)"
-    byla odstraněna (proměnné, ensureAudioContext, getAverage, 
-    monitorAudio, triggerPulse).
-  */
-
-  /* PŘIDÁNO: Nový systém, který kontroluje timestampy
-  */
+  /* ------------------ Nový systém pro timestampy ------------------ */
   const audioEl = document.getElementById('bgAudio');
   let currentEffect = null;
 
@@ -468,7 +441,6 @@
       const now = audioEl.currentTime;
       let activeEffect = null;
 
-      // Najdi první aktivní událost
       for (const event of timeEvents) {
         if (now >= event.start && now < event.end) {
           activeEffect = `effect-${event.effect}`;
@@ -476,22 +448,19 @@
         }
       }
 
-      // Pokud se efekt nezměnil, nic nedělej
       if (activeEffect === currentEffect) return;
       
       currentEffect = activeEffect;
 
-      // Resetuj všechny třídy
       for (const cls of effectClasses) {
         reactionTargets.forEach(el => el.classList.remove(cls));
       }
       
-      // Aplikuj novou třídu (pokud nějaká je)
       if (activeEffect) {
         reactionTargets.forEach(el => el.classList.add(activeEffect));
       }
 
-    }, 100); // Kontroluje 10x za sekundu
+    }, 100); 
   }
 
 
@@ -501,16 +470,12 @@
 
   async function enterSite(){
     try {
-      /* UPRAVENO: Odstraněny staré příkazy pro AudioContext
-      */
       audioEl.volume = 0;
       await audioEl.play();
       
-      // Rychlejší fade-in
       let v = 0;
       const fade = setInterval(()=>{ v += 0.12; audioEl.volume = Math.min(1, v); if(v>=1) clearInterval(fade); }, 40);
       
-      // PŘIDÁNO: Spustí náš nový checker
       startTimestampChecker();
 
     } catch(e){
@@ -530,7 +495,6 @@
   });
 
   /* ------------------ Pause / Mute ------------------ */
-  // UPRAVENO: Zjednodušená logika, už nemusí řešit `rafId`
   document.getElementById('pauseBtn').addEventListener('click', ()=>{
     if(audioEl.paused) {
       audioEl.play();
@@ -578,4 +542,3 @@
   </script>
 </body>
 </html>
-
