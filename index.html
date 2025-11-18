@@ -156,6 +156,11 @@
       .heading{ font-size:44px; }
       .link-card img{ width:30px;height:30px; }
     }
+    #email-copy:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: .15s;
+}
   </style>
 </head>
 <body>
@@ -226,7 +231,19 @@
         <span>Stepford County Railway (Player)</span>
       </a>
     </nav>
+<!-- Contact -->
+<section class="contact" style="margin-top:20px;">
+  <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
+  
+  <div id="email-copy" 
+       style="cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02);">
+    assist.imagine@gmail.com
+  </div>
 
+  <div id="copy-msg" style="opacity:0; margin-top:8px; font-size:14px; color:#4fff4f; transition:opacity 0.3s;">
+    Copied!
+  </div>
+</section>
     <footer>
       © Imagine
     </footer>
@@ -314,6 +331,25 @@
       // kick it off after a brief delay
       setTimeout(tick, 400);
     })();
+    // Copy email on click
+(function() {
+  const emailBox = document.getElementById("email-copy");
+  const msg = document.getElementById("copy-msg");
+
+  emailBox.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText("assist.imagine@gmail.com");
+      msg.style.opacity = 1;
+
+      setTimeout(() => {
+        msg.style.opacity = 0;
+      }, 1200);
+
+    } catch (err) {
+      console.error("Copy failed:", err);
+    }
+  });
+})();
   </script>
 </body>
 </html>
