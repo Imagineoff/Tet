@@ -3,468 +3,317 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>imagine</title>
-  <meta name="theme-color" content="#fdd4ff">
-  <link rel="icon" href="https://i.imgur.com/VIK1odj.jpeg">
+  <title>Imagine</title>
+  <meta name="description" content="Imagine — personal site / portfolio. Game developer, creative coder, Resident Evil fan.">
+  <!-- Open Graph image & favicon per request -->
+  <meta property="og:image" content="https://i.imgur.com/d7SrKuM.jpeg">
+  <link rel="icon" href="https://i.imgur.com/d7SrKuM.jpeg" type="image/jpeg">
 
   <style>
-  :root{
-    --pink: #fdd4ff;
-    --bg: #000000;
-    --white: #ffffff;
-    --muted-white: rgba(255,255,255,0.75);
-    --accent: #8be9fd;
-    --radius: 12px;
-    --max-width: 1200px;
-    --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
+    :root{
+      --bg:#000;
+      --fg:#f5f5f5;
+      --muted: rgba(255,255,255,0.07);
+      --accent: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+    }
+    /* Page layout + subtle white details */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0px, transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.015) 0px, transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.01), transparent 60%),
+        var(--bg);
+      color:var(--fg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:40px;
+      box-sizing:border-box;
+    }
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    min-height:100vh;
-    font-family:var(--font-main);
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(20,20,20,0.35), transparent), 
-                radial-gradient(900px 400px at 90% 90%, rgba(30,10,40,0.25), transparent),
-                var(--bg);
-    color:var(--white);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden;
-    /* ODEBRÁNO: Plynulý přechod pro pozadí (už není potřeba) */
-  }
+    .wrap{
+      max-width:940px;
+      margin:0 auto;
+      display:flex;
+      gap:32px;
+      align-items:flex-start;
+      flex-direction:column;
+    }
 
-  /* Overlay (ENTER) */
-  .entry-overlay{
-    position:fixed;
-    inset:0;
-    background:linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.92));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    flex-direction:column;
-    gap:22px;
-  }
-  .enter-btn{
-    padding:18px 36px;
-    border-radius:12px;
-    border:2px solid rgba(255,255,255,0.08);
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    color:var(--white);
-    font-weight:800;
-    letter-spacing:3px;
-    cursor:pointer;
-    font-size:18px;
-    transition:transform .12s ease, box-shadow .12s;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  }
-  .enter-btn:active{ transform: translateY(2px) scale(.995) }
+    /* Heading with per-letter spans */
+    .heading{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:64px;
+      letter-spacing:4px;
+      font-weight:700;
+    }
+    .heading .word{
+      display:flex;
+      align-items:center;
+    }
+    .letter{
+      display:inline-block;
+      transition: font-family .3s ease, transform .15s ease;
+      will-change: font-family, transform;
+      padding:0 2px;
+    }
+    .subtitle {
+      font-size:14px;
+      color:rgba(255,255,255,0.65);
+      margin-top:-6px;
+    }
 
-  .entry-small{
-    color:var(--muted-white);
-    font-size:13px;
-    opacity:.9;
-  }
+    /* Bio list */
+    .bio{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:12px;
+      display:flex;
+      gap:12px;
+      flex-direction:column;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      width:100%;
+    }
+    .bio ul{
+      list-style: none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .bio li{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      font-size:16px;
+    }
+    .bio img{
+      width:28px;
+      height:28px;
+      object-fit:contain;
+      display:inline-block;
+    }
 
-  /* Layout */
-  .app{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-    position:relative;
-    padding:36px 22px;
-  }
+    /* About bubble */
+    .about{
+      margin-top:6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:28px;
+      padding:18px 22px;
+      max-width:100%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .about h3{
+      margin:0 0 8px 0;
+      font-size:18px;
+    }
+    .about p{
+      margin:0;
+      line-height:1.5;
+      color:rgba(245,245,245,0.92);
+    }
 
-  header.header {
-    width: min(100%, var(--max-width));
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:12px;
-    padding:8px 12px;
-    z-index:20;
-  }
-  .status {
-    color:var(--muted-white);
-    font-size:13px;
-    padding:6px 10px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.04);
-    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-  }
+    /* Links grid */
+    .links{
+      display:flex;
+      gap:12px;
+      margin-top:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .link-card{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.015);
+      border:1px solid rgba(255,255,255,0.02);
+      text-decoration:none;
+      color:var(--fg);
+      transition: transform .12s ease, box-shadow .12s ease;
+      font-size:15px;
+    }
+    .link-card:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.7); }
+    .link-card img{ width:36px;height:36px; object-fit:contain; border-radius:6px; }
 
-  .hero{
-    width:100%;
-    max-width:var(--max-width);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-    margin-top:8px;
-    text-align:center;
-    z-index:10;
-    pointer-events:none;
-  }
+    footer{
+      margin-top:22px;
+      font-size:13px;
+      color:rgba(255,255,255,0.45);
+    }
 
-  .title-agg {
-    font-weight:900;
-    display:flex;
-    gap:6px;
-    align-items:center;
-    user-select:none;
-    pointer-events:auto;
-  }
-  .title-agg span {
-    display:inline-block;
-    /* VRÁCENO: Původní plynulý přechod */
-    transition: transform .12s cubic-bezier(.2,.9,.2,1), color .12s, text-shadow .12s;
-    will-change: font-family, transform, text-shadow, color;
-    padding:2px 0;
-    color:var(--white);
-    text-shadow: 0 6px 30px rgba(0,0,0,0.6);
-  }
-
-  .title-agg { font-size: clamp(46px, 14vw, 120px); letter-spacing: -2px; }
-  .subtitle-small { color:var(--muted-white); font-size:14px; margin-top:-6px; pointer-events:none; }
-
-  main {
-    width: min(100%, var(--max-width));
-    display:grid;
-    grid-template-columns: 1fr 360px;
-    gap:26px;
-    align-items:start;
-    margin-top:10px;
-  }
-
-  .card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius: 14px;
-    padding:26px;
-    border:1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-    pointer-events:auto;
-  }
-
-  h2.section-title { margin:0 0 10px 0; font-size:18px; color:var(--pink); letter-spacing:1px; text-transform:uppercase; }
-  p.about { color: #e6e6e6; font-size:15px; line-height:1.6; margin:0; }
-
-  .links-panel{
-    background: rgba(255,255,255,0.02);
-    border-radius:12px;
-    padding:14px;
-    border:1px solid rgba(255,255,255,0.03);
-    display:grid;
-    gap:12px;
-    pointer-events:auto;
-  }
-  .link-item{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    padding:10px;
-    border-radius:10px;
-    background:transparent;
-    cursor:pointer;
-    transition: transform .12s ease, background .12s;
-    border: 1px solid rgba(255,255,255,0.03);
-  }
-  .link-item:hover{ transform: translateY(-6px); background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) }
-  .link-item img{width:46px;height:46px;border-radius:8px;object-fit:cover}
-
-  /* VRÁCENO: Původní jednoduchý styl .white-detail */
-  .white-detail { 
-    color: var(--white); 
-    border-color: var(--white); 
-    box-shadow: 0 6px 20px rgba(253,212,255,0.02); 
-  }
-  .white-detail a { color: var(--white); text-decoration:none; }
-
-  /* ODEBRÁNO: Třídy .effect-hodne, .effect-lehce, .effect-tlumit
-     byly smazány.
-  */
-
-  .controls { display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap; }
-  .btn { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px; cursor:pointer; color:var(--muted-white); }
-  .btn.primary { background:var(--pink); color:#000; border:none; font-weight:700; }
-
-  footer.footer {
-    width:min(100%,var(--max-width));
-    display:flex;
-    gap:12px;
-    align-items:center;
-    justify-content:space-between;
-    padding:18px 0;
-    color:var(--muted-white);
-    pointer-events:none;
-  }
-
-  @media (max-width:980px){
-    main{ grid-template-columns: 1fr; }
-    .links-panel{ order: 2; }
-    .hero{ margin-top:18px }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .title-agg span { transition: none; animation: none; }
-  }
+    /* small responsive tweaks */
+    @media (max-width:640px){
+      .heading{ font-size:44px; }
+      .link-card img{ width:30px;height:30px; }
+    }
   </style>
 </head>
 <body>
-  <div id="entryOverlay" class="entry-overlay" role="dialog" aria-modal="true" aria-label="Enter site">
-    <div style="pointer-events:none;">
-      <div id="entryTitle" class="title-agg" style="font-size: clamp(36px, 10vw, 96px);"></div>
-    </div>
-    <div class="entry-small">Press ENTER to enter</div>
-    <button id="enterBtn" class="enter-btn" aria-label="Enter site">ENTER</button>
-  </div>
-
-  <div class="app" id="appRoot" aria-hidden="true">
-    <header class="header">
-      <div id="statusText" class="status white-detail">Loading…</div>
+  <div class="wrap">
+    <!-- Heading: each letter wrapped in span. JS will animate each letter's font-family every 0.5s -->
+    <header>
+      <div class="heading" aria-hidden="true">
+        <div class="word" id="imagine-heading" title="Imagine">
+          <!-- letters created here; kept in HTML so screen readers can read as a single word -->
+          <span class="letter">I</span>
+          <span class="letter">m</span>
+          <span class="letter">a</span>
+          <span class="letter">g</span>
+          <span class="letter">i</span>
+          <span class="letter">n</span>
+          <span class="letter">e</span>
+        </div>
+      </div>
+      <div class="subtitle">personal site — creative coder & game developer</div>
     </header>
 
-    <section class="hero" aria-hidden="false">
-      <div id="titleAgg" class="title-agg" aria-hidden="true"></div>
-      <div class="subtitle-small">creative projects & visuals</div>
+    <!-- Bio -->
+    <section class="bio" aria-labelledby="bio-heading">
+      <h2 id="bio-heading" style="margin:0 0 6px 0; font-size:18px;">Bio</h2>
+      <ul>
+        <li>
+          <strong>Owner of Silent Studio</strong>
+          <img src="https://i.imgur.com/MMbXcxn.png" alt="Silent Studio logo" style="margin-left:auto;">
+        </li>
+        <li><strong>In love with Resident Evil</strong></li>
+        <li><strong>Game Developer</strong>, cool icon</li>
+        <li>
+          <strong>SCR Guard</strong>
+          <img src="https://i.imgur.com/acyla6y.png" alt="SCR logo" style="margin-left:auto;">
+        </li>
+        <li><strong>Czech Republic</strong> 🇨🇿</li>
+        <li><strong>ﾒ𝟶</strong></li>
+      </ul>
     </section>
 
-    <main>
-      <section class="card white-detail" aria-labelledby="aboutHeading">
-        <h2 id="aboutHeading" class="section-title">About</h2>
-        <p class="about" id="aboutText"></p>
+    <!-- About bubble -->
+    <section class="about" aria-labelledby="about-heading">
+      <h3 id="about-heading">About me</h3>
+      <p>
+        Hello! I'm Imagine — a game developer and creative coder from the Czech Republic. I build interactive web projects, develop games and Discord bots, and combine code with visual design. I'm a big fan of the Resident Evil series and also enjoy Dead by Daylight. I spend time as a Guard in the game Stepford County Railway (SCR). My favorite artist is The Weeknd. One day I’d love to live in New York.
+      </p>
+    </section>
 
-        <div class="controls" style="margin-top:18px;">
-          <button id="pauseBtn" class="btn">Pause</button>
-          <button id="muteBtn" class="btn">Mute</button>
-        </div>
-      </section>
+    <!-- Links -->
+    <nav aria-label="Important links" class="links" role="navigation">
+      <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank" rel="noopener">
+        <img src="https://i.imgur.com/FLg0HGk.png" alt="Instagram logo">
+        <span>Instagram</span>
+      </a>
 
-      <aside class="links-panel white-detail" role="navigation" aria-label="Social links">
-        <div class="link-item white-detail" data-url="https://instagram.com/imagine_ofc_" title="Instagram">
-          <img src="https://i.imgur.com/2kUGZ8w.png" alt="Instagram">
-          <div>
-            <div style="font-weight:700">Instagram</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.85)">@imagine_ofc_</div>
-          </div>
-        </div>
+      <a class="link-card" href="https://silentstudio.vercel.app/" target="_blank" rel="noopener">
+        <img src="https://i.imgur.com/MMbXcxn.png" alt="Silent Studio logo">
+        <span>Silent Studio</span>
+      </a>
 
-        <div class="link-item white-detail" data-url="https://twitch.tv/Imagine_ofc" title="Twitch">
-          <img src="https://i.imgur.com/dlkzRxg.png" alt="Twitch">
-          <div>
-            <div style="font-weight:700">Twitch</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Live</div>
-          </div>
-        </div>
+      <a class="link-card" href="https://game.capcom.com/residentevil/sp/en/p2450532.html" target="_blank" rel="noopener">
+        <img src="https://i.imgur.com/13X8FXV.png" alt="Resident Evil logo">
+        <span>Resident Evil (Capcom)</span>
+      </a>
 
-        <div class="link-item white-detail" data-url="https://m.youtube.com/@imagine_ofc" title="YouTube">
-          <img src="https://i.imgur.com/y32pAoI.png" alt="YouTube">
-          <div>
-            <div style="font-weight:700">YouTube</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Videos</div>
-          </div>
-        </div>
+      <a class="link-card" href="https://stepfordcountyrailway.co.uk/Players/1840033219" target="_blank" rel="noopener">
+        <img src="https://i.imgur.com/IctQUON.png" alt="Stepford County Railway logo">
+        <span>Stepford County Railway (Player)</span>
+      </a>
+    </nav>
 
-        <div class="link-item white-detail" data-url="https://imagine-ofc.vercel.app/about.html" title="About">
-          <img src="https://i.imgur.com/8hDawtU.jpeg" alt="About">
-          <div>
-            <div style="font-weight:700">About</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Project info</div>
-          </div>
-        </div>
-
-        <div class="link-item white-detail" data-url="https://game.capcom.com/residentevil/sp/en/p2450532.html" title="Resident Evil">
-          <img src="https://i.imgur.com/c1OgfAW.jpeg" alt="Resident Evil">
-          <div>
-            <div style="font-weight:700">Resident Evil</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.85)">Capcom</div>
-          </div>
-        </div>
-      </aside>
-    </main>
-
-    <footer class="footer">
-      <div style="color:var(--muted-white)">Web version 20</div>
-      <div style="color:var(--muted-white)">© Imagine</div>
+    <footer>
+      Title & favicon: <em>Imagine</em> (tab shows a typewriter animation). This page uses Times New Roman and a clean dark style.
     </footer>
   </div>
 
-  <audio id="bgAudio" preload="auto" crossorigin="anonymous">
-    <source src="https://raw.githubusercontent.com/Imagineoff/Tet/main/RE.mp3" type="audio/mpeg">
-  </audio>
-
   <script>
-  /* ODEBRÁNO: Pole 'timeEvents', 'reactionTargets' a 'effectClasses'
-  */
+    // --------------------------
+    // Per-letter font flipper (every 0.5s)
+    // --------------------------
+    (function(){
+      const fonts = [
+        '"Times New Roman", Times, serif',
+        'Georgia, "Times New Roman", serif',
+        'Palatino, "Palatino Linotype", serif',
+        'Garamond, "Times New Roman", serif',
+        '"Courier New", Courier, monospace',
+        'Arial, Helvetica, sans-serif',
+        'Verdana, Geneva, sans-serif',
+        '"Trebuchet MS", Helvetica, sans-serif',
+        'Impact, Charcoal, sans-serif',
+        '"Lucida Console", Monaco, monospace',
+        '"Comic Sans MS", "Comic Sans", cursive'
+      ];
+      const letters = document.querySelectorAll('.letter');
 
-  /* PONECHÁNO: Tvůj nový 'aboutParts' text */
-  const aboutParts = [
-    `Hello! I'm Imagine, a game developer and creative coder based in the Czech Republic.`,
-    `I focus on building interactive web projects and Discord bots.`,
-    `I'm a massive fan of the Resident Evil series (my favorite character is Ada Wong) and Dead by Daylight.`,
-    `I also spend time as a Guard in the game Stepford County Railway (SCR).`,
-    `My favorite music artist is The Weeknd.`,
-    `I’d love to live in New York one day.`
-  ];
+      // For accessibility: keep a static label for screen readers
+      document.getElementById('imagine-heading').setAttribute('aria-label', 'Imagine');
 
-  document.addEventListener('DOMContentLoaded', ()=>{
-    document.getElementById('aboutText').textContent = aboutParts.join(' ');
-    /* ODEBRÁNO: Přiřazení 'reactionTargets' */
-  });
+      // For each letter, create an independent interval
+      letters.forEach((el, idx) => {
+        // Offset intervals slightly so they don't all flip at once (optional)
+        const offset = (idx % 3) * 120;
+        setTimeout(() => {
+          // immediate initial change so animation starts right away
+          changeFont(el);
+          setInterval(() => changeFont(el), 500);
+        }, offset);
+      });
 
-  /* ------------------ Links ------------------ */
-  document.querySelectorAll('.link-item').forEach(el=>{
-    el.addEventListener('click', ()=> {
-      const url = el.dataset.url;
-      if(url) window.open(url, '_blank', 'noopener');
-    });
-  });
-
-  /* ------------------ Title letters ------------------ */
-  const titleStr = "Imagine";
-  const fonts = [
-    "Impact, Haettenschweiler, 'Arial Black', sans-serif",
-    "Georgia, 'Times New Roman', Times, serif",
-    "'Courier New', Courier, monospace",
-    "Verdana, Geneva, sans-serif",
-    "Roboto, 'Helvetica Neue', Arial, sans-serif",
-    "'Lora', serif",
-    "'Oswald', 'Helvetica Neue', Arial, sans-serif",
-    "'Segoe UI', Tahoma, Geneva, sans-serif"
-  ];
-
-  function buildTitle(containerId){
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-    for(let ch of titleStr){
-      const sp = document.createElement('span');
-      sp.textContent = ch;
-      sp.style.fontFamily = fonts[0];
-      container.appendChild(sp);
-    }
-    return container;
-  }
-
-  const heroTitle = buildTitle('titleAgg');
-  const entryTitle = buildTitle('entryTitle');
-
-  /* VRÁCENO: Původní funkce 'randomizeLetters' s 'transform' */
-  function randomizeLetters(container, speed=90){
-    return setInterval(()=>{
-      const spans = container.querySelectorAll('span');
-      const count = Math.floor(Math.random()*2) + 1;
-      for(let i=0;i<count;i++){
-        const idx = Math.floor(Math.random()*spans.length);
-        const f = fonts[Math.floor(Math.random()*fonts.length)];
-        spans[idx].style.fontFamily = f;
-        spans[idx].style.transform = `translateY(${(Math.random()-0.5)*6}px) rotate(${(Math.random()-0.5)*3}deg)`;
-        (function(s){ setTimeout(()=> s.style.transform = '', 120); })(spans[idx]);
+      function changeFont(el){
+        // choose random font from list but avoid picking current font to increase variety
+        const current = el.style.fontFamily || window.getComputedStyle(el).fontFamily || '';
+        let choice;
+        let attempts = 0;
+        do {
+          choice = fonts[Math.floor(Math.random()*fonts.length)];
+          attempts++;
+        } while(choice === current && attempts < 6);
+        el.style.fontFamily = choice;
+        // subtle random transform for a lively feel
+        el.style.transform = 'translateY(' + (Math.random()*4 - 2) + 'px) rotate(' + (Math.random()*2 - 1) + 'deg)';
       }
-    }, speed);
-  }
-  const intA = randomizeLetters(heroTitle, 110);
-  const intB = randomizeLetters(entryTitle, 80);
+    })();
 
-  // Tab title typewriter
-  const targetTitle = 'imagine';
-  let ti = 0, typing = true;
-  function typeTick() {
-    if(typing) {
-      ti++;
-      document.title = targetTitle.slice(0, ti);
-      if(ti >= targetTitle.length) {
-        typing = false;
-        setTimeout(()=> { typing = true; ti = 0; }, 1200);
-      }
-    }
-    setTimeout(typeTick, 140);
-  }
-  typeTick();
+    // --------------------------
+    // Tab title typewriter effect (shows "Imagine" typed in tab)
+    // --------------------------
+    (function(){
+      const text = "Imagine";
+      const speed = 120; // typing speed ms per char
+      const pause = 900;  // pause at full word
+      let i = 0;
+      let forward = true;
 
-  /* ODEBRÁNO: Celý 'Nový systém pro timestampy'
-     (startTimestampChecker atd.)
-  */
-  const audioEl = document.getElementById('bgAudio');
-
-  /* ------------------ ENTER overlay behavior ------------------ */
-  const entryOverlay = document.getElementById('entryOverlay');
-  const enterBtn = document.getElementById('enterBtn');
-
-  async function enterSite(){
-    try {
-      audioEl.volume = 0;
-      await audioEl.play();
-      
-      let v = 0;
-      const fade = setInterval(()=>{ v += 0.12; audioEl.volume = Math.min(1, v); if(v>=1) clearInterval(fade); }, 40);
-      
-      /* ODEBRÁNO: Volání startTimestampChecker() */
-
-    } catch(e){
-      console.warn('play err', e);
-    } finally {
-      entryOverlay.style.transition = 'opacity .28s ease';
-      entryOverlay.style.opacity = '0';
-      setTimeout(()=> { entryOverlay.remove(); document.getElementById('appRoot').removeAttribute('aria-hidden'); }, 360);
-    }
-  }
-
-  enterBtn.addEventListener('click', enterSite);
-  window.addEventListener('keydown', (e)=>{
-    if((e.key === 'Enter' || e.keyCode === 13) && document.getElementById('entryOverlay')) {
-      enterSite();
-    }
-  });
-
-  /* ------------------ Pause / Mute ------------------ */
-  document.getElementById('pauseBtn').addEventListener('click', ()=>{
-    if(audioEl.paused) {
-      audioEl.play();
-      document.getElementById('pauseBtn').textContent = 'Pause';
-    } else {
-      audioEl.pause();
-      document.getElementById('pauseBtn').textContent = 'Play';
-    }
-  });
-  document.getElementById('muteBtn').addEventListener('click', ()=>{
-    audioEl.muted = !audioEl.muted;
-    document.getElementById('muteBtn').textContent = audioEl.muted ? 'Unmute' : 'MMute';
-  });
-
-  /* ------------------ small discord status (optional) ------------------ */
-  const DISCORD_ID = '904431016175894528';
-  async function fetchLanyard(){
-    try{
-      const res = await fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID);
-      if(!res.ok) throw new Error('Lanyard fetch failed');
-      const data = await res.json();
-      if(data && data.success && data.data){
-        const d = data.data;
-        const online = d.discord_status || 'unknown';
-        let color = '#777';
-        if(online==='online') color = '#3ba55d';
-        if(online==='dnd') color = '#ed4245';
-        if(online==='idle') color = '#faa81a';
-        const st = document.getElementById('statusText');
-        st.style.color = color;
-        let activity = 'Offline';
-        if(d.activities && d.activities.length){
-          activity = d.activities.map(a => a.name || a.state || 'Activity').join(', ');
+      function tick(){
+        if(forward){
+          i++;
+          document.title = text.slice(0, i) + (i % 2 ? '▌' : ''); // blinking caret effect
+          if(i >= text.length){
+            forward = false;
+            setTimeout(tick, pause);
+            return;
+          }
         } else {
-          activity = online === 'offline' ? 'Offline' : 'Online';
+          i--;
+          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
+          if(i <= 0){
+            forward = true;
+            setTimeout(tick, 300);
+            return;
+          }
         }
-        st.textContent = activity;
+        setTimeout(tick, speed);
       }
-    }catch(err){
-      // ignore silently
-    }
-  }
-  fetchLanyard();
-  setInterval(fetchLanyard, 30000);
+      // kick it off after a brief delay
+      setTimeout(tick, 400);
+    })();
   </script>
 </body>
 </html>
-
