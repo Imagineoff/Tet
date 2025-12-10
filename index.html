@@ -151,16 +151,79 @@
       color:rgba(255,255,255,0.45);
     }
 
+    /* Fanart window styles */
+    .fanart-window {
+      width:100%;
+      max-width:640px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:14px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      gap:12px;
+      flex-direction:column;
+      align-items:center;
+    }
+    .fanart-header {
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .fanart-header h3 {
+      margin:0;
+      font-size:16px;
+    }
+    .fanart-stage {
+      position:relative;
+      width:100%;
+      aspect-ratio: 16/9;
+      max-height:360px;
+      background: rgba(0,0,0,0.15);
+      border-radius:10px;
+      overflow:hidden;
+      display:block;
+    }
+    .fanart-stage img {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      opacity:0;
+      transition: opacity 900ms ease;
+      will-change: opacity;
+      -webkit-user-drag: none;
+      user-select:none;
+    }
+    .fanart-stage img.visible {
+      opacity:1;
+    }
+    .fanart-caption {
+      width:100%;
+      min-height:56px;
+      border-radius:10px;
+      padding:10px 12px;
+      background: rgba(0,0,0,0.28);
+      color:var(--fg);
+      border:1px solid rgba(255,255,255,0.02);
+      font-size:15px;
+      line-height:1.4;
+      box-sizing:border-box;
+    }
+
     /* small responsive tweaks */
     @media (max-width:640px){
       .heading{ font-size:44px; }
       .link-card img{ width:30px;height:30px; }
+      .fanart-stage { aspect-ratio: 4/3; }
     }
     #email-copy:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  transition: .15s;
-}
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      transition: .15s;
+    }
   </style>
 </head>
 <body>
@@ -184,25 +247,25 @@
 
     <!-- Bio -->
     <section class="bio" aria-labelledby="bio-heading">
-  <h2 id="bio-heading" style="margin:0 0 6px 0; font-size:18px;">Bio</h2>
-  <ul>
-    <li>
-      <strong>Owner of LUNA</strong>
-      <img src="https://i.imgur.com/yjmaHTQ.jpeg" alt="Silent Studio logo">
-    </li>
-    <li><strong>In love with Resident Evil</strong></li>
-    <li><strong>Game Developer</strong>, cool ik</li>
-    <li>
-      <strong>SCR Guard</strong>
-      <img src="https://i.imgur.com/acyla6y.png" alt="SCR logo">
-      <li>
-       <strong>Administrator of Otaku CZ/SK</strong>
-      <img src="https://i.imgur.com/F4Gr8gs.png" alt="OTAKU logo">
-    </li>
-    <li><strong>Czech Republic</strong> 🇨🇿</li>
-    <li><strong>ﾒ𝟶</strong></li>
-  </ul>
-</section>
+      <h2 id="bio-heading" style="margin:0 0 6px 0; font-size:18px;">Bio</h2>
+      <ul>
+        <li>
+          <strong>Owner of LUNA</strong>
+          <img src="https://i.imgur.com/yjmaHTQ.jpeg" alt="Silent Studio logo">
+        </li>
+        <li><strong>In love with Resident Evil</strong></li>
+        <li><strong>Game Developer</strong>, cool ik</li>
+        <li>
+          <strong>SCR Guard</strong>
+          <img src="https://i.imgur.com/acyla6y.png" alt="SCR logo">
+        <li>
+         <strong>Administrator of Otaku CZ/SK</strong>
+        <img src="https://i.imgur.com/F4Gr8gs.png" alt="OTAKU logo">
+      </li>
+      <li><strong>Czech Republic</strong> 🇨🇿</li>
+      <li><strong>ﾒ𝟶</strong></li>
+    </ul>
+  </section>
 
     <!-- About bubble -->
     <section class="about" aria-labelledby="about-heading">
@@ -212,9 +275,29 @@
 
 I’m into the Resident Evil series and Dead by Daylight, and I spend time as a Guard in Stepford County Railway (SCR). I’ve always liked trains, especially the Czech national operator České dráhy, mainly for the atmosphere, the technology behind them, and the feeling of travelling.
 
-I’m more on the introverted side, but I enjoy working on projects at my own pace and learning new things. My favorite artist is The Weeknd.
+I’m more on the introverted side, but I enjoy working on projects at my own pace and learning new things. My favorite artist is The Weeknd & Yzomandias.
 
       </p>
+    </section>
+
+    <!-- FANART WINDOW (English) -->
+    <section class="fanart-window" aria-labelledby="fanart-heading">
+      <div class="fanart-header">
+        <h3 id="fanart-heading">Fan art — gallery</h3>
+        <div style="font-size:13px; color:rgba(255,255,255,0.55);">auto rotate — 5s</div>
+      </div>
+
+      <div class="fanart-stage" id="fanart-stage" aria-live="polite" aria-atomic="true">
+        <!-- images will be inserted here by JS -->
+      </div>
+
+      <div class="fanart-caption" id="fanart-caption">
+        text here
+      </div>
+
+      <div style="width:100%; font-size:12px; color:rgba(255,255,255,0.45); margin-top:6px;">
+        Tip: to add more art, edit the <code>FANARTS</code> array in the script (see comments).
+      </div>
     </section>
 
     <!-- Links -->
@@ -224,9 +307,9 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
         <span>Instagram</span>
       </a>
 
-      <a class="link-card" href="https://silentstudio.vercel.app/" target="_blank" rel="noopener">
-        <img src="https://i.imgur.com/MMbXcxn.png" alt="Silent Studio logo">
-        <span>Silent Studio</span>
+      <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank" rel="noopener">
+        <img src="https://i.imgur.com/HS3vTH1.jpeg" alt="Luna logo">
+        <span>LUNA</span>
       </a>
 
       <a class="link-card" href="https://game.capcom.com/residentevil/sp/en/p2450532.html" target="_blank" rel="noopener">
@@ -339,25 +422,139 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
       // kick it off after a brief delay
       setTimeout(tick, 400);
     })();
+
     // Copy email on click
-(function() {
-  const emailBox = document.getElementById("email-copy");
-  const msg = document.getElementById("copy-msg");
+    (function() {
+      const emailBox = document.getElementById("email-copy");
+      const msg = document.getElementById("copy-msg");
 
-  emailBox.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText("assist.imagine@gmail.com");
-      msg.style.opacity = 1;
+      emailBox.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText("assist.imagine@gmail.com");
+          msg.style.opacity = 1;
 
-      setTimeout(() => {
-        msg.style.opacity = 0;
-      }, 1200);
+          setTimeout(() => {
+            msg.style.opacity = 0;
+          }, 1200);
 
-    } catch (err) {
-      console.error("Copy failed:", err);
-    }
-  });
-})();
+        } catch (err) {
+          console.error("Copy failed:", err);
+        }
+      });
+    })();
+
+    // --------------------------
+    // Fanart rotator
+    // --------------------------
+    (function(){
+      // --- EDIT THIS ARRAY TO ADD NEW ART ---
+      // Each item needs: src (image URL) and caption (string).
+      // Example: { src: 'https://i.imgur.com/your.gif', caption: 'This is my new fanart' }
+      const FANARTS = [
+        {
+          src: 'https://i.imgur.com/H7zMQfA.gif',
+          caption: 'By @batcha.'
+        }
+        // To add another art, copy the object above, add a comma after the closing brace, and paste another object.
+        // Example:
+        // ,{
+        //   src: 'https://i.imgur.com/ANOTHER.gif',
+        //   caption: 'Caption for the second art'
+        // }
+      ];
+      // -------------------------------------
+
+      const stage = document.getElementById('fanart-stage');
+      const captionBox = document.getElementById('fanart-caption');
+      const DISPLAY_MS = 5000; // how long each art is shown (ms)
+      const FADE_MS = 900; // must match CSS transition
+
+      if(!stage || !captionBox || FANARTS.length === 0) return;
+
+      let imgs = [];
+      let current = 0;
+      let timer = null;
+
+      // Preload and create img elements
+      FANARTS.forEach((item, idx) => {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.caption ? item.caption : ('Fan art ' + (idx + 1));
+        if(idx === 0) img.classList.add('visible'); // show first immediately
+        stage.appendChild(img);
+        imgs.push(img);
+      });
+
+      // Set initial caption (use english text)
+      captionBox.textContent = FANARTS[0].caption || 'text here';
+
+      // Accessibility: announce changes politely (aria-live set on stage)
+      function showIndex(nextIndex) {
+        // fade out current, fade in next
+        imgs.forEach((im, i) => {
+          if(i === nextIndex) {
+            im.classList.add('visible');
+          } else {
+            im.classList.remove('visible');
+          }
+        });
+
+        // update caption
+        captionBox.textContent = FANARTS[nextIndex].caption || '';
+      }
+
+      function scheduleNext() {
+        timer = setTimeout(() => {
+          const next = (current + 1) % imgs.length;
+          // show next
+          showIndex(next);
+          current = next;
+          scheduleNext();
+        }, DISPLAY_MS);
+      }
+
+      // If there's only one art, we still run the cycle so it fades to same after 5s (per your requirement)
+      // But to avoid abrupt reload, we simply re-apply the visible class to trigger transition:
+      if(imgs.length === 1) {
+        // ensure loop still runs to re-trigger fade
+        scheduleNext();
+      } else {
+        scheduleNext();
+      }
+
+      // Optional: click image to pause/resume (small UX nicety)
+      let paused = false;
+      stage.addEventListener('click', () => {
+        if(paused) {
+          paused = false;
+          // resume
+          scheduleNext();
+          stage.style.cursor = 'pointer';
+        } else {
+          paused = true;
+          clearTimeout(timer);
+          stage.style.cursor = 'default';
+        }
+      });
+
+      // Also allow left/right arrow keys to navigate when focused
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight') {
+          clearTimeout(timer);
+          const next = (current + 1) % imgs.length;
+          showIndex(next);
+          current = next;
+          if(!paused) scheduleNext();
+        } else if(e.key === 'ArrowLeft') {
+          clearTimeout(timer);
+          const prev = (current - 1 + imgs.length) % imgs.length;
+          showIndex(prev);
+          current = prev;
+          if(!paused) scheduleNext();
+        }
+      });
+
+    })();
   </script>
 </body>
 </html>
