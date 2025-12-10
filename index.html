@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Imagine</title>
   <meta name="description" content="Imagine — personal site / portfolio. Game developer, creative coder, Resident Evil fan.">
-  <!-- Open Graph image & favicon per request -->
   <meta property="og:image" content="https://i.imgur.com/d7SrKuM.jpeg">
   <link rel="icon" href="https://i.imgur.com/d7SrKuM.jpeg" type="image/jpeg">
 
@@ -18,21 +17,27 @@
       --glass: rgba(255,255,255,0.03);
       --radius:16px;
     }
-    /* Page layout + subtle white details */
-    html,body{
-      height:100%;
-      margin:0;
+
+    /* Page layout fix */
+    html {
+      height: 100%;
+    }
+    body {
+      min-height: 100vh; /* Zajistí, že pozadí pokryje celou výšku i při scrolování */
+      margin: 0;
       font-family: "Times New Roman", Times, serif;
+      /* Background attachment fixed zabrání bugování pozadí při posunu stránky */
       background:
         radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0px, transparent 30%),
         radial-gradient(circle at 90% 90%, rgba(255,255,255,0.015) 0px, transparent 30%),
         linear-gradient(180deg, rgba(255,255,255,0.01), transparent 60%),
         var(--bg);
-      color:var(--fg);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:40px;
-      box-sizing:border-box;
+      background-attachment: fixed; 
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 40px;
+      box-sizing: border-box;
     }
 
     .wrap{
@@ -63,11 +68,6 @@
       will-change: font-family, transform;
       padding:0 2px;
     }
-    .subtitle {
-      font-size:14px;
-      color:rgba(255,255,255,0.65);
-      margin-top:-6px;
-    }
 
     /* Bio list */
     .bio{
@@ -79,6 +79,7 @@
       flex-direction:column;
       box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
       width:100%;
+      box-sizing: border-box;
     }
     .bio ul{
       list-style: none;
@@ -110,6 +111,7 @@
       max-width:100%;
       box-shadow: 0 8px 30px rgba(0,0,0,0.6);
       border:1px solid rgba(255,255,255,0.03);
+      box-sizing: border-box;
     }
     .about h3{
       margin:0 0 8px 0;
@@ -164,6 +166,7 @@
       gap:12px;
       flex-direction:column;
       align-items:center;
+      box-sizing: border-box;
     }
     .fanart-header {
       width:100%;
@@ -213,26 +216,28 @@
       box-sizing:border-box;
     }
 
-    /* small responsive tweaks */
-    @media (max-width:640px){
-      .heading{ font-size:44px; }
-      .link-card img{ width:30px;height:30px; }
-      .fanart-stage { aspect-ratio: 4/3; }
-    }
+    /* Contact & Email copy styles */
     #email-copy:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 18px rgba(0,0,0,0.6);
       transition: .15s;
     }
+
+    /* small responsive tweaks */
+    @media (max-width:640px){
+      body { padding: 20px; }
+      .heading{ font-size:44px; }
+      .link-card img{ width:30px;height:30px; }
+      .fanart-stage { aspect-ratio: 4/3; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- Heading: each letter wrapped in span. JS will animate each letter's font-family every 0.5s -->
+    
     <header>
       <div class="heading" aria-hidden="true">
         <div class="word" id="imagine-heading" title="Imagine">
-          <!-- letters created here; kept in HTML so screen readers can read as a single word -->
           <span class="letter">I</span>
           <span class="letter">m</span>
           <span class="letter">a</span>
@@ -242,10 +247,8 @@
           <span class="letter">e</span>
         </div>
       </div>
-      
     </header>
 
-    <!-- Bio -->
     <section class="bio" aria-labelledby="bio-heading">
       <h2 id="bio-heading" style="margin:0 0 6px 0; font-size:18px;">Bio</h2>
       <ul>
@@ -258,49 +261,39 @@
         <li>
           <strong>SCR Guard</strong>
           <img src="https://i.imgur.com/acyla6y.png" alt="SCR logo">
+        </li>
         <li>
-         <strong>Administrator of Otaku CZ/SK</strong>
-        <img src="https://i.imgur.com/F4Gr8gs.png" alt="OTAKU logo">
-      </li>
-      <li><strong>Czech Republic</strong> 🇨🇿</li>
-      <li><strong>ﾒ𝟶</strong></li>
-    </ul>
-  </section>
+          <strong>Administrator of Otaku CZ/SK</strong>
+          <img src="https://i.imgur.com/F4Gr8gs.png" alt="OTAKU logo">
+        </li>
+        <li><strong>Czech Republic</strong> 🇨🇿</li>
+        <li><strong>ﾒ𝟶</strong></li>
+      </ul>
+    </section>
 
-    <!-- About bubble -->
     <section class="about" aria-labelledby="about-heading">
       <h3 id="about-heading">About me</h3>
       <p>
         Hello! I’m Imagine a developer and coder from the Czech Republic. I work with HTML, Python and Node.js, and I like building interactive web projects, small games and Discord bots. I enjoy connecting code with visual elements and experimenting with different ideas.
-
-I’m into the Resident Evil series and Dead by Daylight, and I spend time as a Guard in Stepford County Railway (SCR). I’ve always liked trains, especially the Czech national operator České dráhy, mainly for the atmosphere, the technology behind them, and the feeling of travelling.
-
-I’m more on the introverted side, but I enjoy working on projects at my own pace and learning new things. My favorite artist is The Weeknd & Yzomandias.
-
+        <br><br>
+        I’m into the Resident Evil series and Dead by Daylight, and I spend time as a Guard in Stepford County Railway (SCR). I’ve always liked trains, especially the Czech national operator České dráhy, mainly for the atmosphere, the technology behind them, and the feeling of travelling.
+        <br><br>
+        I’m more on the introverted side, but I enjoy working on projects at my own pace and learning new things. My favorite artist is The Weeknd & Yzomandias.
       </p>
     </section>
 
-    <!-- FANART WINDOW (English) -->
     <section class="fanart-window" aria-labelledby="fanart-heading">
       <div class="fanart-header">
         <h3 id="fanart-heading">Fan art — gallery</h3>
-        <div style="font-size:13px; color:rgba(255,255,255,0.55);">auto rotate — 5s</div>
-      </div>
+        </div>
 
       <div class="fanart-stage" id="fanart-stage" aria-live="polite" aria-atomic="true">
-        <!-- images will be inserted here by JS -->
-      </div>
+        </div>
 
       <div class="fanart-caption" id="fanart-caption">
-        text here
-      </div>
+        </div>
+      </section>
 
-      <div style="width:100%; font-size:12px; color:rgba(255,255,255,0.45); margin-top:6px;">
-        Tip: to add more art, edit the <code>FANARTS</code> array in the script (see comments).
-      </div>
-    </section>
-
-    <!-- Links -->
     <nav aria-label="Important links" class="links" role="navigation">
       <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank" rel="noopener">
         <img src="https://i.imgur.com/FLg0HGk.png" alt="Instagram logo">
@@ -322,19 +315,20 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
         <span>Stepford County Railway (Player)</span>
       </a>
     </nav>
-<!-- Contact -->
-<section class="contact" style="margin-top:20px;">
-  <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
-  
-  <div id="email-copy" 
-       style="cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02);">
-    imagineofc@protonmail.com
-  </div>
 
-  <div id="copy-msg" style="opacity:0; margin-top:8px; font-size:14px; color:##ffffff; transition:opacity 0.3s;">
-    Copied!
-  </div>
-</section>
+    <section class="contact" style="margin-top:20px;">
+      <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
+      
+      <div id="email-copy" 
+           style="cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02);">
+        imagineofc@protonmail.com
+      </div>
+
+      <div id="copy-msg" style="opacity:0; margin-top:8px; font-size:14px; color:#ffffff; transition:opacity 0.3s;">
+        Copied!
+      </div>
+    </section>
+
     <footer>
       © Imagine
     </footer>
@@ -342,101 +336,73 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
 
   <script>
     // --------------------------
-    // Per-letter font flipper (every 0.5s)
+    // ANIMACE PÍSMA (Font Flipper)
     // --------------------------
     (function(){
       const fonts = [
-        '"Times New Roman", Times, serif',
-        'Georgia, "Times New Roman", serif',
-        'Palatino, "Palatino Linotype", serif',
-        'Garamond, "Times New Roman", serif',
-        '"Courier New", Courier, monospace',
-        'Arial, Helvetica, sans-serif',
-        'Verdana, Geneva, sans-serif',
-        '"Trebuchet MS", Helvetica, sans-serif',
-        'Impact, Charcoal, sans-serif',
-        '"Lucida Console", Monaco, monospace',
-        '"Comic Sans MS", "Comic Sans", cursive'
+        '"Times New Roman", Times, serif', 'Georgia, serif', 'Palatino, serif',
+        'Garamond, serif', '"Courier New", monospace', 'Arial, sans-serif',
+        'Verdana, sans-serif', 'Impact, sans-serif', '"Comic Sans MS", cursive'
       ];
       const letters = document.querySelectorAll('.letter');
-
-      // For accessibility: keep a static label for screen readers
       document.getElementById('imagine-heading').setAttribute('aria-label', 'Imagine');
 
-      // For each letter, create an independent interval
       letters.forEach((el, idx) => {
-        // Offset intervals slightly so they don't all flip at once (optional)
         const offset = (idx % 3) * 120;
         setTimeout(() => {
-          // immediate initial change so animation starts right away
           changeFont(el);
           setInterval(() => changeFont(el), 500);
         }, offset);
       });
 
       function changeFont(el){
-        // choose random font from list but avoid picking current font to increase variety
         const current = el.style.fontFamily || window.getComputedStyle(el).fontFamily || '';
         let choice;
-        let attempts = 0;
-        do {
-          choice = fonts[Math.floor(Math.random()*fonts.length)];
-          attempts++;
-        } while(choice === current && attempts < 6);
+        do { choice = fonts[Math.floor(Math.random()*fonts.length)]; } while(choice === current);
         el.style.fontFamily = choice;
-        // subtle random transform for a lively feel
         el.style.transform = 'translateY(' + (Math.random()*4 - 2) + 'px) rotate(' + (Math.random()*2 - 1) + 'deg)';
       }
     })();
 
     // --------------------------
-    // Tab title typewriter effect (shows "Imagine" typed in tab)
+    // TITLE TYPEWRITER EFFECT
     // --------------------------
     (function(){
       const text = "Imagine";
-      const speed = 120; // typing speed ms per char
-      const pause = 900;  // pause at full word
+      const speed = 120;
+      const pause = 900;
       let i = 0;
       let forward = true;
 
       function tick(){
         if(forward){
           i++;
-          document.title = text.slice(0, i) + (i % 2 ? '▌' : ''); // blinking caret effect
-          if(i >= text.length){
-            forward = false;
-            setTimeout(tick, pause);
-            return;
-          }
+          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
+          if(i >= text.length){ forward = false; setTimeout(tick, pause); return; }
         } else {
           i--;
           document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
-          if(i <= 0){
-            forward = true;
-            setTimeout(tick, 300);
-            return;
-          }
+          if(i <= 0){ forward = true; setTimeout(tick, 300); return; }
         }
         setTimeout(tick, speed);
       }
-      // kick it off after a brief delay
       setTimeout(tick, 400);
     })();
 
-    // Copy email on click
+    // --------------------------
+    // COPY EMAIL FUNKCE
+    // --------------------------
     (function() {
       const emailBox = document.getElementById("email-copy");
       const msg = document.getElementById("copy-msg");
 
       emailBox.addEventListener("click", async () => {
         try {
-          await navigator.clipboard.writeText("assist.imagine@gmail.com");
+          // Zkopíruje text, který je přímo v boxu (aby se to nelišilo)
+          const emailText = emailBox.innerText.trim();
+          await navigator.clipboard.writeText(emailText);
           msg.style.opacity = 1;
-
-          setTimeout(() => {
-            msg.style.opacity = 0;
-          }, 1200);
-
+          setTimeout(() => { msg.style.opacity = 0; }, 1200);
         } catch (err) {
           console.error("Copy failed:", err);
         }
@@ -444,30 +410,30 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
     })();
 
     // --------------------------
-    // Fanart rotator
+    // FANART GALLERIE (ROTATOR)
     // --------------------------
     (function(){
-      // --- EDIT THIS ARRAY TO ADD NEW ART ---
-      // Each item needs: src (image URL) and caption (string).
-      // Example: { src: 'https://i.imgur.com/your.gif', caption: 'This is my new fanart' }
+      /* ================================================================
+         ZDE UPRAVUJ FAN ARTY (POZNÁMKA PRO EDITACI)
+         ================================================================
+         Pro přidání nového obrázku zkopíruj {} blok a přidej ho do seznamu.
+         Příklad:
+         {
+           src: 'odkaz_na_obrazek',
+           caption: 'Popisek obrázku'
+         },
+      */
       const FANARTS = [
         {
           src: 'https://i.imgur.com/H7zMQfA.gif',
           caption: 'By @batcha.'
         }
-        // To add another art, copy the object above, add a comma after the closing brace, and paste another object.
-        // Example:
-        // ,{
-        //   src: 'https://i.imgur.com/ANOTHER.gif',
-        //   caption: 'Caption for the second art'
-        // }
+        // Zde přidej čárku a další objekt {}, pokud chceš víc artů
       ];
-      // -------------------------------------
 
       const stage = document.getElementById('fanart-stage');
       const captionBox = document.getElementById('fanart-caption');
-      const DISPLAY_MS = 5000; // how long each art is shown (ms)
-      const FADE_MS = 900; // must match CSS transition
+      const DISPLAY_MS = 5000; // Čas zobrazení jednoho artu (5 sekund)
 
       if(!stage || !captionBox || FANARTS.length === 0) return;
 
@@ -475,59 +441,44 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
       let current = 0;
       let timer = null;
 
-      // Preload and create img elements
+      // Načtení obrázků
       FANARTS.forEach((item, idx) => {
         const img = document.createElement('img');
         img.src = item.src;
         img.alt = item.caption ? item.caption : ('Fan art ' + (idx + 1));
-        if(idx === 0) img.classList.add('visible'); // show first immediately
+        if(idx === 0) img.classList.add('visible');
         stage.appendChild(img);
         imgs.push(img);
       });
 
-      // Set initial caption (use english text)
-      captionBox.textContent = FANARTS[0].caption || 'text here';
+      // Nastavení prvního popisku
+      captionBox.textContent = FANARTS[0].caption || 'Fan art';
 
-      // Accessibility: announce changes politely (aria-live set on stage)
       function showIndex(nextIndex) {
-        // fade out current, fade in next
         imgs.forEach((im, i) => {
-          if(i === nextIndex) {
-            im.classList.add('visible');
-          } else {
-            im.classList.remove('visible');
-          }
+          if(i === nextIndex) im.classList.add('visible');
+          else im.classList.remove('visible');
         });
-
-        // update caption
         captionBox.textContent = FANARTS[nextIndex].caption || '';
       }
 
       function scheduleNext() {
         timer = setTimeout(() => {
           const next = (current + 1) % imgs.length;
-          // show next
           showIndex(next);
           current = next;
           scheduleNext();
         }, DISPLAY_MS);
       }
 
-      // If there's only one art, we still run the cycle so it fades to same after 5s (per your requirement)
-      // But to avoid abrupt reload, we simply re-apply the visible class to trigger transition:
-      if(imgs.length === 1) {
-        // ensure loop still runs to re-trigger fade
-        scheduleNext();
-      } else {
-        scheduleNext();
-      }
+      // Spustit smyčku
+      scheduleNext();
 
-      // Optional: click image to pause/resume (small UX nicety)
+      // Pauza při kliknutí
       let paused = false;
       stage.addEventListener('click', () => {
         if(paused) {
           paused = false;
-          // resume
           scheduleNext();
           stage.style.cursor = 'pointer';
         } else {
@@ -536,24 +487,6 @@ I’m more on the introverted side, but I enjoy working on projects at my own pa
           stage.style.cursor = 'default';
         }
       });
-
-      // Also allow left/right arrow keys to navigate when focused
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'ArrowRight') {
-          clearTimeout(timer);
-          const next = (current + 1) % imgs.length;
-          showIndex(next);
-          current = next;
-          if(!paused) scheduleNext();
-        } else if(e.key === 'ArrowLeft') {
-          clearTimeout(timer);
-          const prev = (current - 1 + imgs.length) % imgs.length;
-          showIndex(prev);
-          current = prev;
-          if(!paused) scheduleNext();
-        }
-      });
-
     })();
   </script>
 </body>
