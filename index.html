@@ -4,20 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Imagine</title>
-  <meta name="description" content="Imagine — personal site / portfolio. Game developer, creative coder.">
+  <meta name="description" content="Imagine — personal site / portfolio.">
   <meta property="og:image" content="https://i.imgur.com/IJCyEtg.png">
   <link rel="icon" href="https://i.imgur.com/IJCyEtg.png" type="image/png">
 
   <style>
     :root{
-      --bg: #050505;
+      /* Čistě černé pozadí podle přání */
+      --bg: #000000;
       --fg: #f5f5f5;
-      /* Tvoje pastelová růžová */
       --accent: #e4bdff; 
-      /* Jemná verze růžové pro pozadí */
-      --accent-dim: rgba(228, 189, 255, 0.08); 
-      --accent-glow: rgba(228, 189, 255, 0.3);
-      --glass: rgba(20, 20, 20, 0.6);
+      --accent-dim: rgba(228, 189, 255, 0.1); 
+      --glass: rgba(20, 20, 20, 0.9); /* Méně průhledné pro lepší čitelnost na černé */
       --radius: 16px;
     }
 
@@ -27,40 +25,27 @@
       margin: 0;
       font-family: "Times New Roman", Times, serif;
       background: var(--bg);
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(228,189,255,0.05) 0%, transparent 50%),
-        linear-gradient(0deg, rgba(0,0,0,0.8), transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px;
-      background-attachment: fixed;
       color: var(--fg);
       padding: 40px;
       box-sizing: border-box;
       overflow-x: hidden;
     }
 
-    /* Animace pulzování (fake audio reakce) */
-    @keyframes pulse-glow {
-      0% { box-shadow: 0 0 10px var(--accent-dim); border-color: rgba(228,189,255,0.1); }
-      50% { box-shadow: 0 0 25px var(--accent-glow); border-color: var(--accent); }
-      100% { box-shadow: 0 0 10px var(--accent-dim); border-color: rgba(228,189,255,0.1); }
-    }
-
+    /* Layout */
     .wrap {
       max-width: 1000px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 2fr 1fr; /* Hlavní obsah vs Sloupec s hudbou */
+      grid-template-columns: 2fr 1fr; 
       gap: 32px;
       align-items: start;
     }
 
-    /* Header přes celou šířku */
+    /* Header */
     header {
       grid-column: 1 / -1;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
-
     .heading {
       display: flex;
       align-items: center;
@@ -68,34 +53,37 @@
       font-size: 72px;
       letter-spacing: 4px;
       font-weight: 700;
-      text-shadow: 0 0 20px var(--accent-glow);
     }
     .letter {
       display: inline-block;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
+      transition: color 0.3s ease;
       padding: 0 2px;
     }
     .letter:hover {
       color: var(--accent);
-      text-shadow: 0 0 30px var(--accent);
     }
 
-    /* Společné styly pro karty */
+    /* Karty */
     .card {
       background: var(--glass);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: var(--radius);
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: transform 0.2s, border-color 0.3s;
-    }
-    .card:hover {
-      border-color: var(--accent);
+      margin-bottom: 24px;
     }
 
-    /* Bio sekce */
+    /* Nadpisy sekcí */
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+      font-weight: bold;
+    }
+
+    /* Bio List */
     .bio ul {
       list-style: none;
       padding: 0;
@@ -113,21 +101,19 @@
     .bio img { width: 24px; height: 24px; object-fit: contain; }
     .bio strong { color: var(--accent); }
 
-    /* About section */
-    .about h3 { margin: 0 0 12px 0; font-size: 20px; color: var(--accent); }
+    /* About Text */
+    .about h3 { margin: 0 0 12px 0; font-size: 20px; color: var(--fg); }
     .about p { margin: 0; line-height: 1.6; opacity: 0.9; }
 
-    /* Spotify Rotator Styles */
+    /* Rotator kontejner (pro Artisty i Songy) */
     .spotify-rotator-container {
       position: relative;
       width: 100%;
-      height: 152px; /* Výška pro Spotify Compact Embed */
+      height: 152px; 
       border-radius: 12px;
       overflow: hidden;
-      margin-top: 15px;
-      /* Zde je ta "reakce" - pulzující rámeček */
-      animation: pulse-glow 3s infinite ease-in-out;
       background: #000;
+      border: 1px solid rgba(255,255,255,0.1);
     }
     
     .spotify-rotator-container iframe {
@@ -139,7 +125,7 @@
       border: none;
       opacity: 0;
       transition: opacity 1s ease;
-      pointer-events: none; /* Klikatelné jen když je active */
+      pointer-events: none;
     }
     .spotify-rotator-container iframe.active {
       opacity: 1;
@@ -147,28 +133,34 @@
       z-index: 2;
     }
 
-    /* Sidebar pro Fav Songs */
-    .music-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    /* SPECIÁLNÍ STYL PRO TOP SONG */
+    .top-pick {
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 15px rgba(228, 189, 255, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
     }
-    .section-title {
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 8px;
-      display: block;
+    .top-pick::before {
+      content: "★ Top Pick";
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: var(--accent);
+      color: #000;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
       font-weight: bold;
+      z-index: 10;
     }
 
-    /* Links grid */
+    /* Links */
     .links {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 20px;
     }
     .link-card {
       display: flex;
@@ -176,66 +168,36 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 8px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       text-decoration: none;
       color: var(--fg);
       font-size: 14px;
       transition: 0.2s;
     }
     .link-card:hover {
-      background: var(--accent-dim);
       border-color: var(--accent);
-      transform: translateY(-2px);
+      background: rgba(255,255,255,0.1);
     }
     .link-card img { width: 24px; height: 24px; border-radius: 4px; }
-
-    /* Fanart */
-    .fanart-window {
-      margin-top: 32px;
-      grid-column: 1 / -1; /* Přes celou šířku */
-      border: 1px solid var(--accent); /* Růžový rámeček */
-      box-shadow: 0 0 15px var(--accent-dim);
-    }
-    .fanart-stage {
-      width: 100%;
-      aspect-ratio: 16/9;
-      max-height: 400px;
-      position: relative;
-      background: #000;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .fanart-stage img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      opacity: 0;
-      transition: opacity 0.8s;
-    }
-    .fanart-stage img.visible { opacity: 1; }
 
     /* Contact */
     .contact-btn {
       cursor: pointer;
       display: inline-block;
-      padding: 10px 20px;
-      border-radius: 50px;
-      background: transparent;
+      padding: 8px 16px;
+      border-radius: 8px;
       border: 1px solid var(--accent);
       color: var(--accent);
-      margin-top: 20px;
+      font-size: 14px;
       transition: 0.3s;
-      font-weight: bold;
     }
     .contact-btn:hover {
       background: var(--accent);
       color: #000;
-      box-shadow: 0 0 20px var(--accent-glow);
     }
 
+    /* Footer */
     footer {
       grid-column: 1 / -1;
       margin-top: 40px;
@@ -244,7 +206,6 @@
       opacity: 0.4;
     }
 
-    /* Responsivita */
     @media (max-width: 800px) {
       .wrap { grid-template-columns: 1fr; }
       .heading { font-size: 48px; }
@@ -264,7 +225,7 @@
       </div>
     </header>
 
-    <main style="display: flex; flex-direction: column; gap: 24px;">
+    <main>
       
       <section class="card bio">
         <span class="section-title">User Profile</span>
@@ -287,18 +248,16 @@
           I’m into Resident Evil & Dead by Daylight. Introverted, but I love working on community projects.
         </p>
         
-        <div style="margin-top: 20px;">
-          <span class="section-title">Vibe check (Artists)</span>
+        <div style="margin-top: 24px;">
+          <span class="section-title">Fav Artists</span>
           <div class="spotify-rotator-container" id="artist-rotator">
-             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-             
-             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/3Tv1IuyQ25HKiTbmk66DqQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
-
       </section>
 
-      <nav class="links">
+      <nav class="links" style="margin-bottom:24px;">
         <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank"><img src="https://i.imgur.com/FLg0HGk.png"> Instagram</a>
         <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank"><img src="https://i.imgur.com/HS3vTH1.jpeg"> LUNA</a>
         <a class="link-card" href="https://game.capcom.com/residentevil/" target="_blank"><img src="https://i.imgur.com/13X8FXV.png"> RE Portal</a>
@@ -306,17 +265,26 @@
       </nav>
     </main>
 
-    <aside class="music-sidebar">
-      <section class="card" style="border-color: var(--accent);">
+    <aside>
+      <section class="card">
         <span class="section-title">Fav Songs 🎵</span>
-        <p style="font-size:12px; opacity:0.6; margin-bottom:10px;">Rotating selection...</p>
         
+        <div class="top-pick">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0mEB4Rpmn24diFfDkZqf9N?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
         <div class="spotify-rotator-container" id="song-rotator">
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2qxmye6gAegTMjLKEBoN3d?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5T7ZFtCcOkmX8d6IdV27y1?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
+          
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2QjOHCTQ1Jl3zawyYOpxh6?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7MXVkk9YMctZqd1Srtv4MB?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          
           <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1p80LdxRV74UKvL8gnD7ky?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2OzhQlSqBEmt7hmkYxfT6m?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
         </div>
       </section>
 
@@ -329,32 +297,21 @@
       </div>
     </aside>
 
-    <section class="card fanart-window">
-      <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-        <span class="section-title">Fan Art Gallery</span>
-        <span id="fanart-caption" style="font-size:13px; color:var(--accent);"></span>
-      </div>
-      <div class="fanart-stage" id="fanart-stage">
-        </div>
-    </section>
-
     <footer>
-      © Imagine 2025 | Built with <span style="color:var(--accent)">♥</span>
+      © Imagine 2025
     </footer>
 
   </div>
 
   <script>
-    // 1. GENERIC ROTATOR FUNCTION (Pro Spotify i Artisty)
+    // ROTÁTOR FUNKCE
     function startRotator(containerId, intervalTime) {
       const container = document.getElementById(containerId);
       if (!container) return;
-      
       const iframes = container.querySelectorAll('iframe');
       if (iframes.length === 0) return;
 
       let current = 0;
-      // Show first immediately
       iframes[0].classList.add('active');
 
       setInterval(() => {
@@ -364,14 +321,11 @@
       }, intervalTime);
     }
 
-    // Spustíme rotátory
-    // Fav Songs (mění se každých 6 sekund)
+    // Spuštění (Artists: 8s, Songs: 6s)
     startRotator('song-rotator', 6000);
-    // Artists (mění se každých 8 sekund)
     startRotator('artist-rotator', 8000);
 
-
-    // 2. FONT FLIPPER (Original effect)
+    // FONT FLIPPER
     (function(){
       const fonts = ['"Times New Roman", serif', 'Courier New, monospace', 'Arial, sans-serif', 'Impact, sans-serif', 'Comic Sans MS, cursive'];
       const letters = document.querySelectorAll('.letter');
@@ -384,7 +338,7 @@
       });
     })();
 
-    // 3. TITLE TYPEWRITER
+    // TITLE ANIMACE
     (function(){
       const text = "Imagine";
       let i = 0, fwd = true;
@@ -397,42 +351,13 @@
       tick();
     })();
 
-    // 4. COPY EMAIL
+    // COPY EMAIL
     document.getElementById("email-copy").addEventListener("click", function(){
       navigator.clipboard.writeText(this.innerText.trim());
       const msg = document.getElementById("copy-msg");
       msg.style.opacity = 1;
       setTimeout(() => msg.style.opacity = 0, 1500);
     });
-
-    // 5. FANART GALLERY
-    (function(){
-      const ARTS = [
-        { src: 'https://i.imgur.com/H7zMQfA.gif', cap: 'By @batcha.' },
-        // Sem přidej další obrázky: { src: 'URL', cap: 'Popis' },
-      ];
-      const stage = document.getElementById('fanart-stage');
-      const cap = document.getElementById('fanart-caption');
-      
-      if(stage && ARTS.length){
-        ARTS.forEach((a, i) => {
-          const img = document.createElement('img');
-          img.src = a.src;
-          if(i===0) img.classList.add('visible');
-          stage.appendChild(img);
-        });
-        cap.innerText = ARTS[0].cap;
-
-        let cur = 0;
-        setInterval(() => {
-          const imgs = stage.querySelectorAll('img');
-          imgs[cur].classList.remove('visible');
-          cur = (cur + 1) % imgs.length;
-          imgs[cur].classList.add('visible');
-          cap.innerText = ARTS[cur].cap;
-        }, 5000);
-      }
-    })();
   </script>
 </body>
 </html>
