@@ -4,489 +4,434 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Imagine</title>
-  <meta name="description" content="Imagine — personal site / portfolio. Game developer, creative coder, Resident Evil fan.">
+  <meta name="description" content="Imagine — personal site / portfolio. Game developer, creative coder.">
   <meta property="og:image" content="https://i.imgur.com/IJCyEtg.png">
   <link rel="icon" href="https://i.imgur.com/IJCyEtg.png" type="image/png">
 
   <style>
     :root{
-      --bg:#000;
-      --fg:#f5f5f5;
-      --muted: rgba(255,255,255,0.07);
-      --accent: rgba(255,255,255,0.06);
-      --glass: rgba(255,255,255,0.03);
-      --radius:16px;
+      --bg: #050505;
+      --fg: #f5f5f5;
+      /* Tvoje pastelová růžová */
+      --accent: #e4bdff; 
+      /* Jemná verze růžové pro pozadí */
+      --accent-dim: rgba(228, 189, 255, 0.08); 
+      --accent-glow: rgba(228, 189, 255, 0.3);
+      --glass: rgba(20, 20, 20, 0.6);
+      --radius: 16px;
     }
 
-    /* Page layout fix */
-    html {
-      height: 100%;
-    }
+    html { height: 100%; }
     body {
-      min-height: 100vh; /* Zajistí, že pozadí pokryje celou výšku i při scrolování */
+      min-height: 100vh;
       margin: 0;
       font-family: "Times New Roman", Times, serif;
-      /* Background attachment fixed zabrání bugování pozadí při posunu stránky */
-      background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0px, transparent 30%),
-        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.015) 0px, transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.01), transparent 60%),
-        var(--bg);
-      background-attachment: fixed; 
+      background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(228,189,255,0.05) 0%, transparent 50%),
+        linear-gradient(0deg, rgba(0,0,0,0.8), transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      background-attachment: fixed;
       color: var(--fg);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       padding: 40px;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
 
-    .wrap{
-      max-width:940px;
-      margin:0 auto;
-      display:flex;
-      gap:32px;
-      align-items:flex-start;
-      flex-direction:column;
+    /* Animace pulzování (fake audio reakce) */
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 10px var(--accent-dim); border-color: rgba(228,189,255,0.1); }
+      50% { box-shadow: 0 0 25px var(--accent-glow); border-color: var(--accent); }
+      100% { box-shadow: 0 0 10px var(--accent-dim); border-color: rgba(228,189,255,0.1); }
     }
 
-    /* Heading with per-letter spans */
-    .heading{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:64px;
-      letter-spacing:4px;
-      font-weight:700;
-    }
-    .heading .word{
-      display:flex;
-      align-items:center;
-    }
-    .letter{
-      display:inline-block;
-      transition: font-family .3s ease, transform .15s ease;
-      will-change: font-family, transform;
-      padding:0 2px;
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* Hlavní obsah vs Sloupec s hudbou */
+      gap: 32px;
+      align-items: start;
     }
 
-    /* Bio list */
-    .bio{
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      padding:18px;
-      border-radius:12px;
-      display:flex;
-      gap:12px;
-      flex-direction:column;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-      width:100%;
-      box-sizing: border-box;
+    /* Header přes celou šířku */
+    header {
+      grid-column: 1 / -1;
+      margin-bottom: 20px;
     }
-    .bio ul{
+
+    .heading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 72px;
+      letter-spacing: 4px;
+      font-weight: 700;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+    .letter {
+      display: inline-block;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      padding: 0 2px;
+    }
+    .letter:hover {
+      color: var(--accent);
+      text-shadow: 0 0 30px var(--accent);
+    }
+
+    /* Společné styly pro karty */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform 0.2s, border-color 0.3s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+    }
+
+    /* Bio sekce */
+    .bio ul {
       list-style: none;
-      padding:0;
-      margin:0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .bio li{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      font-size:16px;
+    .bio li {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 16px;
     }
-    .bio img{
-      width:28px;
-      height:28px;
-      object-fit:contain;
-      display:inline-block;
+    .bio img { width: 24px; height: 24px; object-fit: contain; }
+    .bio strong { color: var(--accent); }
+
+    /* About section */
+    .about h3 { margin: 0 0 12px 0; font-size: 20px; color: var(--accent); }
+    .about p { margin: 0; line-height: 1.6; opacity: 0.9; }
+
+    /* Spotify Rotator Styles */
+    .spotify-rotator-container {
+      position: relative;
+      width: 100%;
+      height: 152px; /* Výška pro Spotify Compact Embed */
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 15px;
+      /* Zde je ta "reakce" - pulzující rámeček */
+      animation: pulse-glow 3s infinite ease-in-out;
+      background: #000;
+    }
+    
+    .spotify-rotator-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none; /* Klikatelné jen když je active */
+    }
+    .spotify-rotator-container iframe.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
     }
 
-    /* About bubble */
-    .about{
-      margin-top:6px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:28px;
-      padding:18px 22px;
-      max-width:100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      box-sizing: border-box;
+    /* Sidebar pro Fav Songs */
+    .music-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
-    .about h3{
-      margin:0 0 8px 0;
-      font-size:18px;
-    }
-    .about p{
-      margin:0;
-      line-height:1.5;
-      color:rgba(245,245,245,0.92);
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: block;
+      font-weight: bold;
     }
 
     /* Links grid */
-    .links{
-      display:flex;
-      gap:12px;
-      margin-top:12px;
-      flex-wrap:wrap;
-      align-items:center;
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
-    .link-card{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      padding:10px 14px;
-      border-radius:12px;
-      background:rgba(255,255,255,0.015);
-      border:1px solid rgba(255,255,255,0.02);
-      text-decoration:none;
-      color:var(--fg);
-      transition: transform .12s ease, box-shadow .12s ease;
-      font-size:15px;
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      text-decoration: none;
+      color: var(--fg);
+      font-size: 14px;
+      transition: 0.2s;
     }
-    .link-card:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.7); }
-    .link-card img{ width:36px;height:36px; object-fit:contain; border-radius:6px; }
+    .link-card:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .link-card img { width: 24px; height: 24px; border-radius: 4px; }
 
-    footer{
-      margin-top:22px;
-      font-size:13px;
-      color:rgba(255,255,255,0.45);
-    }
-
-    /* Fanart window styles */
+    /* Fanart */
     .fanart-window {
-      width:100%;
-      max-width:640px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:14px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      display:flex;
-      gap:12px;
-      flex-direction:column;
-      align-items:center;
-      box-sizing: border-box;
-    }
-    .fanart-header {
-      width:100%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-    .fanart-header h3 {
-      margin:0;
-      font-size:16px;
+      margin-top: 32px;
+      grid-column: 1 / -1; /* Přes celou šířku */
+      border: 1px solid var(--accent); /* Růžový rámeček */
+      box-shadow: 0 0 15px var(--accent-dim);
     }
     .fanart-stage {
-      position:relative;
-      width:100%;
+      width: 100%;
       aspect-ratio: 16/9;
-      max-height:360px;
-      background: rgba(0,0,0,0.15);
-      border-radius:10px;
-      overflow:hidden;
-      display:block;
+      max-height: 400px;
+      position: relative;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
     }
     .fanart-stage img {
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      opacity:0;
-      transition: opacity 900ms ease;
-      will-change: opacity;
-      -webkit-user-drag: none;
-      user-select:none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.8s;
     }
-    .fanart-stage img.visible {
-      opacity:1;
+    .fanart-stage img.visible { opacity: 1; }
+
+    /* Contact */
+    .contact-btn {
+      cursor: pointer;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 50px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      margin-top: 20px;
+      transition: 0.3s;
+      font-weight: bold;
     }
-    .fanart-caption {
-      width:100%;
-      min-height:56px;
-      border-radius:10px;
-      padding:10px 12px;
-      background: rgba(0,0,0,0.28);
-      color:var(--fg);
-      border:1px solid rgba(255,255,255,0.02);
-      font-size:15px;
-      line-height:1.4;
-      box-sizing:border-box;
+    .contact-btn:hover {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
-    /* Contact & Email copy styles */
-    #email-copy:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      transition: .15s;
+    footer {
+      grid-column: 1 / -1;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.4;
     }
 
-    /* small responsive tweaks */
-    @media (max-width:640px){
+    /* Responsivita */
+    @media (max-width: 800px) {
+      .wrap { grid-template-columns: 1fr; }
+      .heading { font-size: 48px; }
       body { padding: 20px; }
-      .heading{ font-size:44px; }
-      .link-card img{ width:30px;height:30px; }
-      .fanart-stage { aspect-ratio: 4/3; }
     }
   </style>
 </head>
 <body>
+
   <div class="wrap">
     
     <header>
-      <div class="heading" aria-hidden="true">
-        <div class="word" id="imagine-heading" title="Imagine">
-          <span class="letter">I</span>
-          <span class="letter">m</span>
-          <span class="letter">a</span>
-          <span class="letter">g</span>
-          <span class="letter">i</span>
-          <span class="letter">n</span>
-          <span class="letter">e</span>
+      <div class="heading">
+        <div class="word" id="imagine-heading">
+          <span class="letter">I</span><span class="letter">m</span><span class="letter">a</span><span class="letter">g</span><span class="letter">i</span><span class="letter">n</span><span class="letter">e</span>
         </div>
       </div>
     </header>
 
-    <section class="bio" aria-labelledby="bio-heading">
-      <h2 id="bio-heading" style="margin:0 0 6px 0; font-size:18px;">Bio</h2>
-      <ul>
-        <li>
-          <strong>Owner of LUNA</strong>
-          <img src="https://i.imgur.com/yjmaHTQ.jpeg" alt="Silent Studio logo">
-        </li>
-        <li><strong>In love with Resident Evil</strong></li>
-        <li><strong>Game Developer</strong>, cool ik</li>
-        <li>
-          <strong>SCR Guard</strong>
-          <img src="https://i.imgur.com/acyla6y.png" alt="SCR logo">
-        </li>
-        <li>
-          <strong>Moderator of Kladenské Dílny</strong>
-          <img src="https://i.imgur.com/5jWCjmD.png" alt="KD logo">
-        </li>
-        <li><strong>Czech Republic</strong> 🇨🇿</li>
-        <li><strong>ﾒ𝟶</strong></li>
-      </ul>
-    </section>
+    <main style="display: flex; flex-direction: column; gap: 24px;">
+      
+      <section class="card bio">
+        <span class="section-title">User Profile</span>
+        <ul>
+          <li><strong>Owner of LUNA</strong> <img src="https://i.imgur.com/yjmaHTQ.jpeg" alt="LUNA"></li>
+          <li><strong>Resident Evil Fan</strong> 🧟</li>
+          <li><strong>Game Developer</strong></li>
+          <li><strong>SCR Guard</strong> <img src="https://i.imgur.com/acyla6y.png" alt="SCR"></li>
+          <li><strong>Moderator KD</strong> <img src="https://i.imgur.com/5jWCjmD.png" alt="KD"></li>
+          <li><strong>Czech Republic</strong> 🇨🇿</li>
+          <li><strong>ﾒ𝟶</strong></li>
+        </ul>
+      </section>
 
-    <section class="about" aria-labelledby="about-heading">
-      <h3 id="about-heading">About me</h3>
-      <p>
-Hello! I’m Imagine, a developer and coder from the Czech Republic. I work with HTML, Python and Node.js, and I enjoy building interactive web projects, small games and Discord bots. I enjoy connecting code with visual elements and experimenting with different ideas.
-<br><br>
-I’m into the Resident Evil series and Dead by Daylight. I like collaborating on community projects and spending time helping out in online gaming communities.
-<br><br>
-I’m more on the introverted side, but I enjoy working on projects at my own pace and learning new things. My favorite artists are Sabrina Carpanter, The Weeknd and Yzomandias.
-</p>
-    </section>
-
-    <section class="fanart-window" aria-labelledby="fanart-heading">
-      <div class="fanart-header">
-        <h3 id="fanart-heading">Fan art — gallery</h3>
+      <section class="card about">
+        <h3>About me</h3>
+        <p>
+          Hello! I’m Imagine, a developer from Czechia. I work with HTML, Python and Node.js. I love building interactive projects, small games and Discord bots. 
+          <br><br>
+          I’m into Resident Evil & Dead by Daylight. Introverted, but I love working on community projects.
+        </p>
+        
+        <div style="margin-top: 20px;">
+          <span class="section-title">Vibe check (Artists)</span>
+          <div class="spotify-rotator-container" id="artist-rotator">
+             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+             
+             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
         </div>
 
-      <div class="fanart-stage" id="fanart-stage" aria-live="polite" aria-atomic="true">
-        </div>
+      </section>
 
-      <div class="fanart-caption" id="fanart-caption">
+      <nav class="links">
+        <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank"><img src="https://i.imgur.com/FLg0HGk.png"> Instagram</a>
+        <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank"><img src="https://i.imgur.com/HS3vTH1.jpeg"> LUNA</a>
+        <a class="link-card" href="https://game.capcom.com/residentevil/" target="_blank"><img src="https://i.imgur.com/13X8FXV.png"> RE Portal</a>
+        <a class="link-card" href="#" target="_blank"><img src="https://i.imgur.com/IctQUON.png"> SCR Player</a>
+      </nav>
+    </main>
+
+    <aside class="music-sidebar">
+      <section class="card" style="border-color: var(--accent);">
+        <span class="section-title">Fav Songs 🎵</span>
+        <p style="font-size:12px; opacity:0.6; margin-bottom:10px;">Rotating selection...</p>
+        
+        <div class="spotify-rotator-container" id="song-rotator">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2qxmye6gAegTMjLKEBoN3d?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5T7ZFtCcOkmX8d6IdV27y1?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </section>
 
-    <nav aria-label="Important links" class="links" role="navigation">
-      <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank" rel="noopener">
-        <img src="https://i.imgur.com/FLg0HGk.png" alt="Instagram logo">
-        <span>Instagram</span>
-      </a>
-
-      <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank" rel="noopener">
-        <img src="https://i.imgur.com/HS3vTH1.jpeg" alt="Luna logo">
-        <span>LUNA</span>
-      </a>
-
-      <a class="link-card" href="https://game.capcom.com/residentevil/sp/en/p2450532.html" target="_blank" rel="noopener">
-        <img src="https://i.imgur.com/13X8FXV.png" alt="Resident Evil logo">
-        <span>Resident Evil (Capcom)</span>
-      </a>
-
-      <a class="link-card" href="https://stepfordcountyrailway.co.uk/Players/1840033219" target="_blank" rel="noopener">
-        <img src="https://i.imgur.com/IctQUON.png" alt="Stepford County Railway logo">
-        <span>Stepford County Railway (Player)</span>
-      </a>
-    </nav>
-
-    <section class="contact" style="margin-top:20px;">
-      <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
-      
-      <div id="email-copy" 
-           style="cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02);">
-        imagineofc@protonmail.com
+      <div class="card" style="text-align:center;">
+        <span class="section-title">Contact</span>
+        <div id="email-copy" class="contact-btn">
+          imagineofc@protonmail.com
+        </div>
+        <div id="copy-msg" style="opacity:0; margin-top:5px; font-size:12px; color:var(--accent);">Copied!</div>
       </div>
+    </aside>
 
-      <div id="copy-msg" style="opacity:0; margin-top:8px; font-size:14px; color:#ffffff; transition:opacity 0.3s;">
-        Copied!
+    <section class="card fanart-window">
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span class="section-title">Fan Art Gallery</span>
+        <span id="fanart-caption" style="font-size:13px; color:var(--accent);"></span>
       </div>
+      <div class="fanart-stage" id="fanart-stage">
+        </div>
     </section>
 
     <footer>
-      © Imagine
+      © Imagine 2025 | Built with <span style="color:var(--accent)">♥</span>
     </footer>
+
   </div>
 
   <script>
-    // --------------------------
-    // ANIMACE PÍSMA (Font Flipper)
-    // --------------------------
+    // 1. GENERIC ROTATOR FUNCTION (Pro Spotify i Artisty)
+    function startRotator(containerId, intervalTime) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      const iframes = container.querySelectorAll('iframe');
+      if (iframes.length === 0) return;
+
+      let current = 0;
+      // Show first immediately
+      iframes[0].classList.add('active');
+
+      setInterval(() => {
+        iframes[current].classList.remove('active');
+        current = (current + 1) % iframes.length;
+        iframes[current].classList.add('active');
+      }, intervalTime);
+    }
+
+    // Spustíme rotátory
+    // Fav Songs (mění se každých 6 sekund)
+    startRotator('song-rotator', 6000);
+    // Artists (mění se každých 8 sekund)
+    startRotator('artist-rotator', 8000);
+
+
+    // 2. FONT FLIPPER (Original effect)
     (function(){
-      const fonts = [
-        '"Times New Roman", Times, serif', 'Georgia, serif', 'Palatino, serif',
-        'Garamond, serif', '"Courier New", monospace', 'Arial, sans-serif',
-        'Verdana, sans-serif', 'Impact, sans-serif', '"Comic Sans MS", cursive'
-      ];
+      const fonts = ['"Times New Roman", serif', 'Courier New, monospace', 'Arial, sans-serif', 'Impact, sans-serif', 'Comic Sans MS, cursive'];
       const letters = document.querySelectorAll('.letter');
-      document.getElementById('imagine-heading').setAttribute('aria-label', 'Imagine');
-
       letters.forEach((el, idx) => {
-        const offset = (idx % 3) * 120;
         setTimeout(() => {
-          changeFont(el);
-          setInterval(() => changeFont(el), 500);
-        }, offset);
+          setInterval(() => {
+            el.style.fontFamily = fonts[Math.floor(Math.random()*fonts.length)];
+          }, 400);
+        }, idx * 100);
       });
-
-      function changeFont(el){
-        const current = el.style.fontFamily || window.getComputedStyle(el).fontFamily || '';
-        let choice;
-        do { choice = fonts[Math.floor(Math.random()*fonts.length)]; } while(choice === current);
-        el.style.fontFamily = choice;
-        el.style.transform = 'translateY(' + (Math.random()*4 - 2) + 'px) rotate(' + (Math.random()*2 - 1) + 'deg)';
-      }
     })();
 
-    // --------------------------
-    // TITLE TYPEWRITER EFFECT
-    // --------------------------
+    // 3. TITLE TYPEWRITER
     (function(){
       const text = "Imagine";
-      const speed = 120;
-      const pause = 900;
-      let i = 0;
-      let forward = true;
-
+      let i = 0, fwd = true;
       function tick(){
-        if(forward){
-          i++;
-          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
-          if(i >= text.length){ forward = false; setTimeout(tick, pause); return; }
-        } else {
-          i--;
-          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
-          if(i <= 0){ forward = true; setTimeout(tick, 300); return; }
-        }
-        setTimeout(tick, speed);
+        document.title = text.slice(0, i) + (i%2 ? ' ▌' : '');
+        if(fwd){ i++; if(i>text.length){ fwd=false; setTimeout(tick, 1000); return; } }
+        else { i--; if(i<1){ fwd=true; setTimeout(tick, 300); return; } }
+        setTimeout(tick, 100);
       }
-      setTimeout(tick, 400);
+      tick();
     })();
 
-    // --------------------------
-    // COPY EMAIL FUNKCE
-    // --------------------------
-    (function() {
-      const emailBox = document.getElementById("email-copy");
+    // 4. COPY EMAIL
+    document.getElementById("email-copy").addEventListener("click", function(){
+      navigator.clipboard.writeText(this.innerText.trim());
       const msg = document.getElementById("copy-msg");
+      msg.style.opacity = 1;
+      setTimeout(() => msg.style.opacity = 0, 1500);
+    });
 
-      emailBox.addEventListener("click", async () => {
-        try {
-          // Zkopíruje text, který je přímo v boxu (aby se to nelišilo)
-          const emailText = emailBox.innerText.trim();
-          await navigator.clipboard.writeText(emailText);
-          msg.style.opacity = 1;
-          setTimeout(() => { msg.style.opacity = 0; }, 1200);
-        } catch (err) {
-          console.error("Copy failed:", err);
-        }
-      });
-    })();
-
-    // --------------------------
-    // FANART GALLERIE (ROTATOR)
-    // --------------------------
+    // 5. FANART GALLERY
     (function(){
-      /* ================================================================
-         ZDE UPRAVUJ FAN ARTY (POZNÁMKA PRO EDITACI)
-         ================================================================
-         Pro přidání nového obrázku zkopíruj {} blok a přidej ho do seznamu.
-         Příklad:
-         {
-           src: 'odkaz_na_obrazek',
-           caption: 'Popisek obrázku'
-         },
-      */
-      const FANARTS = [
-        {
-          src: 'https://i.imgur.com/H7zMQfA.gif',
-          caption: 'By @batcha.'
-        }
-        // Zde přidej čárku a další objekt {}, pokud chceš víc artů
+      const ARTS = [
+        { src: 'https://i.imgur.com/H7zMQfA.gif', cap: 'By @batcha.' },
+        // Sem přidej další obrázky: { src: 'URL', cap: 'Popis' },
       ];
-
       const stage = document.getElementById('fanart-stage');
-      const captionBox = document.getElementById('fanart-caption');
-      const DISPLAY_MS = 5000; // Čas zobrazení jednoho artu (5 sekund)
-
-      if(!stage || !captionBox || FANARTS.length === 0) return;
-
-      let imgs = [];
-      let current = 0;
-      let timer = null;
-
-      // Načtení obrázků
-      FANARTS.forEach((item, idx) => {
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.caption ? item.caption : ('Fan art ' + (idx + 1));
-        if(idx === 0) img.classList.add('visible');
-        stage.appendChild(img);
-        imgs.push(img);
-      });
-
-      // Nastavení prvního popisku
-      captionBox.textContent = FANARTS[0].caption || 'Fan art';
-
-      function showIndex(nextIndex) {
-        imgs.forEach((im, i) => {
-          if(i === nextIndex) im.classList.add('visible');
-          else im.classList.remove('visible');
+      const cap = document.getElementById('fanart-caption');
+      
+      if(stage && ARTS.length){
+        ARTS.forEach((a, i) => {
+          const img = document.createElement('img');
+          img.src = a.src;
+          if(i===0) img.classList.add('visible');
+          stage.appendChild(img);
         });
-        captionBox.textContent = FANARTS[nextIndex].caption || '';
+        cap.innerText = ARTS[0].cap;
+
+        let cur = 0;
+        setInterval(() => {
+          const imgs = stage.querySelectorAll('img');
+          imgs[cur].classList.remove('visible');
+          cur = (cur + 1) % imgs.length;
+          imgs[cur].classList.add('visible');
+          cap.innerText = ARTS[cur].cap;
+        }, 5000);
       }
-
-      function scheduleNext() {
-        timer = setTimeout(() => {
-          const next = (current + 1) % imgs.length;
-          showIndex(next);
-          current = next;
-          scheduleNext();
-        }, DISPLAY_MS);
-      }
-
-      // Spustit smyčku
-      scheduleNext();
-
-      // Pauza při kliknutí
-      let paused = false;
-      stage.addEventListener('click', () => {
-        if(paused) {
-          paused = false;
-          scheduleNext();
-          stage.style.cursor = 'pointer';
-        } else {
-          paused = true;
-          clearTimeout(timer);
-          stage.style.cursor = 'default';
-        }
-      });
     })();
   </script>
 </body>
