@@ -12,6 +12,7 @@
       --fg: #f5f5f5;
       --accent: #e4bdff;
       --card-bg: rgba(255, 255, 255, 0.02);
+      --fav-pink: #ff6eb4; 
     }
 
     html, body { height: 100%; margin: 0; padding: 0; }
@@ -28,12 +29,11 @@
         radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.015) 0px, transparent 30%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent 60%);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden; /* Prevents horizontal scroll on small devices */
+      overflow-x: hidden;
     }
 
     .wrap { max-width: 980px; margin: 0 auto; display: flex; gap: 28px; flex-direction: column; }
 
-    /* --- Typography & Bio --- */
     .heading { display: flex; gap: 12px; align-items: center; font-size: 64px; letter-spacing: 4px; }
     .word { display: flex; }
     .letter {
@@ -54,19 +54,16 @@
     .bio h2 { margin: 0 0 8px; font-size: 18px; }
     .bio p { margin: 0; color: rgba(245, 245, 245, 0.95); line-height: 1.55; }
 
-    /* --- Music Area --- */
     .music-area { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
 
-    /* Artist Widget Styling */
     .artist-widgets {
-      /* Fix for mobile responsiveness */
       width: 100%; 
       max-width: 340px; 
-      
       background: var(--card-bg); 
       border-radius: 12px; 
       padding: 12px; 
-      border: 1px solid rgba(255, 255, 255, 0.03);
+      /* Border removed here */
+      border: none;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       display: flex; 
       flex-direction: column; 
@@ -93,23 +90,19 @@
       transform: translateY(6px) scale(.995); 
       transition: opacity .6s ease, transform .6s ease; 
       display: block; 
-      position: absolute; /* Ensures overlapping for fade effect */
+      position: absolute;
     }
     .artist-frame iframe.visible { opacity: 1; transform: none; position: relative; }
 
-    /* Tracks Area */
     .tracks { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
     .tracks h3 { margin: 0; font-size: 18px; }
 
-    /* Grid for pure embeds */
     .track-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
     @media (min-width: 760px) { .track-grid { grid-template-columns: 1fr 1fr; } }
 
-    /* Minimalist Track Wrapper - No borders, no background */
     .track-card {
       border-radius: 10px;
       overflow: hidden;
-      /* Background and border removed as requested */
       background: transparent;
       border: none;
       padding: 0;
@@ -120,12 +113,41 @@
       width: 100%; 
       height: 80px; 
       border: 0; 
-      border-radius: 12px; /* Slightly rounded corners for the embed itself */
+      border-radius: 12px; 
       display: block; 
-      background: #000; /* Fallback */
+      background: #000;
     }
 
-    /* --- Footer & Contact --- */
+    /* FAV Badge Styles */
+    .fav-wrapper {
+      position: relative;
+    }
+    
+    .fav-badge {
+      position: absolute;
+      top: -10px;
+      right: -6px;
+      background-color: var(--fav-pink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(255, 110, 180, 0.4);
+      transform: rotate(6deg);
+      pointer-events: none; /* Let clicks pass through to iframe if needed */
+    }
+
+    .fav-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: #fff;
+    }
+
     #email-copy { 
       cursor: pointer; 
       display: inline-block; 
@@ -140,14 +162,12 @@
     
     footer { color: rgba(255, 255, 255, 0.45); margin-top: 12px; font-size: 13px; }
 
-    /* Glow Animation */
     .accent-glow { transition: box-shadow .6s ease, border-color .6s ease; }
     .accent-glow.pink { 
       box-shadow: 0 0 60px rgba(228, 189, 255, 0.18), inset 0 0 30px rgba(228, 189, 255, 0.06); 
-      border-color: rgba(228, 189, 255, 0.22); 
+      /* Border removed, removed from glow too */
     }
 
-    /* Responsive Tweaks */
     @media (max-width: 640px) { 
       body { padding: 20px 15px; } 
       .heading { font-size: 44px; justify-content: center; } 
@@ -187,8 +207,16 @@
         <h3>Fav songs</h3>
         <div class="track-grid" id="track-grid">
           
-          <div class="track-card">
-            <iframe src="https://open.spotify.com/embed/track/09LrGvT9KsACH66RHYMDyR" loading="lazy" title="Track 1"></iframe>
+          <div class="fav-wrapper">
+            <div class="fav-badge">
+              FAV
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <div class="track-card">
+              <iframe src="https://open.spotify.com/embed/track/09LrGvT9KsACH66RHYMDyR" loading="lazy" title="Track 1"></iframe>
+            </div>
           </div>
 
           <div class="track-card">
@@ -226,7 +254,6 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Funky Letter Animation
       const fonts = ['"Times New Roman", Times, serif', 'Georgia, serif', 'Palatino, serif', 'Garamond, serif', '"Courier New", monospace', 'Arial, sans-serif', 'Verdana, sans-serif', 'Impact, sans-serif', '"Comic Sans MS", cursive'];
       const letters = document.querySelectorAll('.letter');
       const heading = document.getElementById('imagine-heading');
@@ -249,7 +276,6 @@
         }, offset);
       });
 
-      // 2. Title Ticker Animation
       const text = "Imagine";
       const speed = 120;
       const pause = 900;
@@ -268,7 +294,6 @@
       }
       setTimeout(tick, 400);
 
-      // 3. Artist Widget Rotation Logic
       const iframe1 = document.getElementById('artist-1');
       const iframe2 = document.getElementById('artist-2');
       
@@ -294,7 +319,7 @@
           if (visible === 1) {
             loadIframe(iframe2);
             iframe1.classList.remove('visible');
-            setTimeout(() => { if(visible===2) iframe2.classList.add('visible'); }, 50); // Small delay for smooth transition
+            setTimeout(() => { if(visible===2) iframe2.classList.add('visible'); }, 50);
             visible = 2;
           } else {
             loadIframe(iframe1);
@@ -305,7 +330,6 @@
         }, ROTATE_MS);
       }
 
-      // 4. Glow Effect
       const glowTargets = document.querySelectorAll('.accent-glow');
       let pink = false;
       setInterval(() => {
@@ -315,7 +339,6 @@
         });
       }, 8000);
 
-      // 5. Copy Email
       const emailBox = document.getElementById("email-copy");
       const msg = document.getElementById("copy-msg");
       if(emailBox && msg) {
