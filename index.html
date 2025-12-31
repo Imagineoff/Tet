@@ -90,16 +90,8 @@
       transition: opacity .6s ease, transform .6s ease; 
       display: block; 
       position: absolute;
-      pointer-events: none;
-      z-index: 0;
     }
-    .artist-frame iframe.visible { 
-      opacity: 1; 
-      transform: none; 
-      position: relative; 
-      pointer-events: auto;
-      z-index: 1;
-    }
+    .artist-frame iframe.visible { opacity: 1; transform: none; position: relative; }
 
     .tracks { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
     .tracks h3 { margin: 0; font-size: 18px; }
@@ -128,24 +120,36 @@
     .fav-wrapper {
       position: relative;
     }
+
+    @keyframes pulse-pink {
+      0% { box-shadow: 0 0 10px rgba(255, 110, 180, 0.2); border-color: rgba(255, 110, 180, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(255, 110, 180, 0.6); border-color: rgba(255, 110, 180, 1); }
+      100% { box-shadow: 0 0 10px rgba(255, 110, 180, 0.2); border-color: rgba(255, 110, 180, 0.4); }
+    }
+
+    .fav-wrapper .track-card {
+      border: 1.5px solid var(--fav-pink);
+      animation: pulse-pink 3s infinite ease-in-out;
+    }
     
     .fav-badge {
       position: absolute;
-      top: -10px;
-      right: -6px;
-      background-color: var(--fav-pink);
+      top: -12px;
+      right: -8px;
+      background: linear-gradient(45deg, #ff6eb4, #ff2e93);
       color: #fff;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 4px 12px;
       border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       z-index: 10;
-      box-shadow: 0 4px 12px rgba(255, 110, 180, 0.4);
-      transform: rotate(6deg);
+      box-shadow: 0 4px 15px rgba(255, 46, 147, 0.5);
+      transform: rotate(4deg);
       pointer-events: none;
+      letter-spacing: 1px;
     }
 
     .fav-badge svg {
@@ -195,13 +199,13 @@
 
     <section class="bio" aria-labelledby="bio-heading">
       <h2 id="bio-heading">Bio</h2>
-      <p>Hi, I’m Imagine, a developer from the Czech Republic. I make Discord bots and websites. I work mostly with HTML, Node.js, and Python. Big fan of Resident Evil, clean code, subtle visuals, and music that fits the mood.</p>
+      <p>Hi — I’m Imagine, a developer from the Czech Republic. I build interactive websites, small games and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
     </section>
 
     <section class="music-area" aria-labelledby="music-heading">
       
       <div class="artist-widgets accent-glow" id="artist-widgets">
-        <h3 id="music-heading">Artists — Spotify widgets</h3>
+        <h3 id="music-heading">Fav artists</h3>
         <div class="artist-frame" id="artist-frame">
           <iframe id="artist-1" data-src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B" title="Artist 1" loading="lazy"></iframe>
           <iframe id="artist-2" data-src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ" title="Artist 2" loading="lazy"></iframe>
@@ -214,9 +218,9 @@
           
           <div class="fav-wrapper">
             <div class="fav-badge">
-              FAV
+              GOAT
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z"/>
               </svg>
             </div>
             <div class="track-card">
