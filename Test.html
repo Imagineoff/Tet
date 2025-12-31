@@ -1,5 +1,58 @@
-<iframe allow="autoplay *; encrypted-media *;" frameborder="0"
-        height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;"
-        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-        src="https://embed.music.apple.com/cz/track/dont-smile/1750307379?app=music">
-</iframe>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moje oblíbená skladba</title>
+  <style>
+    /* Celkový neon styl */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080;
+      margin-bottom: 2rem;
+    }
+
+    .player-container {
+      width: 90%;
+      max-width: 660px;
+      box-shadow: 0 0 20px rgba(255, 0, 128, 0.7);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      border: none;
+    }
+
+    /* Drop-in animace pro interaktivní efekt */
+    .player-container:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <h1>Moje oblíbená skladba 🎵</h1>
+  
+  <div class="player-container">
+    <iframe allow="autoplay *; encrypted-media *;" height="150"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+            src="https://embed.music.apple.com/cz/track/dont-smile/1750307379?app=music">
+    </iframe>
+  </div>
+</body>
+</html>
