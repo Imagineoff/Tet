@@ -90,8 +90,16 @@
       transition: opacity .6s ease, transform .6s ease; 
       display: block; 
       position: absolute;
+      pointer-events: none;
+      z-index: 0;
     }
-    .artist-frame iframe.visible { opacity: 1; transform: none; position: relative; }
+    .artist-frame iframe.visible { 
+      opacity: 1; 
+      transform: none; 
+      position: relative; 
+      pointer-events: auto;
+      z-index: 1;
+    }
 
     .tracks { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
     .tracks h3 { margin: 0; font-size: 18px; }
@@ -106,7 +114,6 @@
       border: none;
       padding: 0;
       display: block;
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
     
     .track-card iframe { 
@@ -120,11 +127,6 @@
 
     .fav-wrapper {
       position: relative;
-    }
-
-    .fav-wrapper .track-card {
-      border: 1px solid var(--fav-pink);
-      box-shadow: 0 0 25px rgba(255, 110, 180, 0.2);
     }
     
     .fav-badge {
@@ -193,13 +195,13 @@
 
     <section class="bio" aria-labelledby="bio-heading">
       <h2 id="bio-heading">Bio</h2>
-      <p>Hi — I’m Imagine, a developer from the Czech Republic. I build interactive websites, small games and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
+      <p>Hi, I’m Imagine, a developer from the Czech Republic. I make Discord bots and websites. I work mostly with HTML, Node.js, and Python. Big fan of Resident Evil, clean code, subtle visuals, and music that fits the mood.</p>
     </section>
 
     <section class="music-area" aria-labelledby="music-heading">
       
       <div class="artist-widgets accent-glow" id="artist-widgets">
-        <h3 id="music-heading">Fav artists</h3>
+        <h3 id="music-heading">Artists — Spotify widgets</h3>
         <div class="artist-frame" id="artist-frame">
           <iframe id="artist-1" data-src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B" title="Artist 1" loading="lazy"></iframe>
           <iframe id="artist-2" data-src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ" title="Artist 2" loading="lazy"></iframe>
