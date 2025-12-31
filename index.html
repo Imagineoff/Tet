@@ -1,79 +1,165 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Imagine</title>
   <meta name="description" content="Imagine — personal site / portfolio.">
   <link rel="icon" href="https://i.imgur.com/IJCyEtg.png" type="image/png">
   <style>
-    :root{
+    :root {
       --bg: #000000;
       --fg: #f5f5f5;
       --accent: #e4bdff;
-      --card-bg: rgba(255,255,255,0.02);
+      --card-bg: rgba(255, 255, 255, 0.02);
     }
-    html,body{ height:100%; margin:0; padding:0; }
-    body{
-      min-height:100vh;
-      padding:40px;
-      box-sizing:border-box;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      color:var(--fg);
+
+    html, body { height: 100%; margin: 0; padding: 0; }
+    
+    body {
+      min-height: 100vh;
+      padding: 40px;
+      box-sizing: border-box;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: var(--fg);
       background: var(--bg);
       background-image:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0px, transparent 30%),
-        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.015) 0px, transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.01), transparent 60%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.02) 0px, transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.015) 0px, transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent 60%);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; /* Prevents horizontal scroll on small devices */
     }
-    .wrap{ max-width:980px; margin:0 auto; display:flex; gap:28px; flex-direction:column; }
-    .heading{ display:flex; gap:12px; align-items:center; font-size:64px; letter-spacing:4px; }
-    .word{ display:flex; }
-    .letter{
-      display:inline-block;
+
+    .wrap { max-width: 980px; margin: 0 auto; display: flex; gap: 28px; flex-direction: column; }
+
+    /* --- Typography & Bio --- */
+    .heading { display: flex; gap: 12px; align-items: center; font-size: 64px; letter-spacing: 4px; }
+    .word { display: flex; }
+    .letter {
+      display: inline-block;
       transition: transform .15s ease, font-family .3s ease;
-      padding:0 2px;
+      padding: 0 2px;
       will-change: transform, font-family;
-      cursor:default;
+      cursor: default;
     }
-    .bio{
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      padding:18px; border-radius:12px; box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.03);
+
+    .bio {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.01));
+      padding: 18px; 
+      border-radius: 12px; 
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
-    .bio h2{ margin:0 0 8px; font-size:18px; }
-    .bio p{ margin:0; color: rgba(245,245,245,0.95); line-height:1.55; }
-    .music-area{ display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
-    .artist-widgets, .tracks {
-      background: var(--card-bg); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    .bio h2 { margin: 0 0 8px; font-size: 18px; }
+    .bio p { margin: 0; color: rgba(245, 245, 245, 0.95); line-height: 1.55; }
+
+    /* --- Music Area --- */
+    .music-area { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+
+    /* Artist Widget Styling */
+    .artist-widgets {
+      /* Fix for mobile responsiveness */
+      width: 100%; 
+      max-width: 340px; 
+      
+      background: var(--card-bg); 
+      border-radius: 12px; 
+      padding: 12px; 
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px;
+      box-sizing: border-box;
     }
-    .artist-widgets{ width:340px; max-width:100%; display:flex; flex-direction:column; gap:12px; }
-    .artist-frame{ border-radius:10px; overflow:hidden; background: rgba(0,0,0,0.16); height:360px; display:flex; align-items:center; justify-content:center; position:relative; }
-    .artist-frame iframe{ width:100%; height:100%; border:0; opacity:0; transform: translateY(6px) scale(.995); transition: opacity .6s ease, transform .6s ease; display:block; }
-    .artist-frame iframe.visible{ opacity:1; transform:none; }
-    .tracks{ flex:1; min-width:300px; display:flex; flex-direction:column; gap:12px; }
-    .tracks h3{ margin:0; font-size:18px; }
-    .track-grid{ display:grid; grid-template-columns: 1fr; gap:10px; }
-    @media (min-width:760px){ .track-grid{ grid-template-columns: 1fr 1fr; } }
-    .track-card{ border-radius:10px; padding:10px; background: rgba(0,0,0,0.22); border:1px solid rgba(255,255,255,0.02); display:flex; flex-direction:column; gap:8px; position:relative; overflow:hidden; }
-    .track-card.fav{ box-shadow: 0 0 28px rgba(228,189,255,0.14); border:1px solid rgba(228,189,255,0.24); }
-    .track-card.fav::after{
-      content:"FAV"; position:absolute; right:-10px; top:-10px; background:var(--accent); color:#000; padding:6px 8px; border-radius:10px; font-weight:700; transform:rotate(8deg);
+
+    .artist-frame {
+      border-radius: 10px; 
+      overflow: hidden; 
+      background: rgba(0, 0, 0, 0.16); 
+      height: 360px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      position: relative;
     }
-    .track-label{ font-weight:700; font-size:13px; color:var(--fg); padding:6px 4px; }
-    .track-card iframe{ width:100%; height:80px; border:0; border-radius:6px; display:block; }
-    #email-copy{ cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02); }
-    #copy-msg{ opacity:0; transition:opacity .3s; margin-top:8px; color: #fff; }
-    footer{ color: rgba(255,255,255,0.45); margin-top:12px; font-size:13px; }
-    .accent-glow{ transition: box-shadow .6s ease, border-color .6s ease; box-shadow: 0 0 0 rgba(0,0,0,0); border-color: rgba(255,255,255,0.03); }
-    .accent-glow.pink{ box-shadow: 0 0 60px rgba(228,189,255,0.18), inset 0 0 30px rgba(228,189,255,0.06); border-color: rgba(228,189,255,0.22); }
-    @media (max-width:640px){ body{ padding:20px } .heading{ font-size:44px } .artist-frame{ height:260px } .track-card iframe{ height:72px } }
+    
+    .artist-frame iframe { 
+      width: 100%; 
+      height: 100%; 
+      border: 0; 
+      opacity: 0; 
+      transform: translateY(6px) scale(.995); 
+      transition: opacity .6s ease, transform .6s ease; 
+      display: block; 
+      position: absolute; /* Ensures overlapping for fade effect */
+    }
+    .artist-frame iframe.visible { opacity: 1; transform: none; position: relative; }
+
+    /* Tracks Area */
+    .tracks { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
+    .tracks h3 { margin: 0; font-size: 18px; }
+
+    /* Grid for pure embeds */
+    .track-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 760px) { .track-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* Minimalist Track Wrapper - No borders, no background */
+    .track-card {
+      border-radius: 10px;
+      overflow: hidden;
+      /* Background and border removed as requested */
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: block;
+    }
+    
+    .track-card iframe { 
+      width: 100%; 
+      height: 80px; 
+      border: 0; 
+      border-radius: 12px; /* Slightly rounded corners for the embed itself */
+      display: block; 
+      background: #000; /* Fallback */
+    }
+
+    /* --- Footer & Contact --- */
+    #email-copy { 
+      cursor: pointer; 
+      display: inline-block; 
+      padding: 10px 14px; 
+      border-radius: 12px; 
+      background: rgba(255, 255, 255, 0.015); 
+      border: 1px solid rgba(255, 255, 255, 0.02); 
+      user-select: none;
+    }
+    #email-copy:active { background: rgba(255,255,255,0.05); }
+    #copy-msg { opacity: 0; transition: opacity .3s; margin-top: 8px; color: #fff; font-size: 14px; }
+    
+    footer { color: rgba(255, 255, 255, 0.45); margin-top: 12px; font-size: 13px; }
+
+    /* Glow Animation */
+    .accent-glow { transition: box-shadow .6s ease, border-color .6s ease; }
+    .accent-glow.pink { 
+      box-shadow: 0 0 60px rgba(228, 189, 255, 0.18), inset 0 0 30px rgba(228, 189, 255, 0.06); 
+      border-color: rgba(228, 189, 255, 0.22); 
+    }
+
+    /* Responsive Tweaks */
+    @media (max-width: 640px) { 
+      body { padding: 20px 15px; } 
+      .heading { font-size: 44px; justify-content: center; } 
+      .artist-frame { height: 260px; } 
+      .tracks { min-width: 100%; }
+      .heading .word { flex-wrap: wrap; justify-content: center; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
+    
     <header>
       <div class="heading" aria-hidden="true">
         <div class="word" id="imagine-heading" title="Imagine">
@@ -81,145 +167,168 @@
         </div>
       </div>
     </header>
-   <section class="bio" aria-labelledby="bio-heading">
-  <h2 id="bio-heading">Bio</h2>
-  <p>Hi — I’m Imagine, a developer from the Czech Republic. I build interactive websites, small games and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
-</section>
 
-<section class="music-area" aria-labelledby="music-heading">
-  <div class="artist-widgets accent-glow" id="artist-widgets">
-    <h3 id="music-heading">Artists — Spotify widgets</h3>
-    <div class="artist-frame" id="artist-frame" aria-hidden="false">
-      <iframe id="artist-1" data-src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B" title="Artist 1" loading="lazy"></iframe>
-      <iframe id="artist-2" data-src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ" title="Artist 2" loading="lazy"></iframe>
-    </div>
+    <section class="bio" aria-labelledby="bio-heading">
+      <h2 id="bio-heading">Bio</h2>
+      <p>Hi — I’m Imagine, a developer from the Czech Republic. I build interactive websites, small games and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
+    </section>
+
+    <section class="music-area" aria-labelledby="music-heading">
+      
+      <div class="artist-widgets accent-glow" id="artist-widgets">
+        <h3 id="music-heading">Artists — Spotify widgets</h3>
+        <div class="artist-frame" id="artist-frame">
+          <iframe id="artist-1" data-src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B" title="Artist 1" loading="lazy"></iframe>
+          <iframe id="artist-2" data-src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ" title="Artist 2" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="tracks">
+        <h3>Fav songs</h3>
+        <div class="track-grid" id="track-grid">
+          
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/09LrGvT9KsACH66RHYMDyR" loading="lazy" title="Track 1"></iframe>
+          </div>
+
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/102YUQbYmwdBXS7jwamI90" loading="lazy" title="Track 2"></iframe>
+          </div>
+
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/1UHS8Rf6h5Ar3CDWRd3wjF" loading="lazy" title="Track 3"></iframe>
+          </div>
+
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/2vXKRlJBXyOcvZYTdNeckS" loading="lazy" title="Track 4"></iframe>
+          </div>
+
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/0Nwar8rweBUyfyuoyjjUvk" loading="lazy" title="Track 5"></iframe>
+          </div>
+
+          <div class="track-card">
+            <iframe src="https://open.spotify.com/embed/track/0wzPHTgOtFIDhk2rD3Au4x" loading="lazy" title="Track 6"></iframe>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
+      <div id="email-copy" title="Click to copy">imagineofc@protonmail.com</div>
+      <div id="copy-msg">Copied!</div>
+    </section>
+
+    <footer>© Imagine</footer>
   </div>
 
-  <div class="tracks">
-    <h3>Fav songs</h3>
-    <div class="track-grid" id="track-grid">
-      <div class="track-card fav">
-        <div class="track-label">Track 72737</div>
-        <iframe src="https://open.spotify.com/embed/track/09LrGvT9KsACH66RHYMDyR" loading="lazy" title="Track 72737"></iframe>
-      </div>
-
-      <div class="track-card">
-        <div class="track-label">Track 102YUQ</div>
-        <iframe src="https://open.spotify.com/embed/track/102YUQbYmwdBXS7jwamI90" loading="lazy" title="Track 102YUQ"></iframe>
-      </div>
-
-      <div class="track-card">
-        <div class="track-label">Track 1UHS8R</div>
-        <iframe src="https://open.spotify.com/embed/track/1UHS8Rf6h5Ar3CDWRd3wjF" loading="lazy" title="Track 1UHS8R"></iframe>
-      </div>
-
-      <div class="track-card">
-        <div class="track-label">Track 2vXKRl</div>
-        <iframe src="https://open.spotify.com/embed/track/2vXKRlJBXyOcvZYTdNeckS" loading="lazy" title="Track 2vXKRl"></iframe>
-      </div>
-
-      <div class="track-card">
-        <div class="track-label">Track 0Nwar8</div>
-        <iframe src="https://open.spotify.com/embed/track/0Nwar8rweBUyfyuoyjjUvk" loading="lazy" title="Track 0Nwar8"></iframe>
-      </div>
-
-      <div class="track-card">
-        <div class="track-label">Track 0wzPHT</div>
-        <iframe src="https://open.spotify.com/embed/track/0wzPHTgOtFIDhk2rD3Au4x" loading="lazy" title="Track 0wzPHT"></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="contact">
-  <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
-  <div id="email-copy">imagineofc@protonmail.com</div>
-  <div id="copy-msg">Copied!</div>
-</section>
-
-<footer>© Imagine</footer>
-      </div>
   <script>
-    const fonts = ['"Times New Roman", Times, serif','Georgia, serif','Palatino, serif','Garamond, serif','"Courier New", monospace','Arial, sans-serif','Verdana, sans-serif','Impact, sans-serif','"Comic Sans MS", cursive'];
-    const letters = document.querySelectorAll('.letter');
-    document.getElementById('imagine-heading').setAttribute('aria-label','Imagine');
-    letters.forEach((el, idx) => {
-      const offset = (idx % 3) * 140;
-      setTimeout(() => {
-        changeFont(el);
-        setInterval(() => changeFont(el), 700 + Math.random()*800);
-      }, offset);
-    });
-    function changeFont(el){
-      const current = el.style.fontFamily || '';
-      let pick;
-      do { pick = fonts[Math.floor(Math.random()*fonts.length)]; } while(pick === current);
-      el.style.fontFamily = pick;
-      el.style.transform = 'translateY(' + (Math.random()*6 - 3) + 'px) rotate(' + (Math.random()*2 - 1) + 'deg)';
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Funky Letter Animation
+      const fonts = ['"Times New Roman", Times, serif', 'Georgia, serif', 'Palatino, serif', 'Garamond, serif', '"Courier New", monospace', 'Arial, sans-serif', 'Verdana, sans-serif', 'Impact, sans-serif', '"Comic Sans MS", cursive'];
+      const letters = document.querySelectorAll('.letter');
+      const heading = document.getElementById('imagine-heading');
+      if(heading) heading.setAttribute('aria-label', 'Imagine');
 
-    const text = "Imagine";
-    const speed = 120;
-    const pause = 900;
-    let i = 0, forward = true;
-    function tick(){
-      if(forward){
-        i++;
-        document.title = text.slice(0,i) + (i % 2 ? '▌' : '');
-        if(i >= text.length){ forward = false; setTimeout(tick, pause); return; }
-      } else {
-        i--;
-        document.title = text.slice(0,i) + (i % 2 ? '▌' : '');
-        if(i <= 0){ forward = true; setTimeout(tick, 300); return; }
+      function changeFont(el) {
+        if(!el) return;
+        const current = el.style.fontFamily || '';
+        let pick;
+        do { pick = fonts[Math.floor(Math.random() * fonts.length)]; } while (pick === current);
+        el.style.fontFamily = pick;
+        el.style.transform = `translateY(${Math.random() * 6 - 3}px) rotate(${Math.random() * 2 - 1}deg)`;
       }
-      setTimeout(tick, speed);
-    }
-    setTimeout(tick, 400);
 
-    const iframe1 = document.getElementById('artist-1');
-    const iframe2 = document.getElementById('artist-2');
-    function loadIframe(iframe){ if(!iframe) return; if(!iframe.src || iframe.src === ''){ const ds = iframe.getAttribute('data-src'); if(ds) iframe.src = ds; } }
-    let visible = 1;
-    loadIframe(iframe1);
-    iframe1.classList.add('visible');
-    iframe2.classList.remove('visible');
-    const ROTATE_MS = 10000;
-    let rotating = true;
-    setInterval(() => {
-      if(!rotating) return;
-      if(visible === 1){
-        loadIframe(iframe2);
-        iframe1.classList.remove('visible');
-        iframe2.classList.add('visible');
-        visible = 2;
-      } else {
-        loadIframe(iframe1);
-        iframe2.classList.remove('visible');
-        iframe1.classList.add('visible');
-        visible = 1;
-      }
-    }, ROTATE_MS);
-
-    const glowTargets = document.querySelectorAll('.accent-glow, .track-card');
-    let pink = false;
-    setInterval(() => {
-      pink = !pink;
-      glowTargets.forEach(el => {
-        if(pink) el.classList.add('pink'); else el.classList.remove('pink');
+      letters.forEach((el, idx) => {
+        const offset = (idx % 3) * 140;
+        setTimeout(() => {
+          changeFont(el);
+          setInterval(() => changeFont(el), 700 + Math.random() * 800);
+        }, offset);
       });
-    }, 10000);
 
-    const emailBox = document.getElementById("email-copy");
-    const msg = document.getElementById("copy-msg");
-    emailBox.addEventListener("click", async () => {
-      try {
-        const emailText = emailBox.innerText.trim();
-        await navigator.clipboard.writeText(emailText);
-        msg.style.opacity = 1;
-        setTimeout(()=> msg.style.opacity = 0, 1200);
-      } catch(e){}
+      // 2. Title Ticker Animation
+      const text = "Imagine";
+      const speed = 120;
+      const pause = 900;
+      let i = 0, forward = true;
+      function tick() {
+        if (forward) {
+          i++;
+          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
+          if (i >= text.length) { forward = false; setTimeout(tick, pause); return; }
+        } else {
+          i--;
+          document.title = text.slice(0, i) + (i % 2 ? '▌' : '');
+          if (i <= 0) { forward = true; setTimeout(tick, 300); return; }
+        }
+        setTimeout(tick, speed);
+      }
+      setTimeout(tick, 400);
+
+      // 3. Artist Widget Rotation Logic
+      const iframe1 = document.getElementById('artist-1');
+      const iframe2 = document.getElementById('artist-2');
+      
+      function loadIframe(iframe) {
+        if (!iframe) return;
+        const ds = iframe.getAttribute('data-src');
+        if (ds && (!iframe.src || iframe.src === '' || iframe.src === window.location.href)) {
+          iframe.src = ds;
+        }
+      }
+
+      if (iframe1 && iframe2) {
+        let visible = 1;
+        loadIframe(iframe1);
+        iframe1.classList.add('visible');
+        iframe2.classList.remove('visible');
+
+        const ROTATE_MS = 10000;
+        let rotating = true;
+        
+        setInterval(() => {
+          if (!rotating) return;
+          if (visible === 1) {
+            loadIframe(iframe2);
+            iframe1.classList.remove('visible');
+            setTimeout(() => { if(visible===2) iframe2.classList.add('visible'); }, 50); // Small delay for smooth transition
+            visible = 2;
+          } else {
+            loadIframe(iframe1);
+            iframe2.classList.remove('visible');
+            setTimeout(() => { if(visible===1) iframe1.classList.add('visible'); }, 50);
+            visible = 1;
+          }
+        }, ROTATE_MS);
+      }
+
+      // 4. Glow Effect
+      const glowTargets = document.querySelectorAll('.accent-glow');
+      let pink = false;
+      setInterval(() => {
+        pink = !pink;
+        glowTargets.forEach(el => {
+          if (pink) el.classList.add('pink'); else el.classList.remove('pink');
+        });
+      }, 8000);
+
+      // 5. Copy Email
+      const emailBox = document.getElementById("email-copy");
+      const msg = document.getElementById("copy-msg");
+      if(emailBox && msg) {
+        emailBox.addEventListener("click", async () => {
+          try {
+            const emailText = emailBox.innerText.trim();
+            await navigator.clipboard.writeText(emailText);
+            msg.style.opacity = 1;
+            setTimeout(() => msg.style.opacity = 0, 1200);
+          } catch (e) { console.error('Clipboard failed', e); }
+        });
+      }
     });
   </script>
 </body>
 </html>
-
