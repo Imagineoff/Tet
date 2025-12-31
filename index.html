@@ -34,6 +34,12 @@
 
     .wrap { max-width: 980px; margin: 0 auto; display: flex; gap: 28px; flex-direction: column; }
 
+    header {
+        display: flex;
+        align-items: center;
+        height: 120px; 
+    }
+
     .heading { display: flex; gap: 12px; align-items: center; font-size: 64px; letter-spacing: 4px; }
     .word { display: flex; }
     .letter {
@@ -90,8 +96,16 @@
       transition: opacity .6s ease, transform .6s ease; 
       display: block; 
       position: absolute;
+      pointer-events: none; 
+      z-index: 1;
     }
-    .artist-frame iframe.visible { opacity: 1; transform: none; position: relative; }
+    .artist-frame iframe.visible { 
+      opacity: 1; 
+      transform: none; 
+      position: relative; 
+      pointer-events: auto; 
+      z-index: 10;
+    }
 
     .tracks { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
     .tracks h3 { margin: 0; font-size: 18px; }
@@ -117,9 +131,12 @@
       background: #000;
     }
 
-    /* --- FAV / PULSE STYLES --- */
     .fav-wrapper {
       position: relative;
+      padding: 4px; 
+      border-radius: 14px; 
+      border: 2px solid var(--fav-pink);
+      animation: pulse-pink 4s infinite ease-in-out;
     }
 
     @keyframes pulse-pink {
@@ -128,7 +145,7 @@
         border-color: rgba(255, 110, 180, 0.3); 
       }
       50% { 
-        box-shadow: 0 0 20px rgba(255, 110, 180, 0.5); 
+        box-shadow: 0 0 20px rgba(255, 110, 180, 0.4); 
         border-color: rgba(255, 110, 180, 1); 
       }
       100% { 
@@ -138,15 +155,14 @@
     }
 
     .fav-wrapper .track-card {
-      border: 1.5px solid var(--fav-pink);
-      /* Slow pulse animation (4s) */
-      animation: pulse-pink 4s infinite ease-in-out;
+        border: none;
+        border-radius: 10px;
     }
     
     .fav-badge {
       position: absolute;
-      top: -12px;
-      right: -8px;
+      top: -14px;
+      right: -10px;
       background: linear-gradient(45deg, #ff6eb4, #ff2e93);
       color: #fff;
       font-size: 10px;
@@ -170,16 +186,28 @@
       display: block;
     }
 
-    #email-copy { 
+    .contact-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-pill { 
       cursor: pointer; 
-      display: inline-block; 
+      display: inline-flex;
+      align-items: center;
       padding: 10px 14px; 
       border-radius: 12px; 
       background: rgba(255, 255, 255, 0.015); 
       border: 1px solid rgba(255, 255, 255, 0.02); 
       user-select: none;
+      color: var(--fg);
+      text-decoration: none;
+      transition: background .2s;
     }
-    #email-copy:active { background: rgba(255,255,255,0.05); }
+    .btn-pill:active, .btn-pill:hover { background: rgba(255,255,255,0.05); }
+
     #copy-msg { opacity: 0; transition: opacity .3s; margin-top: 8px; color: #fff; font-size: 14px; }
     
     footer { color: rgba(255, 255, 255, 0.45); margin-top: 12px; font-size: 13px; }
@@ -195,6 +223,7 @@
       .artist-frame { height: 260px; } 
       .tracks { min-width: 100%; }
       .heading .word { flex-wrap: wrap; justify-content: center; }
+      header { height: auto; padding: 20px 0; }
     }
   </style>
 </head>
@@ -211,7 +240,7 @@
 
     <section class="bio" aria-labelledby="bio-heading">
       <h2 id="bio-heading">Bio</h2>
-      <p>Hi — I’m Imagine, a developer from the Czech Republic. I build interactive websites, small games and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
+      <p>Hi — I’m Imagine, a developer from the Czech Republic. I’m a huge Resident Evil fan and I build Discord bots, websites and community tools. I like clean code, subtle visuals and music that fits the mood.</p>
     </section>
 
     <section class="music-area" aria-labelledby="music-heading">
@@ -265,8 +294,11 @@
     </section>
 
     <section class="contact">
-      <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
-      <div id="email-copy" title="Click to copy">imagineofc@protonmail.com</div>
+      <h2 style="margin:0 0 12px 0; font-size:18px;">Contact</h2>
+      <div class="contact-row">
+        <div id="email-copy" class="btn-pill" title="Click to copy">imagineofc@protonmail.com</div>
+        <a href="https://www.instagram.com/imagine_ofc_" target="_blank" class="btn-pill">Instagram</a>
+      </div>
       <div id="copy-msg">Copied!</div>
     </section>
 
