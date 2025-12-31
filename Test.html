@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moje oblíbená skladba</title>
+  <title>Moje oblíbená skladba - Tidal</title>
   <style>
-    /* Celkový neon styl */
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -21,24 +20,24 @@
 
     h1 {
       font-size: 2.5rem;
-      text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080;
+      text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
       margin-bottom: 2rem;
     }
 
     .player-container {
       width: 90%;
       max-width: 660px;
-      box-shadow: 0 0 20px rgba(255, 0, 128, 0.7);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
       border-radius: 15px;
       overflow: hidden;
     }
 
     iframe {
       width: 100%;
+      height: 300px;
       border: none;
     }
 
-    /* Drop-in animace pro interaktivní efekt */
     .player-container:hover {
       transform: scale(1.05);
       transition: transform 0.3s ease-in-out;
@@ -47,12 +46,9 @@
 </head>
 <body>
   <h1>Moje oblíbená skladba 🎵</h1>
-  
+
   <div class="player-container">
-    <iframe allow="autoplay *; encrypted-media *;" height="150"
-            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-            src="https://embed.music.apple.com/cz/track/dont-smile/1750307379?app=music">
-    </iframe>
+    <iframe src="https://tidal.com/browse/track/382239460" allowfullscreen></iframe>
   </div>
 </body>
 </html>
