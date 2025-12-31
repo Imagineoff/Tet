@@ -1,363 +1,478 @@
 <!doctype html>
-<html lang="en">
+<html lang="cs">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Imagine</title>
   <meta name="description" content="Imagine — personal site / portfolio.">
-  <meta property="og:image" content="https://i.imgur.com/IJCyEtg.png">
   <link rel="icon" href="https://i.imgur.com/IJCyEtg.png" type="image/png">
 
   <style>
     :root{
-      /* Čistě černé pozadí podle přání */
       --bg: #000000;
       --fg: #f5f5f5;
-      --accent: #e4bdff; 
-      --accent-dim: rgba(228, 189, 255, 0.1); 
-      --glass: rgba(20, 20, 20, 0.9); /* Méně průhledné pro lepší čitelnost na černé */
-      --radius: 16px;
+      --muted: rgba(255,255,255,0.07);
+      --accent: #e4bdff; /* pastel purple/pink requested */
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+      --card-bg: rgba(255,255,255,0.02);
     }
 
-    html { height: 100%; }
+    html { height:100%; }
     body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: "Times New Roman", Times, serif;
-      background: var(--bg);
-      color: var(--fg);
-      padding: 40px;
-      box-sizing: border-box;
-      overflow-x: hidden;
+      min-height:100vh;
+      margin:0;
+      padding:40px;
+      box-sizing:border-box;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color:var(--fg);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0px, transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.015) 0px, transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.01), transparent 60%),
+        var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    /* Layout */
     .wrap {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr; 
-      gap: 32px;
-      align-items: start;
+      max-width:940px;
+      margin:0 auto;
+      display:flex;
+      gap:28px;
+      flex-direction:column;
     }
 
-    /* Header */
-    header {
-      grid-column: 1 / -1;
-      margin-bottom: 10px;
-    }
     .heading {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 72px;
-      letter-spacing: 4px;
-      font-weight: 700;
-    }
-    .letter {
-      display: inline-block;
-      transition: color 0.3s ease;
-      padding: 0 2px;
-    }
-    .letter:hover {
-      color: var(--accent);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:56px;
+      letter-spacing:3px;
+      font-weight:700;
+      font-family: "Times New Roman", Times, serif;
     }
 
-    /* Karty */
-    .card {
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 24px;
+    .bio {
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+    .bio h2 { margin:0 0 8px 0; font-size:18px; }
+    .bio p { margin:0; line-height:1.55; color:rgba(245,245,245,0.95); }
+
+    /* spotify widgets area */
+    .music-area {
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+      width:100%;
     }
 
-    /* Nadpisy sekcí */
-    .section-title {
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 12px;
-      display: block;
-      font-weight: bold;
+    .artist-widgets {
+      width:320px;
+      max-width:100%;
+      background: var(--card-bg);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    .artist-widgets h3 { margin:0 0 8px 0; font-size:16px; }
+    .artist-frame {
+      position:relative;
+      width:100%;
+      aspect-ratio: 1/1;
+      overflow:hidden;
+      border-radius:10px;
+      background:rgba(0,0,0,0.2);
+    }
+    .artist-frame iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      opacity:0;
+      transition:opacity .6s ease, transform .6s ease;
+      transform: translateY(8px) scale(.995);
+    }
+    .artist-frame iframe.visible { opacity:1; transform:none; }
+
+    .artist-controls { display:flex; gap:8px; margin-top:10px; align-items:center; }
+    .artist-controls button {
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:transparent;
+      color:var(--fg);
+      cursor:pointer;
     }
 
-    /* Bio List */
-    .bio ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .tracks {
+      flex:1;
+      min-width:260px;
+      background: var(--card-bg);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
-    .bio li {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 16px;
-    }
-    .bio img { width: 24px; height: 24px; object-fit: contain; }
-    .bio strong { color: var(--accent); }
+    .tracks h3 { margin:0; font-size:16px; }
+    .track-list { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
 
-    /* About Text */
-    .about h3 { margin: 0 0 12px 0; font-size: 20px; color: var(--fg); }
-    .about p { margin: 0; line-height: 1.6; opacity: 0.9; }
+    .track {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:8px;
+      border-radius:10px;
+      background: rgba(0,0,0,0.22);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .track .meta { flex:1; min-width:0; }
+    .track .title { font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .track .sub { font-size:13px; color:rgba(245,245,245,0.7); margin-top:4px; }
+    .track .actions { display:flex; gap:8px; align-items:center; }
 
-    /* Rotator kontejner (pro Artisty i Songy) */
-    .spotify-rotator-container {
-      position: relative;
-      width: 100%;
-      height: 152px; 
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      border: 1px solid rgba(255,255,255,0.1);
+    .fav {
+      box-shadow: 0 0 18px rgba(228,189,255,0.14);
+      border: 1px solid rgba(228,189,255,0.22);
+      position:relative;
     }
-    
-    .spotify-rotator-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      opacity: 0;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
-    .spotify-rotator-container iframe.active {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 2;
+    .fav::after {
+      content:"FAV";
+      position:absolute;
+      top:-10px;
+      right:-10px;
+      background:var(--accent);
+      color:#000;
+      font-weight:700;
+      padding:6px 8px;
+      border-radius:12px;
+      font-size:11px;
+      transform:rotate(8deg);
     }
 
-    /* SPECIÁLNÍ STYL PRO TOP SONG */
-    .top-pick {
-      border: 1px solid var(--accent);
-      box-shadow: 0 0 15px rgba(228, 189, 255, 0.15);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .top-pick::before {
-      content: "★ Top Pick";
-      position: absolute;
-      top: -10px;
-      right: 10px;
-      background: var(--accent);
-      color: #000;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: bold;
-      z-index: 10;
+    .play-embed {
+      width:100%;
+      height:80px;
+      border-radius:8px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
     }
 
-    /* Links */
+    .listening-mode {
+      transition: box-shadow .35s ease, transform .25s ease;
+    }
+    .listening-mode.on {
+      box-shadow: 0 0 80px rgba(228,189,255,0.18), inset 0 0 40px rgba(228,189,255,0.06);
+      transform: translateY(-2px);
+    }
+
     .links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:8px;
     }
     .link-card {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      text-decoration: none;
-      color: var(--fg);
-      font-size: 14px;
-      transition: 0.2s;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:10px;
+      background:rgba(255,255,255,0.015);
+      border:1px solid rgba(255,255,255,0.02);
+      text-decoration:none;
+      color:var(--fg);
+      transition: transform .12s ease, box-shadow .12s ease;
+      font-size:14px;
     }
-    .link-card:hover {
-      border-color: var(--accent);
-      background: rgba(255,255,255,0.1);
-    }
-    .link-card img { width: 24px; height: 24px; border-radius: 4px; }
+    .link-card:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.7); }
 
-    /* Contact */
-    .contact-btn {
-      cursor: pointer;
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-size: 14px;
-      transition: 0.3s;
-    }
-    .contact-btn:hover {
-      background: var(--accent);
-      color: #000;
-    }
+    #email-copy { cursor:pointer; display:inline-block; padding:10px 14px; border-radius:12px; background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.02); }
+    #copy-msg { opacity:0; margin-top:8px; font-size:14px; color:#ffffff; transition:opacity 0.3s; }
 
-    /* Footer */
-    footer {
-      grid-column: 1 / -1;
-      margin-top: 40px;
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.4;
-    }
+    footer { margin-top:18px; color:rgba(255,255,255,0.45); font-size:13px; }
 
-    @media (max-width: 800px) {
-      .wrap { grid-template-columns: 1fr; }
-      .heading { font-size: 48px; }
-      body { padding: 20px; }
+    @media (max-width:840px){
+      .music-area { flex-direction:column; }
+      .artist-widgets, .tracks { width:100%; }
+      .heading { font-size:42px; }
+      body { padding:20px; }
     }
   </style>
 </head>
 <body>
-
   <div class="wrap">
-    
     <header>
-      <div class="heading">
-        <div class="word" id="imagine-heading">
-          <span class="letter">I</span><span class="letter">m</span><span class="letter">a</span><span class="letter">g</span><span class="letter">i</span><span class="letter">n</span><span class="letter">e</span>
-        </div>
+      <div class="heading" aria-hidden="true">
+        Imagine
       </div>
     </header>
 
-    <main>
-      
-      <section class="card bio">
-        <span class="section-title">User Profile</span>
-        <ul>
-          <li><strong>Owner of LUNA</strong> <img src="https://i.imgur.com/yjmaHTQ.jpeg" alt="LUNA"></li>
-          <li><strong>Resident Evil Fan</strong> 🧟</li>
-          <li><strong>Game Developer</strong></li>
-          <li><strong>SCR Guard</strong> <img src="https://i.imgur.com/acyla6y.png" alt="SCR"></li>
-          <li><strong>Moderator KD</strong> <img src="https://i.imgur.com/5jWCjmD.png" alt="KD"></li>
-          <li><strong>Czech Republic</strong> 🇨🇿</li>
-          <li><strong>ﾒ𝟶</strong></li>
-        </ul>
-      </section>
+    <section class="bio" aria-labelledby="bio-heading">
+      <h2 id="bio-heading">Bio</h2>
+      <p>
+        Ahoj — jsem Imagine, vývojář z ČR. Dělám weby, jednoduché hry a boty. Rád propojuju kód s vizuály a experimentuju s interakcemi. 
+        Spíš introvert, ale baví mě spolupráce na komunitních projektech a vymýšlení malých věcí, co potěší lidi.
+      </p>
+    </section>
 
-      <section class="card about">
-        <h3>About me</h3>
-        <p>
-          Hello! I’m Imagine, a developer from Czechia. I work with HTML, Python and Node.js. I love building interactive projects, small games and Discord bots. 
-          <br><br>
-          I’m into Resident Evil & Dead by Daylight. Introverted, but I love working on community projects.
-        </p>
-        
-        <div style="margin-top: 24px;">
-          <span class="section-title">Fav Artists</span>
-          <div class="spotify-rotator-container" id="artist-rotator">
-             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/3Tv1IuyQ25HKiTbmk66DqQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          </div>
-        </div>
-      </section>
+    <section class="music-area" aria-labelledby="music-heading">
+      <div class="artist-widgets listening-mode" id="artist-widgets">
+        <h3 id="music-heading">Artists — spotify widgets</h3>
 
-      <nav class="links" style="margin-bottom:24px;">
-        <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank"><img src="https://i.imgur.com/FLg0HGk.png"> Instagram</a>
-        <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank"><img src="https://i.imgur.com/HS3vTH1.jpeg"> LUNA</a>
-        <a class="link-card" href="https://game.capcom.com/residentevil/" target="_blank"><img src="https://i.imgur.com/13X8FXV.png"> RE Portal</a>
-        <a class="link-card" href="#" target="_blank"><img src="https://i.imgur.com/IctQUON.png"> SCR Player</a>
-      </nav>
-    </main>
+        <div class="artist-frame" id="artist-frame">
+          <!-- two embeds rotate; first visible by default -->
+          <iframe id="artist-1" class="visible" loading="lazy"
+            src="https://open.spotify.com/embed/artist/74KM79TiuVKeVCqs8QtB0B"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            title="Artist 1"></iframe>
 
-    <aside>
-      <section class="card">
-        <span class="section-title">Fav Songs 🎵</span>
-        
-        <div class="top-pick">
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0mEB4Rpmn24diFfDkZqf9N?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          <iframe id="artist-2" loading="lazy"
+            src="https://open.spotify.com/embed/artist/1Xyo4u8uXC1ZmMpatF05PJ"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            title="Artist 2"></iframe>
         </div>
 
-        <div class="spotify-rotator-container" id="song-rotator">
-          
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2QjOHCTQ1Jl3zawyYOpxh6?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7MXVkk9YMctZqd1Srtv4MB?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1p80LdxRV74UKvL8gnD7ky?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2OzhQlSqBEmt7hmkYxfT6m?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
+        <div class="artist-controls">
+          <button id="toggle-artists">Pauza střídání</button>
+          <button id="simulate-listen">Simulovat poslech</button>
         </div>
-      </section>
-
-      <div class="card" style="text-align:center;">
-        <span class="section-title">Contact</span>
-        <div id="email-copy" class="contact-btn">
-          imagineofc@protonmail.com
-        </div>
-        <div id="copy-msg" style="opacity:0; margin-top:5px; font-size:12px; color:var(--accent);">Copied!</div>
       </div>
-    </aside>
 
-    <footer>
-      © Imagine 2025
-    </footer>
+      <div class="tracks">
+        <h3>Fav songs</h3>
+        <div class="track-list" id="track-list">
 
+          <!-- Favorite (highlighted + embedded) -->
+          <div class="track fav" data-track="09LrGvT9KsACH66RHYMDyR">
+            <div class="meta">
+              <div class="title">Nejoblíbenější — (poslech)</div>
+              <div class="sub">Tahle mám nejradši — rozsvítí se vše když se spustí.</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/09LrGvT9KsACH66RHYMDyR" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+          <!-- other provided tracks -->
+          <div class="track" data-track="102YUQbYmwdBXS7jwamI90">
+            <div class="meta">
+              <div class="title">102YUQbYmwdBXS7jwamI90</div>
+              <div class="sub">Track</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/102YUQbYmwdBXS7jwamI90" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+          <div class="track" data-track="1UHS8Rf6h5Ar3CDWRd3wjF">
+            <div class="meta">
+              <div class="title">1UHS8Rf6h5Ar3CDWRd3wjF</div>
+              <div class="sub">Track</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/1UHS8Rf6h5Ar3CDWRd3wjF" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+          <div class="track" data-track="2vXKRlJBXyOcvZYTdNeckS">
+            <div class="meta">
+              <div class="title">2vXKRlJBXyOcvZYTdNeckS</div>
+              <div class="sub">Track</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/2vXKRlJBXyOcvZYTdNeckS" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+          <div class="track" data-track="0Nwar8rweBUyfyuoyjjUvk">
+            <div class="meta">
+              <div class="title">0Nwar8rweBUyfyuoyjjUvk</div>
+              <div class="sub">Track</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/0Nwar8rweBUyfyuoyjjUvk" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+          <div class="track" data-track="0wzPHTgOtFIDhk2rD3Au4x">
+            <div class="meta">
+              <div class="title">0wzPHTgOtFIDhk2rD3Au4x</div>
+              <div class="sub">Track</div>
+            </div>
+            <div class="actions">
+              <a class="link-card" href="https://open.spotify.com/track/0wzPHTgOtFIDhk2rD3Au4x" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- embedded player for favorite (hidden on small screens if needed) -->
+        <div class="play-embed" id="fav-embed" style="margin-top:8px;">
+          <iframe id="fav-player" src="https://open.spotify.com/embed/track/09LrGvT9KsACH66RHYMDyR" width="100%" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Favorite track"></iframe>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2 style="margin:0 0 8px 0; font-size:18px;">Contact</h2>
+      <div id="email-copy">imagineofc@protonmail.com</div>
+      <div id="copy-msg">Copied!</div>
+      <div class="links" style="margin-top:12px;">
+        <a class="link-card" href="https://www.instagram.com/imagine_ofc_" target="_blank" rel="noopener">Instagram</a>
+        <a class="link-card" href="https://project-luna-off.vercel.app/" target="_blank" rel="noopener">LUNA</a>
+        <a class="link-card" href="https://game.capcom.com/residentevil/sp/en/p2450532.html" target="_blank" rel="noopener">Resident Evil (Capcom)</a>
+      </div>
+    </section>
+
+    <footer>© Imagine</footer>
   </div>
 
   <script>
-    // ROTÁTOR FUNKCE
-    function startRotator(containerId, intervalTime) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-      const iframes = container.querySelectorAll('iframe');
-      if (iframes.length === 0) return;
-
-      let current = 0;
-      iframes[0].classList.add('active');
-
-      setInterval(() => {
-        iframes[current].classList.remove('active');
-        current = (current + 1) % iframes.length;
-        iframes[current].classList.add('active');
-      }, intervalTime);
-    }
-
-    // Spuštění (Artists: 8s, Songs: 6s)
-    startRotator('song-rotator', 6000);
-    startRotator('artist-rotator', 8000);
-
-    // FONT FLIPPER
+    // --------------------------
+    // Alternating artist widgets
+    // --------------------------
     (function(){
-      const fonts = ['"Times New Roman", serif', 'Courier New, monospace', 'Arial, sans-serif', 'Impact, sans-serif', 'Comic Sans MS, cursive'];
-      const letters = document.querySelectorAll('.letter');
-      letters.forEach((el, idx) => {
-        setTimeout(() => {
-          setInterval(() => {
-            el.style.fontFamily = fonts[Math.floor(Math.random()*fonts.length)];
-          }, 400);
-        }, idx * 100);
+      const a1 = document.getElementById('artist-1');
+      const a2 = document.getElementById('artist-2');
+      let visible = 1;
+      let rotate = true;
+      const INTERVAL = 8000;
+
+      // make sure second iframe starts hidden
+      a2.classList.remove('visible');
+
+      function show(n){
+        if(n === 1) { a1.classList.add('visible'); a2.classList.remove('visible'); visible = 1; }
+        else { a2.classList.add('visible'); a1.classList.remove('visible'); visible = 2; }
+      }
+
+      let timer = setInterval(() => {
+        if(!rotate) return;
+        show(visible === 1 ? 2 : 1);
+      }, INTERVAL);
+
+      document.getElementById('toggle-artists').addEventListener('click', (e) => {
+        rotate = !rotate;
+        e.target.textContent = rotate ? 'Pauza střídání' : 'Pokračovat';
+      });
+
+      // expose for debugging
+      window._artistRotate = { stop: () => rotate = false, start: () => rotate = true };
+    })();
+
+    // --------------------------
+    // Email copy
+    // --------------------------
+    (function(){
+      const emailBox = document.getElementById("email-copy");
+      const msg = document.getElementById("copy-msg");
+      emailBox.addEventListener("click", async () => {
+        try {
+          const emailText = emailBox.innerText.trim();
+          await navigator.clipboard.writeText(emailText);
+          msg.style.opacity = 1;
+          setTimeout(() => { msg.style.opacity = 0; }, 1200);
+        } catch (err) {
+          console.error("Copy failed:", err);
+        }
       });
     })();
 
-    // TITLE ANIMACE
+    // --------------------------
+    // Listening mode (UI reacts)
+    // --------------------------
     (function(){
-      const text = "Imagine";
-      let i = 0, fwd = true;
-      function tick(){
-        document.title = text.slice(0, i) + (i%2 ? ' ▌' : '');
-        if(fwd){ i++; if(i>text.length){ fwd=false; setTimeout(tick, 1000); return; } }
-        else { i--; if(i<1){ fwd=true; setTimeout(tick, 300); return; } }
-        setTimeout(tick, 100);
+      const widgetBox = document.getElementById('artist-widgets');
+      const simulateBtn = document.getElementById('simulate-listen');
+      let listening = false;
+      function setListening(on){
+        listening = !!on;
+        if(listening) widgetBox.classList.add('on');
+        else widgetBox.classList.remove('on');
       }
-      tick();
+
+      // Simulate listening (user-trigger)
+      simulateBtn.addEventListener('click', () => {
+        setListening(!listening);
+        simulateBtn.textContent = listening ? 'Stop simulace' : 'Simulovat poslech';
+      });
+
+      // Also respond when user clicks the fav-player iframe (user likely started play)
+      const favPlayer = document.getElementById('fav-player');
+      // Clicking iframe can't be captured inside, but we can detect focus on it
+      favPlayer.addEventListener('load', () => {
+        // Try to catch focus events (some browsers allow)
+        favPlayer.contentWindow && favPlayer.contentWindow.addEventListener && favPlayer.contentWindow.addEventListener('play', () => setListening(true));
+      });
+
+      // If user interacts with embedded player visually (click), set listening for a while
+      document.getElementById('fav-embed').addEventListener('click', () => {
+        setListening(true);
+        // auto turn off after 45s to avoid permanent state if nothing actually plays
+        setTimeout(() => setListening(false), 45000);
+      });
+
+      // Global small UX: clicking any track open link -> flash listening
+      document.querySelectorAll('.track .link-card').forEach(a => {
+        a.addEventListener('click', () => {
+          setListening(true);
+          setTimeout(()=> setListening(false), 45000);
+        });
+      });
     })();
 
-    // COPY EMAIL
-    document.getElementById("email-copy").addEventListener("click", function(){
-      navigator.clipboard.writeText(this.innerText.trim());
-      const msg = document.getElementById("copy-msg");
-      msg.style.opacity = 1;
-      setTimeout(() => msg.style.opacity = 0, 1500);
-    });
+    // --------------------------
+    // Optional: Real Spotify detection (requires token + backend)
+    // --------------------------
+    /*
+      NOTE:
+      Automatically detecting whether the user is currently playing Spotify requires using Spotify Web API
+      with user authentication (scopes like 'user-read-playback-state' and/or 'user-read-currently-playing').
+      That means:
+        1) You must register an app in https://developer.spotify.com/dashboard
+        2) Implement OAuth flow (get access_token & refresh_token). Access token expires (usually 1h).
+        3) From your frontend (or server), call:
+           GET https://api.spotify.com/v1/me/player/currently-playing
+           with header Authorization: Bearer {access_token}
+        4) The response will tell you if user is playing something and what it is.
+      Below is a minimal example function you can adapt (run on server or frontend if you already have a valid token).
+
+      Example (frontend polling version; not safe for production because tokens expire and shouldn't be exposed):
+    */
+
+    async function checkNowPlaying(accessToken) {
+      if(!accessToken) return null;
+      try {
+        const res = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+          headers: { Authorization: "Bearer " + accessToken }
+        });
+        if(res.status === 204) return { is_playing: false };
+        if(!res.ok) throw new Error("Spotify API error " + res.status);
+        const data = await res.json();
+        // data.is_playing boolean, data.item contains track info
+        return data;
+      } catch (err) {
+        console.warn("Spotify check failed:", err);
+        return null;
+      }
+    }
+
+    /* HOW TO plug in:
+       - Implement server-side OAuth that returns a short-lived access token to the frontend (or implement polling on server).
+       - Periodically call checkNowPlaying(accessToken) and then toggle the CSS class 'on' on #artist-widgets based on data.is_playing.
+       - Make sure to request these scopes: user-read-playback-state user-read-currently-playing (and optionally user-modify-playback-state)
+    */
+
   </script>
 </body>
 </html>
